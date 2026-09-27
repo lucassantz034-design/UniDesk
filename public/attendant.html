@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel do Atendente — UniDesk Helpdesk</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+
+<body>
+
+  <div class="app-shell">
+
+    <!-- ====================================================================
+         BARRA LATERAL (SIDEBAR SLIM-RAIL) DO OPERADOR / ATENDENTE
+         ==================================================================== -->
+    <aside class="app-sidebar" id="main-sidebar">
+
+      <!-- Top Logo: UD Monograma Transparente -->
+      <div class="sidebar-logo-wrap" onclick="switchSidebarView('tickets')"
+        title="UniDesk Operador — Fila de Atendimento" style="cursor: pointer;">
+        <img src="/assets/LOGO_UD.png" alt="UniDesk Logo" class="sidebar-logo-img" id="sidebar-logo-img">
+      </div>
+
+      <!-- Slim Rail Navigation com Opções do Operador -->
+      <nav class="sidebar-nav">
+
+        <!-- 1. Mesa de Atendimento / Tickets (Ativo por Padrão) -->
+        <button class="sidebar-rail-btn active" id="nav-tickets" onclick="switchSidebarView('tickets')"
+          aria-label="Mesa de Atendimento">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z"></path>
+            <line x1="12" y1="9" x2="12" y2="15" stroke-dasharray="2 2"></line>
+          </svg>
+          <span class="sidebar-tooltip">Mesa de Atendimento (Fila & IA)</span>
+        </button>
+
+        <!-- 2. Chat ao Vivo em Tempo Real -->
+        <button class="sidebar-rail-btn" id="nav-chat" onclick="switchSidebarView('chat')"
+          aria-label="Chat ao Vivo">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+          </svg>
+          <span class="sidebar-tooltip">Chat ao Vivo com Estudantes</span>
+        </button>
+
+        <!-- 3. Filas por Departamento -->
+        <button class="sidebar-rail-btn" id="nav-filas" onclick="switchSidebarView('filas')"
+          aria-label="Distribuição de Filas">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 6c1 2 1 10 0 12"></path>
+            <line x1="9" y1="7" x2="20" y2="7"></line>
+            <line x1="9" y1="12" x2="19" y2="12"></line>
+            <line x1="9" y1="17" x2="17" y2="17"></line>
+          </svg>
+          <span class="sidebar-tooltip">Filas por Departamento</span>
+        </button>
+
+        <!-- 4. Base de Conhecimento -->
+        <button class="sidebar-rail-btn" id="nav-kb" onclick="switchSidebarView('kb')"
+          aria-label="Base de Conhecimento">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+          </svg>
+          <span class="sidebar-tooltip">Base de Conhecimento</span>
+        </button>
+
+        <!-- 5. Minhas Métricas & Performance -->
+        <button class="sidebar-rail-btn" id="nav-metrics" onclick="switchSidebarView('metrics')"
+          aria-label="Métricas do Atendente">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+            stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="9"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+          <span class="sidebar-tooltip">Minhas Métricas & SLA</span>
+        </button>
+
+        <!-- 6. Meu Perfil & Status -->
+        <button class="sidebar-rail-btn" id="nav-perfil" onclick="switchSidebarView('perfil')"
+          aria-label="Meu Perfil">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+            stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="3" width="16" height="18" rx="2"></rect>
+            <circle cx="12" cy="9.5" r="2.5"></circle>
+            <path d="M7.5 17c0-2 2-3 4.5-3s4.5 1 4.5 3"></path>
+          </svg>
+          <span class="sidebar-tooltip">Perfil do Atendente & Status</span>
+        </button>
+
+      </nav>
+
+      <!-- Rodapé da Barra Lateral: Notificações e Avatar do Operador -->
+      <div class="sidebar-footer">
+
+        <!-- Notificações Críticas de SLA -->
+        <button class="sidebar-rail-btn" id="nav-notificacoes" onclick="switchSidebarView('tickets')"
+          aria-label="Notificações">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+          </svg>
+          <span class="badge-bell" id="badge-notif-count">03</span>
+          <span class="sidebar-tooltip">Alertas de SLA</span>
+        </button>
+
+        <!-- Avatar Circular do Atendente com Dots de Status -->
+        <div class="sidebar-user-section" onclick="switchSidebarView('perfil')" title="Meu Perfil de Atendente">
+          <div class="sidebar-user-la-card"
+            style="border-radius: 50%; overflow: hidden; padding: 0; background: transparent; border: 2px solid var(--primary); display: flex; align-items: center; justify-content: center; width: 38px; height: 38px; position: relative;">
+            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&auto=format&fit=crop&q=80"
+              alt="Avatar do Atendente" id="sidebar-att-avatar"
+              style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
+            <span class="dot-purple-square" style="border-radius: 50%;"></span>
+            <span class="dot-green-square" style="border-radius: 50%;"></span>
+          </div>
+          <div class="sidebar-user-sub-label">1.0.0.0t</div>
+        </div>
+
+      </div>
+
+    </aside>
+
+    <!-- ====================================================================
+         ÁREA PRINCIPAL DE CONTEÚDO (WORKSPACE DO ATENDENTE)
+         ==================================================================== -->
+    <main class="app-main-content">
+
+      <!-- Header Superior do Workspace -->
+      <header class="workspace-top-bar">
+        <div class="workspace-title-box">
+          <span id="current-view-icon" style="font-size:1.3rem;">🎫</span>
+          <div>
+            <h1 class="workspace-view-title" id="current-view-title">Mesa de Operações de Atendimento</h1>
+            <div style="font-size:0.75rem; color:var(--text-muted);" id="current-view-desc">
+              Gestão de chamados acadêmicos, suporte ao aluno e inteligência contextual em tempo real.
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex; align-items:center; gap:1.25rem;">
+          
+          <!-- Tag de Status Online -->
+          <div style="display:flex; align-items:center; gap:0.4rem; background:rgba(16,185,129,0.15); border:1px solid rgba(16,185,129,0.3); padding:0.3rem 0.75rem; border-radius:9999px; font-size:0.75rem; color:#34d399; font-weight:700;">
+            <span style="width:8px; height:8px; background:#10b981; border-radius:50%; box-shadow:0 0 8px #10b981;"></span>
+            <span id="header-status-text">Online & Disponível</span>
+          </div>
+
+          <!-- Seletor do Atendente Ativo -->
+          <div class="nav-user-badge" style="background:rgba(255,255,255,0.03); border:1px solid var(--border-color); padding:0.35rem 0.75rem; border-radius:10px;">
+            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&auto=format&fit=crop&q=80"
+              alt="Avatar" class="user-avatar" id="att-avatar" style="width:34px; height:34px;">
+            <div class="user-info-text">
+              <select id="attendant-switcher-select"
+                style="background:transparent; border:none; color:#fff; font-weight:700; font-size:0.82rem; cursor:pointer; outline:none;">
+                <option value="usr-att-1" style="background:#111827">Mariana Alencar (Secretaria)</option>
+                <option value="usr-att-2" style="background:#111827">Felipe Castilho (Suporte TI)</option>
+                <option value="usr-att-3" style="background:#111827">Carla Esteves (Financeiro)</option>
+              </select>
+              <span class="user-role-label" id="att-role-label" style="font-size:0.7rem; color:var(--text-muted);">Secretaria Acadêmica</span>
+            </div>
+          </div>
+
+        </div>
+      </header>
+
+      <!-- ==================================================================
+           MÓDULO 1: MESA DE ATENDIMENTO (3 COLUNAS: FILA + MESA + CONTEXTO IA)
+           ================================================================== -->
+      <section class="module-view active" id="view-tickets" style="padding:1.25rem 2rem 2rem;">
+
+        <!-- Barra Superior da Fila: Contadores e Filtro de Status -->
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+          <div style="display:flex; gap:0.75rem; align-items:center;">
+            <span style="font-size:0.85rem; font-weight:700; color:#fff;">Fila do Departamento:</span>
+            <span class="badge" style="background:rgba(59,130,246,0.15); color:#60a5fa;" id="queue-total-count">0 chamados</span>
+          </div>
+
+          <div style="display:flex; align-items:center; gap:0.5rem; font-size:0.8rem; color:var(--text-muted);">
+            <span>Filtrar status:</span>
+            <select id="queue-status-filter" class="form-select"
+              style="width:auto; padding:0.35rem 0.75rem; font-size:0.8rem;" onchange="loadQueueTickets()">
+              <option value="">Todos os Status</option>
+              <option value="open">Abertos</option>
+              <option value="in_progress">Em Atendimento</option>
+              <option value="waiting_student">Aguardando Aluno</option>
+              <option value="resolved">Resolvidos</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Layout 3 Colunas de Atendimento -->
+        <div class="content-grid-attendant" id="attendant-workspace-grid">
+
+          <!-- Coluna 1: Fila de Chamados -->
+          <section class="glass-panel" style="display:flex; flex-direction:column; overflow:hidden; padding:1.15rem;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.85rem;">
+              <h2 style="font-size:0.95rem; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; color:#fff;">
+                Fila de Chamados
+              </h2>
+              <span style="font-size:0.75rem; color:var(--text-muted);" id="queue-showing-count">Carregando...</span>
+            </div>
+
+            <div id="queue-tickets-list" style="overflow-y:auto; flex:1; padding-right:0.3rem; display:flex; flex-direction:column; gap:0.6rem;">
+              <!-- Chamados injetados via JavaScript -->
+            </div>
+          </section>
+
+          <!-- Coluna 2: Mesa Central de Trabalho / Mensagens -->
+          <section class="glass-panel" style="display:flex; flex-direction:column; overflow:hidden; padding:1.5rem;"
+            id="attendant-center-panel">
+
+            <!-- Header do Chamado Selecionado -->
+            <div id="center-ticket-header"
+              style="border-bottom:1px solid var(--border-color); padding-bottom:1rem; margin-bottom:1rem;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem;">
+                <div style="display:flex; align-items:center; gap:0.6rem;">
+                  <span class="badge" id="att-dtl-status">Em Atendimento</span>
+                  <span class="badge" id="att-dtl-priority">Alta</span>
+                  <span style="font-size:0.85rem; font-weight:700; color:var(--text-muted);" id="att-dtl-protocol">#1001</span>
+                </div>
+
+                <!-- Botoes de Ação Rápida de Status -->
+                <div style="display:flex; gap:0.4rem;">
+                  <button class="btn-secondary" style="padding:0.35rem 0.75rem; font-size:0.75rem;"
+                    onclick="updateActiveTicketStatus('in_progress')">Em Atendimento</button>
+                  <button class="btn-secondary" style="padding:0.35rem 0.75rem; font-size:0.75rem;"
+                    onclick="updateActiveTicketStatus('waiting_student')">Aguardar Aluno</button>
+                  <button class="btn-primary" style="padding:0.35rem 0.75rem; font-size:0.75rem; background:#10b981;"
+                    onclick="updateActiveTicketStatus('resolved')">✓ Resolver</button>
+                </div>
+              </div>
+
+              <h3 id="att-dtl-subject" style="font-size:1.15rem; font-weight:800; margin-bottom:0.3rem; color:#fff;">
+                Assunto do Chamado
+              </h3>
+              <div style="font-size:0.82rem; color:var(--text-muted); display:flex; gap:1.25rem;">
+                <span>Aluno: <strong id="att-dtl-student-name" style="color:#fff;">Nome do Aluno</strong> (<span
+                    id="att-dtl-student-course">Curso</span>)</span>
+                <span>SLA: <strong id="att-dtl-sla" style="color:#f59e0b;">18h restantes</strong></span>
+              </div>
+            </div>
+
+            <!-- Fluxo de Mensagens -->
+            <div class="messages-container" id="att-dtl-messages"
+              style="flex:1; overflow-y:auto; display:flex; flex-direction:column; gap:0.85rem; padding-right:0.5rem;">
+              <!-- Mensagens injetadas via JavaScript -->
+            </div>
+
+            <!-- Caixa de Envio de Resposta / Nota Interna -->
+            <div style="border-top:1px solid var(--border-color); padding-top:1rem; margin-top:1rem;">
+              <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
+                <div style="display:flex; gap:0.5rem;">
+                  <button id="reply-mode-public" class="badge badge-open" style="cursor:pointer;"
+                    onclick="setReplyMode(false)">💬 Resposta ao Aluno</button>
+                  <button id="reply-mode-internal" class="badge" style="cursor:pointer; opacity:0.6;"
+                    onclick="setReplyMode(true)">🔒 Nota Interna Privada</button>
+                </div>
+                <span style="font-size:0.72rem; color:var(--text-subtle);">Atalhos rápidos ativos</span>
+              </div>
+
+              <div style="display:flex; gap:0.5rem;">
+                <textarea id="att-reply-input" class="form-textarea" rows="2"
+                  placeholder="Digite uma resposta orientando o aluno ou insira uma nota interna..."
+                  style="font-size:0.88rem; flex:1; resize:none; padding:0.6rem; border-radius:8px; background:rgba(0,0,0,0.3); color:#fff; border:1px solid var(--border-color);"></textarea>
+                <button class="btn-primary" onclick="sendAttendantReply()" style="padding:0 1.25rem;">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="22" y1="2" x2="11" y2="13"></line>
+                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+          </section>
+
+          <!-- Coluna 3: CARD DE CONTEXTO IA DO ALUNO -->
+          <aside class="glass-panel ai-context-panel"
+            style="overflow-y:auto; display:flex; flex-direction:column; padding:1.25rem;">
+
+            <div class="ai-header-tag" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+              <div class="ai-sparkle-title" style="display:flex; align-items:center; gap:0.4rem; font-weight:700; font-size:0.88rem; color:#c084fc;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <path d="M12 2v20M2 12h20M4.93 4.93l14.14 14.14M4.93 19.07L19.07 4.93"></path>
+                </svg>
+                Contexto IA do Aluno
+              </div>
+              <span class="sentiment-pill sentiment-warning" id="ai-sentiment-badge"
+                style="background:rgba(245,158,11,0.15); color:#f59e0b; border:1px solid rgba(245,158,11,0.3); padding:0.2rem 0.6rem; border-radius:9999px; font-size:0.7rem; font-weight:700;">
+                <span id="ai-sentiment-text">Ansioso / Prazos</span>
+              </span>
+            </div>
+
+            <!-- Dados Básicos do Aluno -->
+            <div
+              style="display:flex; align-items:center; gap:0.75rem; background:rgba(255,255,255,0.04); padding:0.75rem; border-radius:var(--radius-md); border:1px solid rgba(255,255,255,0.06); margin-bottom:1rem;">
+              <img src="" id="ai-student-avatar" class="user-avatar" style="width:40px; height:40px; border-radius:50%; object-fit:cover;">
+              <div>
+                <div style="font-weight:700; font-size:0.88rem; color:#fff;" id="ai-student-name">Larissa Vianna Castro</div>
+                <div style="font-size:0.72rem; color:var(--text-muted);" id="ai-student-meta">RA: 20230512 • Medicina</div>
+              </div>
+            </div>
+
+            <!-- Resumo dos Últimos Atendimentos -->
+            <div class="ai-section-title" style="font-size:0.78rem; font-weight:700; color:#93c5fd; text-transform:uppercase; margin-bottom:0.35rem;">
+              Resumo Consolidado (Últimos 6 meses)
+            </div>
+            <div class="ai-summary-box" id="ai-summary-text"
+              style="background:rgba(0,0,0,0.25); border-radius:8px; padding:0.75rem; font-size:0.8rem; color:#cbd5e1; line-height:1.45; margin-bottom:1rem;">
+              Carregando inteligência contextual do aluno...
+            </div>
+
+            <!-- Pontos de Atenção -->
+            <div class="ai-section-title" style="font-size:0.78rem; font-weight:700; color:#fca5a5; text-transform:uppercase; margin-bottom:0.35rem;">
+              Pontos de Atenção & Reclamações
+            </div>
+            <div id="ai-attention-list"
+              style="background:rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.2); border-radius:8px; padding:0.75rem; font-size:0.78rem; color:#fca5a5; line-height:1.4; margin-bottom:1rem;">
+              Nenhum alerta crítico ativo.
+            </div>
+
+            <!-- Ação Recomendada pela IA -->
+            <div class="ai-section-title" style="font-size:0.78rem; font-weight:700; color:#86efac; text-transform:uppercase; margin-bottom:0.35rem;">
+              Ação Recomendada pela IA
+            </div>
+            <div class="ai-action-suggestion" id="ai-action-text"
+              style="background:rgba(16,185,129,0.08); border:1px solid rgba(16,185,129,0.2); border-radius:8px; padding:0.75rem; font-size:0.8rem; color:#86efac; line-height:1.4; margin-bottom:1rem;">
+              Carregando sugestão...
+            </div>
+
+            <!-- Modelos de Respostas Rápidas -->
+            <div>
+              <div class="ai-section-title" style="font-size:0.78rem; font-weight:700; color:var(--text-muted); text-transform:uppercase; margin-bottom:0.4rem;">
+                Inserir Modelo de Resposta IA (1 Clique)
+              </div>
+              <div style="display:flex; flex-direction:column; gap:0.4rem;">
+                <button class="btn-secondary"
+                  style="font-size:0.73rem; text-align:left; padding:0.45rem 0.65rem; border-radius:6px;"
+                  onclick="insertQuickResponse('Acolhimento: Estamos em contato direto com a coordenação para priorizar seu pedido antes do fechamento do prazo semestral.')">
+                  ⚡ Acolher ansiedade & prazo
+                </button>
+                <button class="btn-secondary"
+                  style="font-size:0.73rem; text-align:left; padding:0.45rem 0.65rem; border-radius:6px;"
+                  onclick="insertQuickResponse('Financeiro: O boleto foi encaminhado para recálculo com a aplicação da bolsa mérito sem cobrança de juros.')">
+                  ⚡ Confirmação de retificação de bolsa
+                </button>
+                <button class="btn-secondary"
+                  style="font-size:0.73rem; text-align:left; padding:0.45rem 0.65rem; border-radius:6px;"
+                  onclick="insertQuickResponse('TI / AVA: Suas credenciais foram resetadas. Uma senha provisória foi enviada para o seu e-mail institucional.')">
+                  ⚡ Reset de credenciais AVA Moodle
+                </button>
+              </div>
+            </div>
+
+          </aside>
+
+        </div>
+
+      </section>
+
+      <!-- ==================================================================
+           MÓDULO 2: CHAT AO VIVO EM TEMPO REAL
+           ================================================================== -->
+      <section class="module-view" id="view-chat" style="padding:1.25rem 2rem 2rem;">
+        <div class="glass-panel" style="height:calc(100vh - 140px); display:grid; grid-template-columns:320px 1fr; gap:1.5rem; padding:1.25rem;">
+          
+          <!-- Lista de Sessões Ativas -->
+          <div style="border-right:1px solid var(--border-color); padding-right:1rem; overflow-y:auto;" id="live-chat-sessions-list">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+              <h3 style="font-size:0.95rem; font-weight:700; color:#fff;">Alunos no Chat Web</h3>
+              <span class="badge" style="background:#10b981; color:#fff; font-size:0.7rem;">● Online</span>
+            </div>
+
+            <div class="ticket-card selected" style="padding:0.85rem; border-radius:8px; cursor:pointer;" onclick="loadLiveChatMessages()">
+              <div style="font-weight:700; font-size:0.88rem; color:#fff;">Enzo Gabriel Martins</div>
+              <div style="font-size:0.75rem; color:#60a5fa;">RA: 20240189 • Engenharia de Software</div>
+              <div style="font-size:0.72rem; color:var(--text-muted); margin-top:0.25rem;">Aguardando retorno sobre TCC</div>
+            </div>
+          </div>
+
+          <!-- Janela do Chat -->
+          <div style="display:flex; flex-direction:column; height:100%;">
+            <div style="padding-bottom:0.75rem; border-bottom:1px solid var(--border-color); margin-bottom:1rem; display:flex; justify-content:space-between; align-items:center;">
+              <div>
+                <h3 style="font-size:1.1rem; font-weight:800; color:#fff;" id="live-chat-active-student">Enzo Gabriel Martins</h3>
+                <span style="font-size:0.75rem; color:#34d399;">● Conectado via Widget Web (Site da Faculdade)</span>
+              </div>
+              <button class="btn-secondary" style="font-size:0.78rem; padding:0.4rem 0.8rem;" onclick="escalateChatToTicket()">
+                Criar Chamado Formal
+              </button>
+            </div>
+
+            <div class="messages-container" id="live-chat-messages-box" style="flex:1; overflow-y:auto; display:flex; flex-direction:column; gap:0.75rem; padding-right:0.5rem;">
+              <!-- Mensagens do chat injetadas aqui -->
+            </div>
+
+            <div style="display:flex; gap:0.5rem; margin-top:1rem; border-top:1px solid var(--border-color); padding-top:1rem;">
+              <input type="text" id="live-chat-input" class="form-input" placeholder="Responder ao aluno em tempo real..."
+                onkeydown="if(event.key==='Enter') sendLiveChatMessage()" style="flex:1;">
+              <button class="btn-primary" onclick="sendLiveChatMessage()">Enviar</button>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ==================================================================
+           MÓDULO 3: FILAS POR DEPARTAMENTO
+           ================================================================== -->
+      <section class="module-view" id="view-filas" style="padding:1.5rem 2rem;">
+        <div style="max-width:1200px; margin:0 auto;">
+          <h2 style="font-size:1.25rem; font-weight:800; color:#fff; margin-bottom:0.5rem;">Filas Acadêmicas por Departamento</h2>
+          <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:1.5rem;">
+            Selecione um departamento para filtrar a mesa de atendimento ou visualizar a distribuição de demanda.
+          </p>
+
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:1.25rem;">
+            
+            <div class="glass-panel" style="cursor:pointer;" onclick="switchSidebarView('tickets')">
+              <div style="font-size:1.5rem; margin-bottom:0.5rem;">📄</div>
+              <h3 style="font-size:1rem; font-weight:700; color:#fff;">Secretaria Acadêmica</h3>
+              <p style="font-size:0.78rem; color:var(--text-muted); margin-bottom:1rem;">Declarações, histórico, trancamento e rematrícula.</p>
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span class="badge" style="background:#3b82f6; color:#fff;">SLA: 24h</span>
+                <span style="font-size:0.8rem; font-weight:700; color:#60a5fa;">Ver Fila →</span>
+              </div>
+            </div>
+
+            <div class="glass-panel" style="cursor:pointer;" onclick="switchSidebarView('tickets')">
+              <div style="font-size:1.5rem; margin-bottom:0.5rem;">💰</div>
+              <h3 style="font-size:1rem; font-weight:700; color:#fff;">Financeiro & Bolsas</h3>
+              <p style="font-size:0.78rem; color:var(--text-muted); margin-bottom:1rem;">Boletos, renegociação, Prouni e FIES.</p>
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span class="badge" style="background:#f59e0b; color:#fff;">SLA: 12h</span>
+                <span style="font-size:0.8rem; font-weight:700; color:#60a5fa;">Ver Fila →</span>
+              </div>
+            </div>
+
+            <div class="glass-panel" style="cursor:pointer;" onclick="switchSidebarView('tickets')">
+              <div style="font-size:1.5rem; margin-bottom:0.5rem;">💻</div>
+              <h3 style="font-size:1rem; font-weight:700; color:#fff;">Suporte AVA & TI</h3>
+              <p style="font-size:0.78rem; color:var(--text-muted); margin-bottom:1rem;">Acesso ao Moodle, e-mail institucional e Wi-Fi.</p>
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span class="badge" style="background:#ef4444; color:#fff;">SLA: 6h</span>
+                <span style="font-size:0.8rem; font-weight:700; color:#60a5fa;">Ver Fila →</span>
+              </div>
+            </div>
+
+            <div class="glass-panel" style="cursor:pointer;" onclick="switchSidebarView('tickets')">
+              <div style="font-size:1.5rem; margin-bottom:0.5rem;">📚</div>
+              <h3 style="font-size:1rem; font-weight:700; color:#fff;">Coordenação Pedagógica</h3>
+              <p style="font-size:0.78rem; color:var(--text-muted); margin-bottom:1rem;">Equivalência de disciplinas, TCC e faltas.</p>
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span class="badge" style="background:#6b7280; color:#fff;">SLA: 48h</span>
+                <span style="font-size:0.8rem; font-weight:700; color:#60a5fa;">Ver Fila →</span>
+              </div>
+            </div>
+
+            <div class="glass-panel" style="cursor:pointer;" onclick="switchSidebarView('tickets')">
+              <div style="font-size:1.5rem; margin-bottom:0.5rem;">💼</div>
+              <h3 style="font-size:1rem; font-weight:700; color:#fff;">Estágios & Carreiras</h3>
+              <p style="font-size:0.78rem; color:var(--text-muted); margin-bottom:1rem;">Termos de estágio, convênios e seguros.</p>
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span class="badge" style="background:#6b7280; color:#fff;">SLA: 72h</span>
+                <span style="font-size:0.8rem; font-weight:700; color:#60a5fa;">Ver Fila →</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================================================================
+           MÓDULO 4: BASE DE CONHECIMENTO & PROCEDIMENTOS
+           ================================================================== -->
+      <section class="module-view" id="view-kb" style="padding:1.5rem 2rem;">
+        <div style="max-width:1000px; margin:0 auto;">
+          <h2 style="font-size:1.25rem; font-weight:800; color:#fff; margin-bottom:0.5rem;">Base de Conhecimento</h2>
+          <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:1.5rem;">
+            Consulte artigos técnicos, normas regimentais e procedimentos operacionais padrão (SOPs).
+          </p>
+
+          <div style="display:flex; flex-direction:column; gap:1rem;">
+            
+            <div class="glass-panel">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem;">
+                <span class="badge badge-open">Secretaria • SOP-001</span>
+                <button class="btn-secondary" style="font-size:0.72rem; padding:0.25rem 0.6rem;" onclick="copySOPText('Procedimento de Trancamento: O trancamento pode ser deferido até o 45º dia letivo se as mensalidades anteriores estiverem quitadas.')">Copiar Resumo</button>
+              </div>
+              <h4 style="font-size:0.95rem; font-weight:700; color:#fff; margin-bottom:0.35rem;">Trancamento e Cancelamento de Matrícula</h4>
+              <p style="font-size:0.82rem; color:var(--text-muted); line-height:1.45;">
+                O aluno pode requerer trancamento até 45 dias após o início das aulas. Casos após o prazo exigem laudo médico ou parecer extraordinário da junta acadêmica.
+              </p>
+            </div>
+
+            <div class="glass-panel">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem;">
+                <span class="badge badge-open">Financeiro • SOP-002</span>
+                <button class="btn-secondary" style="font-size:0.72rem; padding:0.25rem 0.6rem;" onclick="copySOPText('Procedimento de Bolsa: Quando a bolsa mérito não é aplicada automaticamente pelo ERP, deve ser aplicada manualmente com código de desconto PROUNIMERITO-2026.')">Copiar Resumo</button>
+              </div>
+              <h4 style="font-size:0.95rem; font-weight:700; color:#fff; margin-bottom:0.35rem;">Aplicação Manual de Bolsas e Convênios</h4>
+              <p style="font-size:0.82rem; color:var(--text-muted); line-height:1.45;">
+                Caso o edital tenha sido homologado mas o boleto gerado com valor cheio, emita a 2ª via com vencimento prorrogado em 5 dias úteis sem juros de mora.
+              </p>
+            </div>
+
+            <div class="glass-panel">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem;">
+                <span class="badge badge-open">TI & AVA • SOP-003</span>
+                <button class="btn-secondary" style="font-size:0.72rem; padding:0.25rem 0.6rem;" onclick="copySOPText('Procedimento Moodle: Para desbloquear conta, acesse o painel do LDAP e clique em Desbloquear Usuário por RA.')">Copiar Resumo</button>
+              </div>
+              <h4 style="font-size:0.95rem; font-weight:700; color:#fff; margin-bottom:0.35rem;">Desbloqueio de Usuário e Reset de Senha no Moodle</h4>
+              <p style="font-size:0.82rem; color:var(--text-muted); line-height:1.45;">
+                Verifique se o aluno está com status 'Regular' no ERP antes de resetar a senha do ambiente virtual.
+              </p>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================================================================
+           MÓDULO 5: MINHAS MÉTRICAS & PERFORMANCE DO ATENDENTE
+           ================================================================== -->
+      <section class="module-view" id="view-metrics" style="padding:1.5rem 2rem;">
+        <div style="max-width:1100px; margin:0 auto;">
+          <h2 style="font-size:1.25rem; font-weight:800; color:#fff; margin-bottom:0.5rem;">Minha Performance Individual</h2>
+          <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:1.5rem;">
+            Indicadores de SLA, tempo de resposta e índice de satisfação atribuídos ao seu usuário.
+          </p>
+
+          <div class="metrics-row" style="margin-bottom:2rem;">
+            <div class="kpi-card">
+              <div class="kpi-label">Chamados Atendidos (Semana)</div>
+              <div class="kpi-value" style="color:#60a5fa;">28</div>
+              <div class="kpi-sub">Meta atingida (112%)</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-label">Tempo Médio de 1ª Resposta</div>
+              <div class="kpi-value" style="color:#10b981;">14 min</div>
+              <div class="kpi-sub">Meta máxima: 30 min</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-label">Cumprimento de SLA</div>
+              <div class="kpi-value" style="color:#f59e0b;">98.2%</div>
+              <div class="kpi-sub">Excelente pontualidade</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-label">Avaliação dos Alunos (CSAT)</div>
+              <div class="kpi-value" style="color:#a855f7;">4.9 ★</div>
+              <div class="kpi-sub">Baseado em 24 avaliações</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================================================================
+           MÓDULO 6: PERFIL DO ATENDENTE & STATUS OPERACIONAL
+           ================================================================== -->
+      <section class="module-view" id="view-perfil" style="padding:1.5rem 2rem;">
+        <div class="glass-panel" style="max-width:800px; margin:0 auto; padding:2rem;">
+          <h2 style="font-size:1.25rem; font-weight:800; color:#fff; margin-bottom:1.5rem;">Perfil & Status de Atendimento</h2>
+
+          <div style="display:flex; align-items:center; gap:1.5rem; margin-bottom:2rem; padding-bottom:1.5rem; border-bottom:1px solid var(--border-color);">
+            <div style="position: relative; width: 74px; height: 74px; flex-shrink: 0;">
+              <img id="perfil-avatar-preview"
+                src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&auto=format&fit=crop&q=80"
+                class="user-avatar"
+                style="width:100%; height:100%; border:2px solid var(--primary); object-fit: cover; border-radius:50%;">
+              <label for="profile-upload"
+                style="position: absolute; bottom: -2px; right: -2px; background: var(--primary); width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; border: 2px solid var(--bg-surface); color: #fff; box-shadow: 0 2px 4px rgba(0,0,0,0.3); transition: all 0.2s ease;"
+                onmouseover="this.style.transform='scale(1.1)';" onmouseout="this.style.transform='scale(1)';">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                  <circle cx="12" cy="13" r="4"></circle>
+                </svg>
+              </label>
+              <input type="file" id="profile-upload" accept="image/*" style="display: none;">
+            </div>
+            <div>
+              <h3 style="font-size:1.15rem; font-weight:800; color:#fff;" id="perfil-name">Mariana Alencar</h3>
+              <div style="font-size:0.82rem; color:var(--text-muted); margin-bottom:0.4rem;">mariana.suporte@metropolitana.edu.br</div>
+              <span class="badge badge-open">Atendente Nível 2 • Secretaria Acadêmica</span>
+            </div>
+          </div>
+
+          <form onsubmit="event.preventDefault(); showUnideskToast('Preferências salvas com sucesso!');">
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.25rem; margin-bottom:1.5rem;">
+              <div class="form-group">
+                <label>Status Operacional de Atendimento</label>
+                <select class="form-select" id="op-status-select" onchange="changeOperatorStatus(this.value)">
+                  <option value="online" selected>🟢 Online & Disponível</option>
+                  <option value="away">🟡 Ausente / Em Intervalo</option>
+                  <option value="busy">🔴 Ocupado / Em Atendimento</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>Notificações Sonoras de Novos Chats</label>
+                <select class="form-select">
+                  <option>Ativadas (Chime discreto)</option>
+                  <option>Desativadas</option>
+                </select>
+              </div>
+            </div>
+
+            <button type="submit" class="btn-primary">Salvar Preferências</button>
+          </form>
+        </div>
+      </section>
+
+    </main>
+
+  </div>
+
+  <!-- Toast Feedback Notification -->
+  <div id="unidesk-toast" class="unidesk-toast">
+    <span id="toast-icon" style="font-size:1.2rem;">✓</span>
+    <span id="toast-message">Operação realizada com sucesso!</span>
+  </div>
+
+  <script src="/js/attendantPortal.js"></script>
+</body>
+</html>

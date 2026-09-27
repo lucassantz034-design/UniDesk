@@ -1,0 +1,27 @@
+{
+  "name": "unidesk",
+  "version": "1.0.0",
+  "description": "Unidesk — Helpdesk Universitário Inteligente Self-Hosted",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "helpdesk",
+    "universidade",
+    "self-hosted",
+    "ia",
+    "chatbot",
+    "suporte"
+  ],
+  "author": "Unidesk Team",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "ws": "^8.18.0"
+  }
+}

@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portal do Aluno — UniDesk Helpdesk</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+
+<body>
+
+  <div class="app-shell">
+
+    <!-- ====================================================================
+         BARRA LATERAL (SIDEBAR) DO ALUNO
+         ==================================================================== -->
+    <aside class="app-sidebar" id="main-sidebar">
+
+      <!-- Top Logo: UD Monograma Transparente (Retorna a Meus Chamados) -->
+      <div class="sidebar-logo-wrap" onclick="switchSidebarView('dashboards')"
+        title="UniDesk Aluno — Início / Meus Chamados" style="cursor: pointer;">
+        <img src="/assets/LOGO_UD.png" alt="UniDesk Logo" class="sidebar-logo-img" id="sidebar-logo-img">
+      </div>
+
+      <!-- Slim Rail Navigation Focada no Estudante -->
+      <nav class="sidebar-nav">
+
+        <!-- 1. Meus Chamados / Protocolos (Ativo por Padrão) -->
+        <button class="sidebar-rail-btn active" id="nav-dashboards" onclick="switchSidebarView('dashboards')"
+          aria-label="Meus Chamados">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z"></path>
+            <line x1="12" y1="9" x2="12" y2="15" stroke-dasharray="2 2"></line>
+          </svg>
+          <span class="sidebar-tooltip">Meus Chamados</span>
+        </button>
+
+        <!-- 2. Novo Chamado / Solicitação -->
+        <button class="sidebar-rail-btn" id="nav-novochamado" onclick="switchSidebarView('novochamado')"
+          aria-label="Novo Chamado">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="16"></line>
+            <line x1="8" y1="12" x2="16" y2="12"></line>
+          </svg>
+          <span class="sidebar-tooltip">Novo Chamado</span>
+        </button>
+
+        <!-- 3. Chat ao Vivo -->
+        <button class="sidebar-rail-btn" id="nav-inbox" onclick="switchSidebarView('inbox')"
+          aria-label="Chat ao Vivo">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+          </svg>
+          <span class="sidebar-tooltip">Chat ao Vivo</span>
+        </button>
+
+        <!-- 4. Meu Perfil -->
+        <button class="sidebar-rail-btn" id="nav-perfil" onclick="switchSidebarView('perfil')"
+          aria-label="Meu Perfil">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+            stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="3" width="16" height="18" rx="2"></rect>
+            <circle cx="12" cy="9.5" r="2.5"></circle>
+            <path d="M7.5 17c0-2 2-3 4.5-3s4.5 1 4.5 3"></path>
+          </svg>
+          <span class="sidebar-tooltip">Meu Perfil</span>
+        </button>
+
+      </nav>
+
+      <!-- Rodapé da Barra Lateral: Notificações e Avatar Circular -->
+      <div class="sidebar-footer">
+
+        <!-- Sino com Badge de Notificação -->
+        <button class="sidebar-rail-btn" id="nav-notificacoes" onclick="switchSidebarView('notificacoes')"
+          aria-label="Notificações">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+          </svg>
+          <span class="badge-bell" id="badge-notif-count">02</span>
+          <span class="sidebar-tooltip">Notificações</span>
+        </button>
+
+        <!-- Avatar Circular do Usuário Aluno com Dots -->
+        <div class="sidebar-user-section" onclick="switchSidebarView('perfil')" title="Larissa Vianna Castro — Ver Perfil">
+          <div class="sidebar-user-la-card"
+            style="border-radius: 50%; overflow: hidden; padding: 0; background: transparent; border: 2px solid var(--primary); display: flex; align-items: center; justify-content: center; width: 38px; height: 38px; position: relative;">
+            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&auto=format&fit=crop&q=80"
+              alt="Foto de Perfil" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
+            <span class="dot-purple-square" style="border-radius: 50%;"></span>
+            <span class="dot-green-square" style="border-radius: 50%;"></span>
+          </div>
+          <div class="sidebar-user-sub-label">1.0.0.0t</div>
+        </div>
+
+      </div>
+
+    </aside>
+
+    <!-- ====================================================================
+         ÁREA PRINCIPAL DE CONTEÚDO DO ALUNO
+         ==================================================================== -->
+    <main class="app-main-content">
+
+      <!-- Header Superior do Aluno -->
+      <header class="workspace-top-bar">
+        <div class="workspace-title-box">
+          <span id="current-view-icon" style="font-size:1.3rem;">🎫</span>
+          <div>
+            <h1 class="workspace-view-title" id="current-view-title">Meus Chamados</h1>
+            <div style="font-size:0.75rem; color:var(--text-muted);" id="current-view-desc">
+              Larissa Vianna Castro • RA: 20230512 • Medicina (7º Período)
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex; align-items:center; gap:1rem;">
+          <!-- Busca rápida de chamados -->
+          <div style="position:relative; width:280px;">
+            <input type="text" id="global-search-input" class="form-input"
+              placeholder="Buscar por protocolo ou assunto..."
+              style="padding:0.4rem 0.8rem 0.4rem 2rem; font-size:0.8rem;" oninput="handleStudentSearch(event)">
+            <span style="position:absolute; left:0.65rem; top:50%; transform:translateY(-50%); opacity:0.5; font-size:0.8rem;">🔍</span>
+          </div>
+
+          <!-- Botão Primário: Abrir Novo Chamado -->
+          <button class="btn-primary" id="btn-global-action" onclick="openNewTicketModal()"
+            style="padding:0.45rem 1rem; font-size:0.82rem;">
+            + Novo Chamado
+          </button>
+        </div>
+      </header>
+
+      <!-- ==================================================================
+           MÓDULO 1: MEUS CHAMADOS (Painel Inicial do Aluno)
+           ================================================================== -->
+      <section class="module-view active" id="view-dashboards">
+
+        <!-- Cards de Resumo dos Chamados do Aluno -->
+        <div class="metrics-row" style="margin-bottom: 1.5rem;">
+          <div class="kpi-card" style="cursor: pointer;" onclick="filterStudentTickets('in_progress')">
+            <div class="kpi-label">🟡 Em Atendimento</div>
+            <div class="kpi-value" style="color:#f59e0b;" id="student-kpi-progresso">1</div>
+            <div class="kpi-sub">Em análise pela equipe acadêmica</div>
+          </div>
+
+          <div class="kpi-card" style="cursor: pointer;" onclick="filterStudentTickets('waiting_student')">
+            <div class="kpi-label">🔵 Aguardando Minha Resposta</div>
+            <div class="kpi-value" style="color:#60a5fa;" id="student-kpi-aguardando">0</div>
+            <div class="kpi-sub">Informação ou documento solicitado</div>
+          </div>
+
+          <div class="kpi-card" style="cursor: pointer;" onclick="filterStudentTickets('resolved')">
+            <div class="kpi-label">🟢 Resolvidos / Concluídos</div>
+            <div class="kpi-value" style="color:#10b981;" id="student-kpi-resolvidos">1</div>
+            <div class="kpi-sub">Finalizados pela instituição</div>
+          </div>
+
+          <div class="kpi-card" style="cursor: pointer; border-color: rgba(59, 130, 246, 0.4); background: rgba(59, 130, 246, 0.08);"
+            onclick="switchSidebarView('novochamado')">
+            <div class="kpi-label">➕ Precisa de Ajuda?</div>
+            <div class="kpi-value" style="font-size: 1.25rem; color:#fff; margin-top:0.4rem;">Abrir Chamado</div>
+            <div class="kpi-sub" style="color:#93c5fd;">Secretaria, Financeiro, TI e Coordenação</div>
+          </div>
+        </div>
+
+        <!-- Layout 2 Colunas: Lista de Protocolos + Detalhe/Histórico do Chamado -->
+        <div style="display:grid; grid-template-columns: 380px 1fr; gap:1.5rem; align-items:start;">
+
+          <!-- Coluna Esquerda: Lista de Protocolos -->
+          <div class="glass-panel" style="padding:1.25rem; display:flex; flex-direction:column; gap:1rem;">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <h3 style="font-size:0.95rem; font-weight:700; color:#fff;">Histórico de Solicitações</h3>
+              <div style="display:flex; gap:0.4rem;">
+                <button class="btn-secondary active" id="btn-filter-all" onclick="filterStudentTickets('')"
+                  style="font-size:0.7rem; padding:0.25rem 0.6rem;">Todos</button>
+                <button class="btn-secondary" id="btn-filter-active" onclick="filterStudentTickets('active')"
+                  style="font-size:0.7rem; padding:0.25rem 0.6rem;">Abertos</button>
+              </div>
+            </div>
+
+            <!-- Lista Dinâmica de Tickets do Aluno -->
+            <div id="student-tickets-list" style="display:flex; flex-direction:column; gap:0.75rem; max-height:650px; overflow-y:auto; padding-right:4px;">
+              <!-- Preenchido dinamicamente via JS -->
+            </div>
+          </div>
+
+          <!-- Coluna Direita: Conversa / Detalhes do Chamado Selecionado -->
+          <div class="glass-panel" id="student-ticket-detail-panel" style="padding:1.5rem; min-height:620px; display:flex; flex-direction:column;">
+            
+            <!-- Header do Chamado Selecionado -->
+            <div id="ticket-detail-header" style="border-bottom:1px solid var(--border-color); padding-bottom:1rem; margin-bottom:1.25rem;">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:1rem;">
+                <div>
+                  <div style="display:flex; align-items:center; gap:0.6rem; margin-bottom:0.35rem;">
+                    <span class="ticket-num" id="detail-ticket-num" style="font-size:1.05rem;">#1002</span>
+                    <span class="badge" id="detail-ticket-badge" style="background:#f59e0b; color:#fff;">Em Atendimento</span>
+                    <span class="badge" id="detail-ticket-category" style="background:rgba(255,255,255,0.08); color:var(--text-muted);">Financeiro & Bolsas</span>
+                  </div>
+                  <h2 style="font-size:1.15rem; font-weight:800; color:#fff;" id="detail-ticket-subject">Boleto de mensalidade com perda indevida de bolsa mérito</h2>
+                  <div style="font-size:0.78rem; color:var(--text-muted); margin-top:0.25rem;">
+                    Aberto em <span id="detail-ticket-created">26/09/2026 às 19:44</span> • Atendente: <strong id="detail-ticket-attendant" style="color:#60a5fa;">Carla Esteves</strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Timeline de Mensagens da Conversa -->
+            <div id="ticket-messages-timeline" style="flex:1; overflow-y:auto; display:flex; flex-direction:column; gap:1rem; padding-right:6px; margin-bottom:1.25rem; max-height:420px;">
+              <!-- Mensagens preenchidas via JavaScript -->
+            </div>
+
+            <!-- Caixa de Avaliação CSAT (Exibida se o chamado estiver resolvido) -->
+            <div id="ticket-csat-box" style="display:none; background:rgba(16,185,129,0.1); border:1px solid rgba(16,185,129,0.3); border-radius:10px; padding:1rem; margin-bottom:1rem; text-align:center;">
+              <div style="font-weight:700; color:#34d399; font-size:0.9rem; margin-bottom:0.3rem;">Chamado Finalizado! Como foi seu atendimento?</div>
+              <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:0.6rem;">Sua avaliação ajuda a faculdade a aprimorar o suporte acadêmico.</div>
+              <div style="display:flex; justify-content:center; gap:0.5rem; font-size:1.4rem; cursor:pointer;" id="csat-stars-container">
+                <span onclick="rateCurrentTicket(1)" title="Muito Ruim">★</span>
+                <span onclick="rateCurrentTicket(2)" title="Ruim">★</span>
+                <span onclick="rateCurrentTicket(3)" title="Regular">★</span>
+                <span onclick="rateCurrentTicket(4)" title="Bom">★</span>
+                <span onclick="rateCurrentTicket(5)" title="Excelente">★</span>
+              </div>
+            </div>
+
+            <!-- Caixa de Envio de Réplica / Resposta do Aluno -->
+            <div id="ticket-reply-box" style="border-top:1px solid var(--border-color); padding-top:1rem;">
+              <form onsubmit="handleSendStudentReply(event)">
+                <div style="position:relative; margin-bottom:0.75rem;">
+                  <textarea id="student-reply-input" class="form-input" rows="3"
+                    placeholder="Digite aqui sua resposta, esclarecimento ou anexe um documento..."
+                    style="width:100%; resize:vertical; padding:0.75rem; font-size:0.85rem;" required></textarea>
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                  <div style="display:flex; align-items:center; gap:0.5rem;">
+                    <label for="reply-file-upload" class="btn-secondary" style="font-size:0.75rem; padding:0.35rem 0.75rem; cursor:pointer; display:flex; align-items:center; gap:0.35rem;">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path>
+                      </svg>
+                      <span id="reply-file-name-label">Anexar Arquivo</span>
+                    </label>
+                    <input type="file" id="reply-file-upload" style="display:none;" onchange="handleReplyFileSelected(this)">
+                  </div>
+                  <button type="submit" class="btn-primary" style="padding:0.45rem 1.25rem; font-size:0.82rem;">
+                    Enviar Resposta
+                  </button>
+                </div>
+              </form>
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- ==================================================================
+           MÓDULO 2: ABRIR NOVO CHAMADO
+           ================================================================== -->
+      <section class="module-view" id="view-novochamado">
+        <div class="glass-panel" style="max-width:760px; margin:0 auto; padding:2rem;">
+          <div style="margin-bottom:1.75rem; border-bottom:1px solid var(--border-color); padding-bottom:1rem;">
+            <h2 style="font-size:1.3rem; font-weight:800; color:#fff; margin-bottom:0.35rem;">Abrir Nova Solicitação</h2>
+            <p style="font-size:0.85rem; color:var(--text-muted);">
+              Preencha os campos abaixo. Sua solicitação será encaminhada diretamente ao setor responsável.
+            </p>
+          </div>
+
+          <form id="new-ticket-page-form" onsubmit="handleCreateTicketPageSubmit(event)">
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.25rem; margin-bottom:1.25rem;">
+              <div class="form-group">
+                <label>Setor / Departamento Acadêmico <span style="color:#ef4444;">*</span></label>
+                <select id="new-ticket-category" class="form-select" required>
+                  <option value="" disabled selected>Selecione o setor...</option>
+                  <option value="cat-1">Secretaria Acadêmica (Documentos, Matrícula)</option>
+                  <option value="cat-2">Financeiro & Bolsas (Boletos, FIES, Prouni)</option>
+                  <option value="cat-3">Suporte AVA & TI (Moodle, Acesso Portal, Wi-Fi)</option>
+                  <option value="cat-4">Coordenação Pedagógica (Disciplinas, Ementas)</option>
+                  <option value="cat-5">Estágios & Carreiras (Termos de Compromisso)</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>Prioridade da Solicitação <span style="color:#ef4444;">*</span></label>
+                <select id="new-ticket-priority" class="form-select" required>
+                  <option value="medium" selected>Normal / Regular</option>
+                  <option value="high">Alta (Prazo letivo próximo)</option>
+                  <option value="urgent">Urgente (Impedimento de prova/matrícula)</option>
+                  <option value="low">Baixa (Dúvida pontual)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom:1.25rem;">
+              <label>Assunto Resumido <span style="color:#ef4444;">*</span></label>
+              <input type="text" id="new-ticket-subject" class="form-input"
+                placeholder="Ex: Correção no boleto de outubro com desconto Prouni" required>
+            </div>
+
+            <div class="form-group" style="margin-bottom:1.25rem;">
+              <label>Descrição Detalhada da Situação <span style="color:#ef4444;">*</span></label>
+              <textarea id="new-ticket-description" class="form-input" rows="5"
+                placeholder="Descreva detalhadamente o ocorrido com datas, códigos de disciplina ou valores para agilizar seu atendimento..." required></textarea>
+            </div>
+
+            <div class="form-group" style="margin-bottom:2rem;">
+              <label>Anexar Comprovante ou Documento (Opcional)</label>
+              <div style="border:2px dashed var(--border-color); border-radius:10px; padding:1.25rem; text-align:center; background:rgba(255,255,255,0.01);">
+                <input type="file" id="new-ticket-file" style="display:none;" onchange="handleNewTicketFileSelected(this)">
+                <label for="new-ticket-file" style="cursor:pointer; display:inline-flex; align-items:center; gap:0.5rem; color:#60a5fa; font-weight:600; font-size:0.85rem;">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="17 8 12 3 7 8"></polyline>
+                    <line x1="12" y1="3" x2="12" y2="15"></line>
+                  </svg>
+                  <span id="new-ticket-file-label">Clique para anexar PDF, comprovante ou foto</span>
+                </label>
+                <div style="font-size:0.75rem; color:var(--text-muted); margin-top:0.35rem;">Formatos aceitos: PDF, JPG, PNG (máx. 10MB)</div>
+              </div>
+            </div>
+
+            <div style="display:flex; justify-content:flex-end; gap:1rem;">
+              <button type="button" class="btn-secondary" onclick="switchSidebarView('dashboards')">Cancelar</button>
+              <button type="submit" class="btn-primary" style="padding:0.6rem 2rem;">Enviar Chamado</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- ==================================================================
+           MÓDULO 3: CHAT AO VIVO
+           ================================================================== -->
+      <section class="module-view" id="view-inbox">
+        <div class="glass-panel" style="max-width:850px; margin:0 auto; height:680px; display:flex; flex-direction:column; padding:0; overflow:hidden;">
+          
+          <!-- Top Chat Header -->
+          <div style="padding:1rem 1.5rem; background:rgba(17,24,39,0.9); border-bottom:1px solid var(--border-color); display:flex; justify-content:space-between; align-items:center;">
+            <div style="display:flex; align-items:center; gap:0.85rem;">
+              <div style="position:relative;">
+                <img src="/assets/LOGO_UD.png" alt="Sophia" style="width:42px; height:42px; border-radius:50%; border:2px solid var(--primary); background:#0b0f19; padding:4px;">
+                <span style="position:absolute; bottom:0; right:0; width:10px; height:10px; background:#10b981; border-radius:50%; border:2px solid #0b0f19;"></span>
+              </div>
+              <div>
+                <h4 style="font-size:0.95rem; font-weight:800; color:#fff;">Central de Atendimento ao Aluno</h4>
+                <div style="font-size:0.75rem; color:#34d399;">● Atendente Virtual Sophia & Equipe de Suporte Online</div>
+              </div>
+            </div>
+            <span class="badge" style="background:rgba(59,130,246,0.15); color:#60a5fa;">Sessão Segura</span>
+          </div>
+
+          <!-- Mensagens do Chat -->
+          <div id="live-chat-messages" style="flex:1; overflow-y:auto; padding:1.5rem; display:flex; flex-direction:column; gap:1rem;">
+            <div style="display:flex; gap:0.75rem; max-width:80%;">
+              <img src="/assets/LOGO_UD.png" style="width:32px; height:32px; border-radius:50%; border:1px solid var(--primary); padding:2px; background:#111827;">
+              <div style="background:var(--bg-surface); border:1px solid var(--border-color); border-radius:12px 12px 12px 2px; padding:0.85rem 1rem; font-size:0.85rem; color:#e2e8f0; line-height:1.5;">
+                Olá, <strong>Larissa</strong>! Sou a Sophia, assistente virtual da Universidade Metropolitana. Como posso te auxiliar hoje?
+              </div>
+            </div>
+          </div>
+
+          <!-- Input do Chat -->
+          <div style="padding:1rem 1.5rem; background:rgba(17,24,39,0.9); border-top:1px solid var(--border-color);">
+            <form id="live-chat-form" onsubmit="handleSendChatMessage(event)" style="display:flex; gap:0.75rem;">
+              <input type="text" id="live-chat-input" class="form-input" placeholder="Digite sua mensagem para o atendimento..." required style="flex:1;">
+              <button type="submit" class="btn-primary" style="padding:0 1.25rem;">Enviar</button>
+            </form>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ==================================================================
+           MÓDULO 4: NOTIFICAÇÕES DO ALUNO
+           ================================================================== -->
+      <section class="module-view" id="view-notificacoes">
+        <div class="glass-panel" style="max-width:800px; margin:0 auto; padding:1.75rem;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem; border-bottom:1px solid var(--border-color); padding-bottom:1rem;">
+            <div>
+              <h2 style="font-size:1.2rem; font-weight:800; color:#fff;">Central de Notificações</h2>
+              <p style="font-size:0.8rem; color:var(--text-muted);">Avisos acadêmicos e atualizações de protocolos</p>
+            </div>
+            <button class="btn-secondary" onclick="markAllNotificationsAsRead()" style="font-size:0.75rem;">
+              Marcar lidas
+            </button>
+          </div>
+
+          <div style="display:flex; flex-direction:column; gap:0.85rem;">
+            <div style="background:rgba(255,255,255,0.02); border:1px solid rgba(245,158,11,0.3); border-radius:10px; padding:1rem; display:flex; gap:0.85rem; align-items:center;">
+              <span style="font-size:1.4rem;">🔔</span>
+              <div style="flex:1;">
+                <div style="font-weight:700; font-size:0.88rem; color:#fff;">Nova resposta no Chamado #1002</div>
+                <div style="font-size:0.78rem; color:var(--text-muted);">Carla Esteves (Financeiro) adicionou uma atualização sobre o desconto da bolsa.</div>
+              </div>
+              <span style="font-size:0.72rem; color:var(--text-subtle);">Há 10 min</span>
+            </div>
+
+            <div style="background:rgba(255,255,255,0.02); border:1px solid var(--border-color); border-radius:10px; padding:1rem; display:flex; gap:0.85rem; align-items:center;">
+              <span style="font-size:1.4rem;">📅</span>
+              <div style="flex:1;">
+                <div style="font-weight:700; font-size:0.88rem; color:#fff;">Aviso de Calendário Acadêmico</div>
+                <div style="font-size:0.78rem; color:var(--text-muted);">O período para envio de horas complementares encerra em 15 dias.</div>
+              </div>
+              <span style="font-size:0.72rem; color:var(--text-subtle);">Ontem</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================================================================
+           MÓDULO 5: MEU PERFIL DE ALUNO
+           ================================================================== -->
+      <section class="module-view" id="view-perfil">
+        <div class="glass-panel" style="max-width:800px; margin:0 auto; padding:2rem;">
+          <h3 style="font-size:1.2rem; font-weight:800; margin-bottom:1.5rem; color:#fff;">
+            Meu Perfil Acadêmico
+          </h3>
+
+          <div style="display:flex; align-items:center; gap:1.5rem; margin-bottom:2rem; padding-bottom:1.5rem; border-bottom:1px solid var(--border-color);">
+            <div style="position: relative; width: 74px; height: 74px; flex-shrink: 0;">
+              <img id="profile-avatar-preview"
+                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&auto=format&fit=crop&q=80"
+                class="user-avatar"
+                style="width:100%; height:100%; border:2px solid var(--primary); object-fit: cover; border-radius:50%;">
+              <label for="profile-upload"
+                style="position: absolute; bottom: -2px; right: -2px; background: var(--primary); width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; border: 2px solid var(--bg-surface); color: #fff; box-shadow: 0 2px 4px rgba(0,0,0,0.3); transition: all 0.2s ease;"
+                onmouseover="this.style.transform='scale(1.1)';" onmouseout="this.style.transform='scale(1)';">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                  <circle cx="12" cy="13" r="4"></circle>
+                </svg>
+              </label>
+              <input type="file" id="profile-upload" accept="image/*" style="display: none;">
+            </div>
+            <div>
+              <h4 style="font-size:1.15rem; font-weight:800; color:#fff;" id="profile-full-name">Larissa Vianna Castro</h4>
+              <div style="font-size:0.82rem; color:var(--text-muted); margin-bottom:0.4rem;" id="profile-email">
+                larissa.vianna@aluno.metropolitana.edu.br
+              </div>
+              <span class="badge" style="background:rgba(16,185,129,0.15); color:#34d399; border:1px solid rgba(16,185,129,0.3);">
+                Matrícula Regular • 20230512
+              </span>
+            </div>
+          </div>
+
+          <form onsubmit="handleUpdateProfile(event)">
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.25rem; margin-bottom:1.25rem;">
+              <div class="form-group">
+                <label>Nome Completo</label>
+                <input type="text" class="form-input" id="profile-input-name" value="Larissa Vianna Castro" readonly style="opacity:0.8;">
+              </div>
+              <div class="form-group">
+                <label>Registro Acadêmico (RA)</label>
+                <input type="text" class="form-input" value="20230512" readonly style="opacity:0.8;">
+              </div>
+            </div>
+
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.25rem; margin-bottom:1.25rem;">
+              <div class="form-group">
+                <label>Curso de Graduação</label>
+                <input type="text" class="form-input" value="Medicina (Bacharelado)" readonly style="opacity:0.8;">
+              </div>
+              <div class="form-group">
+                <label>Período Letivo</label>
+                <input type="text" class="form-input" value="7º Período" readonly style="opacity:0.8;">
+              </div>
+            </div>
+
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.25rem; margin-bottom:2rem;">
+              <div class="form-group">
+                <label>E-mail Institucional</label>
+                <input type="email" class="form-input" value="larissa.vianna@aluno.metropolitana.edu.br" readonly style="opacity:0.8;">
+              </div>
+              <div class="form-group">
+                <label>Telefone / WhatsApp para Notificações</label>
+                <input type="tel" class="form-input" id="profile-input-phone" value="(11) 99812-3456" maxlength="15" oninput="maskPhone(this)">
+              </div>
+            </div>
+
+            <div style="display:flex; justify-content:flex-end;">
+              <button type="submit" class="btn-primary" style="padding:0.6rem 2rem;">Salvar Informações</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ====================================================================
+       MODAL FLUTUANTE: ABRIR NOVO CHAMADO
+       ==================================================================== -->
+  <div id="new-ticket-modal" class="modal-overlay" onclick="handleTicketModalBackdrop(event)">
+    <div class="modal-box contact-modal-box" onclick="event.stopPropagation()" style="max-width:620px;">
+      
+      <div class="modal-header">
+        <div style="display:flex; align-items:center; gap:0.85rem;">
+          <div class="modal-icon-badge">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z"></path>
+              <line x1="12" y1="9" x2="12" y2="15" stroke-dasharray="2 2"></line>
+            </svg>
+          </div>
+          <div>
+            <h2 class="modal-title">Novo Chamado</h2>
+            <p class="modal-subtitle">Envie sua dúvida ou solicitação acadêmica</p>
+          </div>
+        </div>
+        <button class="close-modal-btn" onclick="closeNewTicketModal()" aria-label="Fechar">&times;</button>
+      </div>
+
+      <form id="new-ticket-modal-form" onsubmit="handleCreateTicketModalSubmit(event)">
+        <div style="display:flex; flex-direction:column; gap:1rem; padding:1.25rem 0;">
+          <div class="form-group">
+            <label>Setor / Departamento Acadêmico <span style="color:#ef4444;">*</span></label>
+            <select id="modal-ticket-category" class="form-select" required>
+              <option value="" disabled selected>Selecione o setor...</option>
+              <option value="cat-1">Secretaria Acadêmica</option>
+              <option value="cat-2">Financeiro & Bolsas</option>
+              <option value="cat-3">Suporte AVA & TI</option>
+              <option value="cat-4">Coordenação Pedagógica</option>
+              <option value="cat-5">Estágios & Carreiras</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Assunto <span style="color:#ef4444;">*</span></label>
+            <input type="text" id="modal-ticket-subject" class="form-input" placeholder="Ex: Solicitação de declaração de conclusão" required>
+          </div>
+
+          <div class="form-group">
+            <label>Descrição <span style="color:#ef4444;">*</span></label>
+            <textarea id="modal-ticket-description" class="form-input" rows="4" placeholder="Descreva sua solicitação com detalhes..." required></textarea>
+          </div>
+        </div>
+
+        <div class="modal-actions-footer">
+          <button type="button" class="btn-secondary" onclick="closeNewTicketModal()">Cancelar</button>
+          <button type="submit" class="btn-primary">Enviar Chamado</button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+
+  <!-- Toast Notification Flutuante -->
+  <div id="unidesk-toast" class="unidesk-toast">
+    <span id="toast-icon" style="font-size:1.2rem;">✓</span>
+    <span id="toast-message">Operação realizada com sucesso!</span>
+  </div>
+
+  <script src="/js/studentPortal.js"></script>
+</body>
+
+</html>

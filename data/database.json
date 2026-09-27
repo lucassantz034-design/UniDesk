@@ -1,0 +1,540 @@
+{
+  "institution": {
+    "id": "inst-1",
+    "name": "Universidade Metropolitana - UMI",
+    "tagline": "Central de Atendimento ao Aluno & Suporte Integrado",
+    "primaryColor": "#1d4ed8",
+    "secondaryColor": "#0284c7",
+    "accentColor": "#f59e0b",
+    "logoUrl": "/assets/LOGO_UD.png",
+    "aiProvider": "local_heuristic",
+    "aiApiKey": "",
+    "aiModel": "claude-3-5-sonnet",
+    "aiCustomInstructions": "Você é a Sophia, assistente virtual inteligente da UMI. Seja empática, formal e assertiva, orientando sobre matrículas, notas, prazos acadêmicos e financeiro.",
+    "licenseKey": "UNI-HOSTED-2026-BR-ACTIVE",
+    "version": "1.0.0"
+  },
+  "categories": [
+    {
+      "id": "cat-1",
+      "name": "Secretaria Acadêmica",
+      "slaHours": 24,
+      "defaultPriority": "medium",
+      "icon": "file-text"
+    },
+    {
+      "id": "cat-2",
+      "name": "Financeiro & Bolsas (FIES/Prouni)",
+      "slaHours": 12,
+      "defaultPriority": "high",
+      "icon": "dollar-sign"
+    },
+    {
+      "id": "cat-3",
+      "name": "Suporte AVA & TI (Moodle/Portal)",
+      "slaHours": 6,
+      "defaultPriority": "high",
+      "icon": "laptop"
+    },
+    {
+      "id": "cat-4",
+      "name": "Coordenação Pedagógica",
+      "slaHours": 48,
+      "defaultPriority": "low",
+      "icon": "book-open"
+    },
+    {
+      "id": "cat-5",
+      "name": "Estágios & Carreiras",
+      "slaHours": 72,
+      "defaultPriority": "low",
+      "icon": "briefcase"
+    }
+  ],
+  "users": [
+    {
+      "id": "usr-admin",
+      "name": "Prof. Dr. Roberto Guimarães",
+      "email": "admin@metropolitana.edu.br",
+      "role": "admin",
+      "department": "Diretoria de Tecnologia e Operações",
+      "avatar": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&auto=format&fit=crop&q=80"
+    },
+    {
+      "id": "usr-att-1",
+      "name": "Mariana Alencar",
+      "email": "mariana.suporte@metropolitana.edu.br",
+      "role": "attendant",
+      "department": "Secretaria Acadêmica",
+      "avatar": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&auto=format&fit=crop&q=80"
+    },
+    {
+      "id": "usr-att-2",
+      "name": "Felipe Castilho",
+      "email": "felipe.ti@metropolitana.edu.br",
+      "role": "attendant",
+      "department": "Suporte AVA & TI",
+      "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&auto=format&fit=crop&q=80"
+    },
+    {
+      "id": "usr-att-3",
+      "name": "Carla Esteves",
+      "email": "carla.financeiro@metropolitana.edu.br",
+      "role": "attendant",
+      "department": "Financeiro & Bolsas",
+      "avatar": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=80&auto=format&fit=crop&q=80"
+    },
+    {
+      "id": "usr-stu-1",
+      "name": "Enzo Gabriel Martins",
+      "email": "enzo.martins@aluno.metropolitana.edu.br",
+      "role": "student",
+      "ra": "20240189",
+      "course": "Engenharia de Software (5º Período)",
+      "avatar": "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=80&auto=format&fit=crop&q=80",
+      "phone": "(11) 98765-4321"
+    },
+    {
+      "id": "usr-stu-2",
+      "name": "Larissa Vianna Castro",
+      "email": "larissa.vianna@aluno.metropolitana.edu.br",
+      "role": "student",
+      "ra": "20230512",
+      "course": "Medicina (7º Período)",
+      "avatar": "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=80&auto=format&fit=crop&q=80",
+      "phone": "(11) 99812-3456"
+    },
+    {
+      "id": "usr-stu-3",
+      "name": "Rodrigo Sanches Lima",
+      "email": "rodrigo.sanches@aluno.metropolitana.edu.br",
+      "role": "student",
+      "ra": "20220891",
+      "course": "Direito (9º Período)",
+      "avatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&auto=format&fit=crop&q=80",
+      "phone": "(11) 97654-9870"
+    },
+    {
+      "id": "usr-stu-1790462614758",
+      "name": "Lucas Andrade Teste",
+      "email": "lucas.teste@aluno.metropolitana.edu.br",
+      "cpf": "123.456.789-00",
+      "course": "Engenharia de Software",
+      "period": "6º Período",
+      "phone": "(11) 98765-4321",
+      "role": "student",
+      "department": "Engenharia de Software",
+      "ra": "20263755",
+      "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=80&auto=format&fit=crop&q=80",
+      "createdAt": "2026-09-26T22:43:34.758Z"
+    }
+  ],
+  "knowledgeBase": [
+    {
+      "id": "kb-1",
+      "categoryId": "cat-1",
+      "title": "Como emitir a Declaração de Matrícula e Histórico Escolar",
+      "snippet": "Emita documentos oficiais autenticados digitalmente com QR Code pelo Portal do Aluno em segundos.",
+      "content": "Você pode emitir sua declaração de matrícula atualizada diretamente no Portal do Aluno:\\n\\n1. Acesse o menu lateral **Secretaria Virtual** > **Documentos Oficiais**.\\n2. Selecione 'Declaração de Matrícula com Assinatura Digital'.\\n3. O PDF será baixado imediatamente com chave de validação pública e QR Code.\\n\\n*Observação: Documentos com ementas completas de disciplinas exigem abertura de chamado específico por este helpdesk com prazo de até 5 dias úteis.*",
+      "isPublic": true,
+      "views": 342,
+      "helpfulVotes": 89
+    },
+    {
+      "id": "kb-2",
+      "categoryId": "cat-2",
+      "title": "Passo a passo para renegociação de mensalidades e aditamento Prouni/FIES",
+      "snippet": "Informações sobre prazos semestrais, boletos com desconto pontualidade e parcelamentos.",
+      "content": "Para consultar pendências ou negociar débitos:\\n\\n1. No Portal do Aluno, acesse **Financeiro** > **Renegociação Online**.\\n2. O sistema permite parcelar faturas abertas em até 12x no cartão de crédito ou boleto bancário com isenção parcial de juros de mora.\\n3. Para bolsistas Prouni ou FIES: O aditamento é 100% online no SisFIES / Portal Prouni. Após confirmar na CPSA, envie o comprovante abrindo um ticket no departamento Financeiro.",
+      "isPublic": true,
+      "views": 520,
+      "helpfulVotes": 145
+    },
+    {
+      "id": "kb-3",
+      "categoryId": "cat-3",
+      "title": "Problemas de acesso ao AVA Moodle ou Redefinição de Senha",
+      "snippet": "Resolva bloqueios de usuário, erros no aplicativo móvel e troca de credenciais de rede.",
+      "content": "Se você esqueceu sua senha do Moodle ou do e-mail acadêmico institucional:\\n\\n1. Na tela de login, clique em **Esqueci minha senha institucional**.\\n2. Insira seu RA e seu CPF cadastrado.\\n3. Um token SMS e link de recuperação serão enviados para seu e-mail pessoal cadastrado no ato da matrícula.\\n4. Caso não receba em até 10 minutos, abra um chamado no setor 'Suporte AVA & TI' informando foto do documento com foto para redefinição manual segura.",
+      "isPublic": true,
+      "views": 890,
+      "helpfulVotes": 312
+    },
+    {
+      "id": "kb-4",
+      "categoryId": "cat-1",
+      "title": "Prazos e Regras para Trancamento de Matrícula ou Transferência",
+      "snippet": "Datas limites de acordo com o calendário acadêmico oficial e condições de cancelamento.",
+      "content": "O trancamento de matrícula pode ser realizado até o 45º dia após o início oficial do semestre letivo vigente. Após esse período, o trancamento somente é aceito mediante parecer da junta médica ou justificativa legal extraordinária. Todos os débitos até o mês de solicitação devem estar regularizados.",
+      "isPublic": true,
+      "views": 215,
+      "helpfulVotes": 48
+    },
+    {
+      "id": "kb-5",
+      "categoryId": "cat-4",
+      "title": "Solicitação de Aproveitamento de Estudos e Dispensa de Disciplinas",
+      "snippet": "Documentos necessários e formulário de equivalência de carga horária para transferidos.",
+      "content": "Para pedir dispensa por equivalência de matérias cursadas em outra faculdade credenciada pelo MEC, anexe:\\n- Histórico escolar oficial assinado digitalmente\\n- Plano de ensino / Ementas autenticadas de cada disciplina\\n\\nO colegiado do curso tem prazo regimental de até 15 dias úteis para emissão do parecer acadêmico.",
+      "isPublic": true,
+      "views": 180,
+      "helpfulVotes": 35
+    }
+  ],
+  "tickets": [
+    {
+      "id": "tkt-1001",
+      "ticketNumber": 1001,
+      "studentId": "usr-stu-1",
+      "attendantId": "usr-att-1",
+      "categoryId": "cat-1",
+      "subject": "Atraso na emissão do certificado de conclusão de horas complementares",
+      "description": "Enviei 60 horas de cursos extracurriculares há mais de 20 dias úteis e ainda não constam no meu portal para liberação do TCC.",
+      "status": "resolved",
+      "priority": "high",
+      "origin": "portal",
+      "slaDueAt": "2026-09-27T14:44:11.664Z",
+      "firstResponseAt": "2026-09-26T18:44:11.665Z",
+      "resolvedAt": "2026-09-26T21:32:43.161Z",
+      "csatScore": null,
+      "createdAt": "2026-09-26T15:44:11.665Z",
+      "updatedAt": "2026-09-26T21:32:43.161Z",
+      "messages": [
+        {
+          "id": "msg-1",
+          "senderId": "usr-stu-1",
+          "senderName": "Enzo Gabriel Martins",
+          "senderRole": "student",
+          "message": "Olá! Gostaria de uma previsão, pois a coordenação informou que preciso comprovar essas 60 horas até sexta-feira para homologar minha banca de TCC.",
+          "isInternalNote": false,
+          "attachments": [
+            "comprovante_certificados_60h.pdf"
+          ],
+          "createdAt": "2026-09-26T15:44:11.665Z"
+        },
+        {
+          "id": "msg-2",
+          "senderId": "usr-att-1",
+          "senderName": "Mariana Alencar",
+          "senderRole": "attendant",
+          "message": "Boa tarde, Enzo! Verifiquei que seu lote de certificados está com o coordenador pedagógico para validação de carga horária. Já enviei uma notificação com caráter de urgência para ele liberar até amanhã de manhã.",
+          "isInternalNote": false,
+          "attachments": [],
+          "createdAt": "2026-09-26T18:44:11.665Z"
+        },
+        {
+          "id": "msg-3",
+          "senderId": "usr-att-1",
+          "senderName": "Mariana Alencar",
+          "senderRole": "attendant",
+          "message": "Nota Interna: Aluno está no último semestre com banca agendada. Prioridade máxima para evitar prejuízo de formatura.",
+          "isInternalNote": true,
+          "attachments": [],
+          "createdAt": "2026-09-26T18:44:11.665Z"
+        }
+      ]
+    },
+    {
+      "id": "tkt-1002",
+      "ticketNumber": 1002,
+      "studentId": "usr-stu-2",
+      "attendantId": "usr-att-3",
+      "categoryId": "cat-2",
+      "subject": "Boleto de mensalidade com perda indevida de bolsa mérito",
+      "description": "Meu boleto com vencimento para 05/10 veio sem o desconto de 30% da bolsa de iniciação científica concedida pelo edital 02/2026.",
+      "status": "resolved",
+      "priority": "urgent",
+      "origin": "chat_escalation",
+      "slaDueAt": "2026-09-27T04:44:11.665Z",
+      "firstResponseAt": null,
+      "resolvedAt": "2026-09-26T21:32:38.584Z",
+      "csatScore": null,
+      "createdAt": "2026-09-26T19:44:11.665Z",
+      "updatedAt": "2026-09-26T21:32:38.584Z",
+      "messages": [
+        {
+          "id": "msg-4",
+          "senderId": "usr-stu-2",
+          "senderName": "Larissa Vianna Castro",
+          "senderRole": "student",
+          "message": "Prezados, sou aluna de Medicina e o valor veio integral (R$ 9.850,00) em vez do valor com desconto concedido (R$ 6.895,00). Por favor, emitam a 2ª via corrigida antes do vencimento bancário.",
+          "isInternalNote": false,
+          "attachments": [
+            "termo_bolsa_merito_assinado.pdf"
+          ],
+          "createdAt": "2026-09-26T19:44:11.665Z"
+        }
+      ]
+    },
+    {
+      "id": "tkt-1003",
+      "ticketNumber": 1003,
+      "studentId": "usr-stu-3",
+      "attendantId": "usr-att-2",
+      "categoryId": "cat-3",
+      "subject": "Erro 403 ao tentar submeter avaliação final no Moodle",
+      "description": "Durante a prova síncrona de Direito Tributário, a página deu erro de permissão e fechou a tentativa.",
+      "status": "resolved",
+      "priority": "high",
+      "origin": "widget",
+      "slaDueAt": "2026-09-26T10:44:11.665Z",
+      "firstResponseAt": "2026-09-26T00:44:11.665Z",
+      "resolvedAt": "2026-09-26T21:32:40.146Z",
+      "csatScore": 5,
+      "createdAt": "2026-09-25T20:44:11.665Z",
+      "updatedAt": "2026-09-26T21:32:40.146Z",
+      "messages": [
+        {
+          "id": "msg-5",
+          "senderId": "usr-stu-3",
+          "senderName": "Rodrigo Sanches Lima",
+          "senderRole": "student",
+          "message": "Estava na questão 8 quando o sistema travou com tela branca e 'Erro 403'. Perdi 15 minutos de prova.",
+          "isInternalNote": false,
+          "attachments": [],
+          "createdAt": "2026-09-25T20:44:11.665Z"
+        },
+        {
+          "id": "msg-6",
+          "senderId": "usr-att-2",
+          "senderName": "Felipe Castilho",
+          "senderRole": "attendant",
+          "message": "Olá Rodrigo! Identificamos uma oscilação momentânea no servidor da aplicação do Moodle. Já restauramos seu rascunho de respostas e adicionamos 30 minutos extras à sua janela de submissão.",
+          "isInternalNote": false,
+          "attachments": [],
+          "createdAt": "2026-09-26T00:44:11.665Z"
+        },
+        {
+          "id": "msg-7",
+          "senderId": "usr-stu-3",
+          "senderName": "Rodrigo Sanches Lima",
+          "senderRole": "student",
+          "message": "Consegui finalizar e enviar com sucesso! Muito obrigado pelo atendimento ágil.",
+          "isInternalNote": false,
+          "attachments": [],
+          "createdAt": "2026-09-26T12:44:11.665Z"
+        }
+      ]
+    }
+  ],
+  "chatSessions": [
+    {
+      "id": "chat-sess-1790458315963",
+      "studentId": "usr-stu-1",
+      "studentName": "Aluno",
+      "department": "Geral",
+      "status": "bot",
+      "createdAt": "2026-09-26T21:31:55.963Z",
+      "messages": [
+        {
+          "id": "cmsg-1790458315963",
+          "sender": "bot",
+          "senderName": "Sophia (IA UMI)",
+          "text": "Olá! Como posso ajudar você hoje?",
+          "timestamp": "2026-09-26T21:31:55.963Z"
+        }
+      ]
+    },
+    {
+      "id": "chat-sess-1790458234608",
+      "studentId": "usr-stu-1",
+      "studentName": "Aluno",
+      "department": "Geral",
+      "status": "bot",
+      "createdAt": "2026-09-26T21:30:34.608Z",
+      "messages": [
+        {
+          "id": "cmsg-1790458234608",
+          "sender": "bot",
+          "senderName": "Sophia (IA UMI)",
+          "text": "Olá! Como posso ajudar você hoje?",
+          "timestamp": "2026-09-26T21:30:34.608Z"
+        }
+      ]
+    },
+    {
+      "id": "chat-sess-1790458231733",
+      "studentId": "usr-stu-1",
+      "studentName": "Aluno",
+      "department": "Geral",
+      "status": "bot",
+      "createdAt": "2026-09-26T21:30:31.733Z",
+      "messages": [
+        {
+          "id": "cmsg-1790458231733",
+          "sender": "bot",
+          "senderName": "Sophia (IA UMI)",
+          "text": "Olá! Como posso ajudar você hoje?",
+          "timestamp": "2026-09-26T21:30:31.733Z"
+        }
+      ]
+    },
+    {
+      "id": "chat-sess-1790458070834",
+      "studentId": "usr-stu-1",
+      "studentName": "Aluno",
+      "department": "Geral",
+      "status": "bot",
+      "createdAt": "2026-09-26T21:27:50.834Z",
+      "messages": [
+        {
+          "id": "cmsg-1790458070834",
+          "sender": "bot",
+          "senderName": "Sophia (IA UMI)",
+          "text": "Olá! Como posso ajudar você hoje?",
+          "timestamp": "2026-09-26T21:27:50.834Z"
+        }
+      ]
+    },
+    {
+      "id": "chat-sess-1790455791026",
+      "studentId": "usr-stu-1",
+      "studentName": "Enzo Gabriel Martins",
+      "studentRa": "20240189",
+      "attendantId": null,
+      "status": "bot",
+      "department": "Geral",
+      "createdAt": "2026-09-26T20:49:51.026Z",
+      "messages": [
+        {
+          "id": "cmsg-1790455791026",
+          "sender": "bot",
+          "senderName": "Universidade Bot",
+          "text": "Olá Enzo Gabriel Martins! Sou o assistente virtual inteligente da Universidade Metropolitana - UMI. Como posso ajudar seus estudos hoje?",
+          "timestamp": "2026-09-26T20:49:51.026Z"
+        }
+      ]
+    },
+    {
+      "id": "chat-sess-1790455704653",
+      "studentId": "usr-stu-3",
+      "studentName": "Rodrigo Sanches Lima",
+      "studentRa": "20220891",
+      "attendantId": null,
+      "status": "bot",
+      "department": "Geral",
+      "createdAt": "2026-09-26T20:48:24.653Z",
+      "messages": [
+        {
+          "id": "cmsg-1790455704653",
+          "sender": "bot",
+          "senderName": "Universidade Bot",
+          "text": "Olá Rodrigo Sanches Lima! Sou o assistente virtual inteligente da Universidade Metropolitana - UMI. Como posso ajudar seus estudos hoje?",
+          "timestamp": "2026-09-26T20:48:24.653Z"
+        }
+      ]
+    },
+    {
+      "id": "chat-sess-1790455702142",
+      "studentId": "usr-stu-2",
+      "studentName": "Larissa Vianna Castro",
+      "studentRa": "20230512",
+      "attendantId": null,
+      "status": "bot",
+      "department": "Geral",
+      "createdAt": "2026-09-26T20:48:22.142Z",
+      "messages": [
+        {
+          "id": "cmsg-1790455702142",
+          "sender": "bot",
+          "senderName": "Universidade Bot",
+          "text": "Olá Larissa Vianna Castro! Sou o assistente virtual inteligente da Universidade Metropolitana - UMI. Como posso ajudar seus estudos hoje?",
+          "timestamp": "2026-09-26T20:48:22.142Z"
+        }
+      ]
+    },
+    {
+      "id": "chat-sess-1790455690292",
+      "studentId": "usr-stu-1",
+      "studentName": "Enzo Gabriel Martins",
+      "studentRa": "20240189",
+      "attendantId": null,
+      "status": "bot",
+      "department": "Geral",
+      "createdAt": "2026-09-26T20:48:10.292Z",
+      "messages": [
+        {
+          "id": "cmsg-1790455690292",
+          "sender": "bot",
+          "senderName": "Universidade Bot",
+          "text": "Olá Enzo Gabriel Martins! Sou o assistente virtual inteligente da Universidade Metropolitana - UMI. Como posso ajudar seus estudos hoje?",
+          "timestamp": "2026-09-26T20:48:10.292Z"
+        }
+      ]
+    },
+    {
+      "id": "chat-sess-1",
+      "studentId": "usr-stu-1",
+      "studentName": "Enzo Gabriel Martins",
+      "studentRa": "20240189",
+      "attendantId": "usr-att-1",
+      "status": "live",
+      "department": "Secretaria Acadêmica",
+      "createdAt": "2026-09-26T20:29:11.665Z",
+      "messages": [
+        {
+          "id": "cmsg-1",
+          "sender": "bot",
+          "senderName": "Sophia (IA UMI)",
+          "text": "Olá Enzo! Como posso te ajudar hoje?",
+          "timestamp": "2026-09-26T20:29:11.665Z"
+        },
+        {
+          "id": "cmsg-2",
+          "sender": "student",
+          "senderName": "Enzo Gabriel",
+          "text": "Preciso falar urgente com a Mariana sobre o ticket #1001 das minhas horas de TCC.",
+          "timestamp": "2026-09-26T20:30:11.665Z"
+        },
+        {
+          "id": "cmsg-3",
+          "sender": "bot",
+          "senderName": "Sophia (IA UMI)",
+          "text": "Entendi! O chamado #1001 está em andamento. Transferindo agora para a atendente Mariana Alencar com prioridade alta.",
+          "timestamp": "2026-09-26T20:31:11.665Z"
+        },
+        {
+          "id": "cmsg-4",
+          "sender": "attendant",
+          "senderName": "Mariana Alencar",
+          "text": "Oi Enzo, estou acompanhando seu chamado aqui na tela! Já falei com o Prof. Arnaldo e ele está assinando a ata agora mesmo.",
+          "timestamp": "2026-09-26T20:39:11.665Z"
+        }
+      ]
+    }
+  ],
+  "aiStudentContexts": {
+    "usr-stu-1": {
+      "summary": "Aluno de Engenharia de Software no último ano (5º período). Histórico de bom desempenho acadêmico. Abriu 2 chamados no último mês relacionados à homologação de TCC e certificação de horas complementares. Bastante ansioso pelo prazo de formatura.",
+      "pointsOfAttention": [
+        "Aguardando liberação de 60 horas complementares para homologação de banca de TCC.",
+        "Prazo final estipulado pelo colegiado encerra nesta sexta-feira.",
+        "Já entrou em contato via chat e ticket sobre o mesmo tema."
+      ],
+      "sentiment": "Ansioso / Preocupado",
+      "sentimentScore": "warning",
+      "recommendedAction": "Agilizar comunicação direta com o Coordenador Prof. Arnaldo e confirmar validação formal antes de sexta-feira para evitar atrito acadêmico."
+    },
+    "usr-stu-2": {
+      "summary": "Aluna de Medicina (7º período), bolsista de Iniciação Científica (edital 02/2026). É o primeiro chamado aberto no ano. Reclamação estritamente financeira referente à omissão do desconto de 30% em seu boleto mensal.",
+      "pointsOfAttention": [
+        "Boleto de alto valor (R$ 9.850,00) com vencimento próximo (dia 05).",
+        "Risco de cobrança de juros e constrangimento financeiro indevido.",
+        "Possui o termo de concessão devidamente assinado."
+      ],
+      "sentiment": "Insatisfeita / Exigente",
+      "sentimentScore": "critical",
+      "recommendedAction": "Solicitar ao setor de Faturamento a retificação imediata do lote no banco com prorrogação da data de vencimento sem encargos."
+    },
+    "usr-stu-3": {
+      "summary": "Aluno de Direito (9º período). Usuário frequente dos canais de suporte técnico. Todos os chamados anteriores foram resolvidos dentro do prazo de SLA.",
+      "pointsOfAttention": [
+        "Nenhuma pendência financeira ou acadêmica em aberto.",
+        "Histórico de avaliações CSAT muito positivas (média 4.9)."
+      ],
+      "sentiment": "Tranquilo / Satisfeito",
+      "sentimentScore": "positive",
+      "recommendedAction": "Manter padrão de atendimento ágil pelo canal habitual."
+    }
+  }
+}

@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  unidesk:
+    build: .
+    container_name: unidesk_core
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - LICENSE_KEY=${LICENSE_KEY:-UNI-HOSTED-2026-BR-ACTIVE}
+    volumes:
+      - ./data:/app/data
+      - ./database:/app/database
+
+  # Serviço opcional de PostgreSQL para faculdades que utilizam banco externo
+  postgres:
+    image: postgres:16-alpine
+    container_name: unidesk_postgres
+    restart: unless-stopped
+    profiles: ["postgres"]
+    environment:
+      POSTGRES_DB: unidesk_db
+      POSTGRES_USER: unidesk_user
+      POSTGRES_PASSWORD: unidesk_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - unidesk_pgdata:/var/lib/postgresql/data
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/01_schema.sql
+      - ./database/seeds.sql:/docker-entrypoint-initdb.d/02_seeds.sql
+
+volumes:
+  unidesk_pgdata:
