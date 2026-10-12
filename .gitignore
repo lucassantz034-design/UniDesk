@@ -17,3 +17,8 @@ Thumbs.db
 # IDEs
 .vscode/
 .idea/
+
+# Binários e compilações
+*.exe
+unidesk-server
+

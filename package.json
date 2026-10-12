@@ -1,27 +1,25 @@
 {
   "name": "unidesk",
-  "version": "1.0.0",
-  "description": "Unidesk — Helpdesk Universitário Inteligente Self-Hosted",
-  "main": "server.js",
+  "version": "2.0.0",
+  "description": "Unidesk — Helpdesk Universitário Inteligente Self-Hosted (Go API + React)",
   "type": "module",
   "scripts": {
-    "start": "node server.js",
-    "dev": "node server.js"
+    "start": "node -e \"const { spawn } = require('child_process'); spawn('.\\\\backend\\\\unidesk-server.exe', { stdio: 'inherit', shell: true });\"",
+    "build:frontend": "npm --prefix frontend run build",
+    "build:backend": "cd backend && go build -o unidesk-server.exe main.go",
+    "build": "npm run build:frontend && npm run build:backend",
+    "dev:backend": "cd backend && go run main.go",
+    "dev:frontend": "npm --prefix frontend run dev"
   },
   "keywords": [
     "helpdesk",
     "universidade",
     "self-hosted",
+    "golang",
+    "react",
     "ia",
-    "chatbot",
-    "suporte"
+    "chatbot"
   ],
   "author": "Unidesk Team",
-  "license": "MIT",
-  "dependencies": {
-    "cors": "^2.8.5",
-    "dotenv": "^16.4.7",
-    "express": "^4.21.2",
-    "ws": "^8.18.0"
-  }
+  "license": "MIT"
 }

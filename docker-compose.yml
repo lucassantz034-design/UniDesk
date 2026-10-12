@@ -8,7 +8,6 @@ services:
     ports:
       - "3000:3000"
     environment:
-      - NODE_ENV=production
       - PORT=3000
       - LICENSE_KEY=${LICENSE_KEY:-UNI-HOSTED-2026-BR-ACTIVE}
     volumes:

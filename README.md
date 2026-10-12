@@ -1,49 +1,101 @@
-# 🎓 Unidesk — Helpdesk Universitário Inteligente (Self-Hosted)
+# 🎓 Unidesk — Helpdesk Universitário Inteligente (Go + React)
 
-> Sistema de Helpdesk e Atendimento Acadêmico desenhado sob medida para Instituições de Ensino Superior, com isolamento total por faculdade, IA contextual e chat em tempo real.
+> Sistema de Helpdesk e Atendimento Acadêmico desenhado sob medida para Instituições de Ensino Superior, reescrito com arquitetura de alta performance: **Go (API REST & WebSockets)** + **React (SPA moderna)**.
 
 ---
 
 ## 🌟 Destaques da Solução
 
-- 🏛️ **Modelo Self-Hosted Isolado**: Cada faculdade hospeda sua própria instância. Sem compartilhamento de banco de dados, garantindo conformidade total com a LGPD e soberania de dados.
-- 🎨 **White-Label & Branding Dinâmico com Live Preview**: Personalização em tempo real de cores, nomes, logotipos e textos institucionais.
-- 🪄 **Card de Contexto do Aluno com IA**: Durante o atendimento, o operador visualiza um resumo executivo do histórico acadêmico do aluno, pontos de atenção recorrentes (como atraso de horas complementares ou bolsa financeira) e análise de sentimento.
-- 💬 **Chatbot Sophia com Escalonamento Inteligente**: Primeira linha de atendimento automatizada com consulta à Base de Conhecimento (FAQ) e transferência assistida para atendente humano.
-- 🔌 **Widget de Chat Embutível (`unidesk-chat.js`)**: Injeção em qualquer portal da faculdade (Portal do Aluno, AVA Moodle, site institucional) com apenas 1 linha de script.
-- 📊 **Console Administrativo com Métricas & SLAs**: Monitoramento em tempo real de volume de chamados, taxa de cumprimento de SLA, tempo médio de primeira resposta e índice CSAT.
+- ⚡ **Backend em Go (Golang)**: API REST ultrarrápida, de baixo consumo de memória, com WebSocket nativo e persistência híbrida (SQLite Relacional + JSON).
+- ⚛️ **Frontend em React + Vite**: Interface moderna, responsiva, com troca dinâmica de perfis (Aluno, Atendente, Administrador) e temas dinâmicos em tempo real.
+- 🎨 **White-Label & Branding Dinâmico com Live Preview**: Personalização instantânea de cores (primária, secundária, destaque), nomes, logotipos e textos institucionais.
+- 🪄 **Card de Contexto do Aluno com IA**: Durante o atendimento, o técnico visualiza resumo do histórico acadêmico do aluno, pontos de atenção críticos (bolsas, atrasos) e análise de sentimento.
+- 💬 **Chatbot Sophia com Escalonamento Inteligente**: Primeira linha de atendimento automatizada com consulta à Base de Conhecimento (FAQ) e transferência para atendente humano.
+- 📊 **Console Administrativo & Governança**: Gestão de usuários (soft-delete, reset de senhas com invalidação de sessão), logs de auditoria (`logs_admin`) e telemetria anônima de licenciamento.
 
 ---
 
-## 🚀 Como Executar Localmente
+## 📁 Estrutura do Projeto
 
-### Pré-requisitos
-- Node.js 18+ instalado.
-
-### 1. Iniciar o servidor
-```bash
-npm start
 ```
-O servidor inicializará em `http://localhost:3000`.
-
-### 2. Acessar os Módulos do Sistema
-- **Portal do Aluno**: [http://localhost:3000/aluno](http://localhost:3000/aluno)
-- **Painel do Atendente (com IA Context)**: [http://localhost:3000/atendente](http://localhost:3000/atendente)
-- **Painel do Administrador (Branding & Métricas)**: [http://localhost:3000/admin](http://localhost:3000/admin)
-- **Widget de Chat**: [http://localhost:3000/widget/unidesk-chat.js](http://localhost:3000/widget/unidesk-chat.js)
-
----
-
-## 🐳 Deploy via Docker Compose
-
-Para subir a instância completa em produção na infraestrutura da universidade:
-
-```bash
-docker compose up -d
+UniDesk/
+├── backend/                  # API REST & WebSocket Gateway em Go
+│   ├── cmd/ or main.go       # Ponto de entrada do servidor Go
+│   ├── internal/
+│   │   ├── api/              # Handlers HTTP REST & CORS
+│   │   ├── db/               # Integração SQLite & persistência JSON
+│   │   ├── ai/               # Sophia IA & Card de Contexto do Aluno
+│   │   ├── ws/               # Hub de WebSocket em tempo real
+│   │   └── models/           # Estruturas de dados (Users, Tickets, Config)
+│   ├── go.mod & go.sum       # Módulo Go 1.23+
+│   └── unidesk-server.exe    # Binário compilado de alta performance
+│
+├── frontend/                 # Frontend SPA em React 18 + Vite
+│   ├── src/
+│   │   ├── components/       # Header, ChatWidget, Modais
+│   │   ├── pages/            # StudentPortal, AttendantPortal, AdminPortal
+│   │   ├── services/         # api.js e websocket.js
+│   │   └── styles/           # CSS com suporte a temas dinâmicos
+│   ├── package.json & vite   # Configurações do Vite e React
+│   └── dist/                 # Build de produção otimizado para o Go servir
+│
+├── data/                     # Dados persistidos (unidesk.db e database.json)
+├── database/                 # Especificação relacional, DDLs e seeds
+├── Dockerfile                # Multi-stage build (Node build -> Go build -> Alpine)
+├── docker-compose.yml        # Deploy conteinerizado
+├── start.bat & start.ps1     # Scripts de inicialização rápida no Windows
+└── package.json              # Scripts npm unificados
 ```
 
 ---
 
-## 🔒 Licenciamento & Telemetria Anônima
+## 🚀 Como Executar
 
-A instância valida periodicamente o status da licença através de um heartbeat anônimo para o servidor central, transmitindo apenas métricas operacionais agregadas (sem nenhum PII ou dado pessoal de alunos).
+### 1. Inicialização Rápida no Windows (Recomendado)
+Basta dar duplo clique em:
+```cmd
+start.bat
+```
+Ou executar no PowerShell:
+```powershell
+.\start.ps1
+```
+
+O servidor Go inicializará na porta **3000** servindo tanto a API quanto o frontend React compilado.
+
+### 2. Acessar a Aplicação
+Abra no navegador:
+- 🎓 **Portal do Aluno**: [http://localhost:3000/aluno](http://localhost:3000/aluno)
+- 🎧 **Painel do Atendente (com IA Context)**: [http://localhost:3000/atendente](http://localhost:3000/atendente)
+- ⚙️ **Painel Administrativo**: [http://localhost:3000/admin](http://localhost:3000/admin)
+- 📡 **Healthcheck da API Go**: [http://localhost:3000/api/health](http://localhost:3000/api/health)
+
+---
+
+## 🛠️ Modo de Desenvolvimento
+
+Se você quiser rodar o backend e o frontend separadamente com **Hot-Reloading (HMR)** do Vite:
+
+### Terminal 1: Backend Go
+```bash
+cd backend
+go run main.go
+```
+*(Inicia a API e WebSocket em `http://localhost:8080`)*
+
+### Terminal 2: Frontend React
+```bash
+cd frontend
+npm run dev
+```
+*(Inicia o Vite em `http://localhost:5173`, já com proxy configurado para a API Go)*
+
+---
+
+## 🐳 Executando com Docker
+
+Para subir a instância completa em produção:
+
+```bash
+docker compose up -d --build
+```
