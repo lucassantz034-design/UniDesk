@@ -4,6 +4,26 @@ import { AIService } from '../aiService.js';
 
 export const apiRouter = express.Router();
 
+function emitEvent(req, payload) {
+  const broadcast = req.app?.get('broadcastWS');
+  if (typeof broadcast === 'function') {
+    broadcast(payload);
+  }
+}
+
+// Health check & Telemetry status
+apiRouter.get('/health', (req, res) => {
+  const cfg = db.getConfig();
+  res.json({
+    status: 'ok',
+    engine: 'Node.js (Express + SQLite)',
+    instance: cfg ? cfg.name : 'UniDesk',
+    version: cfg ? cfg.version : '2.0.0',
+    uptimeSeconds: Math.floor(process.uptime()),
+    timestamp: new Date().toISOString()
+  });
+});
+
 // Institution & Branding Configuration
 apiRouter.get('/config', (req, res) => {
   res.json(db.getConfig());
@@ -105,6 +125,12 @@ apiRouter.post('/tickets', (req, res) => {
     attachments: attachments || []
   });
 
+  emitEvent(req, {
+    type: 'TICKET_UPDATE',
+    action: 'created',
+    ticket: created
+  });
+
   res.status(201).json(created);
 });
 
@@ -122,6 +148,13 @@ apiRouter.post('/tickets/:id/messages', (req, res) => {
   });
 
   if (!msg) return res.status(404).json({ error: "Chamado não encontrado" });
+
+  emitEvent(req, {
+    type: 'CHAT_MESSAGE',
+    ticketId: req.params.id,
+    message: msg
+  });
+
   res.status(201).json(msg);
 });
 
@@ -131,6 +164,13 @@ apiRouter.patch('/tickets/:id/status', (req, res) => {
 
   const updated = db.updateTicketStatus(req.params.id, status, csatScore);
   if (!updated) return res.status(404).json({ error: "Chamado não encontrado" });
+
+  emitEvent(req, {
+    type: 'TICKET_UPDATE',
+    action: 'status_change',
+    ticket: updated
+  });
+
   res.json(updated);
 });
 
@@ -194,6 +234,13 @@ apiRouter.post('/chat/:id/messages', async (req, res) => {
     });
   }
 
+  emitEvent(req, {
+    type: 'CHAT_MESSAGE',
+    sessionId: req.params.id,
+    userMessage: userMsg,
+    botReply
+  });
+
   res.json({
     userMessage: userMsg,
     botReply,
@@ -205,23 +252,20 @@ apiRouter.post('/chat/:id/escalate', (req, res) => {
   const { department } = req.body;
   const session = db.escalateChatSession(req.params.id, department);
   if (!session) return res.status(404).json({ error: "Sessão não encontrada" });
+
+  emitEvent(req, {
+    type: 'CHAT_MESSAGE',
+    sessionId: req.params.id,
+    action: 'escalated',
+    department
+  });
+
   res.json(session);
 });
 
 // Admin Metrics
 apiRouter.get('/admin/metrics', (req, res) => {
   res.json(db.getMetrics());
-});
-
-// Healthcheck & Telemetry
-apiRouter.get('/health', (req, res) => {
-  res.json({
-    status: "ok",
-    instance: db.getConfig().name,
-    version: db.getConfig().version,
-    uptimeSeconds: Math.floor(process.uptime()),
-    timestamp: new Date().toISOString()
-  });
 });
 
 apiRouter.post('/telemetry/heartbeat', (req, res) => {

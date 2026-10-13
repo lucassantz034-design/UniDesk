@@ -246,29 +246,39 @@ export class Database {
 
   getUsers(role = null) {
     if (this.sqlite) {
-      let query = 'SELECT * FROM vw_usuarios_por_role';
-      if (role) {
-        query += ` WHERE role = '${role}'`;
+      try {
+        let query = 'SELECT * FROM vw_usuarios_por_role';
+        const params = [];
+        if (role) {
+          query += ' WHERE role = ?';
+          params.push(role);
+        }
+        const rows = this.sqlite.prepare(query).all(...params);
+        return rows.map(r => ({
+          id: r.id,
+          name: r.nome_completo,
+          email: r.email,
+          cpf: r.cpf,
+          role: r.role,
+          ativo: !!r.ativo,
+          department: r.especialidade || r.cargo_admin_faculdade || 'Graduação',
+          ra: r.matricula,
+          course: r.curso,
+          avatar: r.role === 'aluno'
+            ? "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=80"
+            : r.role === 'tecnico'
+            ? "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80"
+            : "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80"
+        }));
+      } catch (err) {
+        console.warn('Fallback para usuarios JSON devido a erro SQLite:', err.message);
       }
-      const rows = this.sqlite.prepare(query).all();
-      return rows.map(r => ({
-        id: r.id,
-        name: r.nome_completo,
-        email: r.email,
-        cpf: r.cpf,
-        role: r.role,
-        ativo: !!r.ativo,
-        department: r.especialidade || r.cargo_admin_faculdade || 'Graduação',
-        ra: r.matricula,
-        course: r.curso,
-        avatar: r.role === 'aluno'
-          ? "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=80"
-          : r.role === 'tecnico'
-          ? "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80"
-          : "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80"
-      }));
     }
-    return this.jsonData.users || [];
+    const users = this.jsonData.users || [];
+    if (role) {
+      return users.filter(u => u.role === role || (role === 'aluno' && u.role === 'student'));
+    }
+    return users;
   }
 
   addUser(userData) {
@@ -329,7 +339,27 @@ export class Database {
   }
 
   getTickets(filters = {}) {
-    return this.jsonData.tickets || [];
+    let tickets = this.jsonData.tickets || [];
+    if (filters.studentId) {
+      tickets = tickets.filter(t => t.studentId === filters.studentId);
+    }
+    if (filters.attendantId) {
+      tickets = tickets.filter(t => t.attendantId === filters.attendantId);
+    }
+    if (filters.status && filters.status !== 'all') {
+      const s = filters.status.toLowerCase();
+      tickets = tickets.filter(t => {
+        const ts = (t.status || '').toLowerCase();
+        if (s === 'open' || s === 'aberto') return ts === 'open' || ts === 'aberto';
+        if (s === 'in_progress' || s === 'em_atendimento') return ts === 'in_progress' || ts === 'em_atendimento';
+        if (s === 'resolved' || s === 'finalizado') return ts === 'resolved' || ts === 'finalizado';
+        return ts === s;
+      });
+    }
+    if (filters.categoryId) {
+      tickets = tickets.filter(t => t.categoryId === filters.categoryId);
+    }
+    return tickets;
   }
 
   getTicketById(id) {
@@ -491,7 +521,19 @@ export class Database {
   }
 
   getKnowledgeBase(query = null, categoryId = null) {
-    return this.jsonData.knowledgeBase || [];
+    let items = this.jsonData.knowledgeBase || [];
+    if (categoryId) {
+      items = items.filter(item => item.categoryId === categoryId);
+    }
+    if (query && typeof query === 'string' && query.trim()) {
+      const q = query.trim().toLowerCase();
+      items = items.filter(item =>
+        (item.title && item.title.toLowerCase().includes(q)) ||
+        (item.content && item.content.toLowerCase().includes(q)) ||
+        (Array.isArray(item.tags) && item.tags.some(t => t.toLowerCase().includes(q)))
+      );
+    }
+    return items;
   }
 
   getAIStudentContext(studentId) {

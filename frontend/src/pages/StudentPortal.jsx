@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { api } from '../services/api';
+import { wsService } from '../services/websocket';
 import {
   PlusCircle,
   Search,
@@ -41,7 +42,7 @@ export default function StudentPortal({ config, studentUser, onOpenChatWidget })
 
   const studentId = studentUser?.id || 'usr-stu-2';
 
-  const loadData = async () => {
+  const loadData = useCallback(async () => {
     try {
       const [allTickets, cats, faqs] = await Promise.all([
         api.getTickets({ studentId }),
@@ -57,11 +58,35 @@ export default function StudentPortal({ config, studentUser, onOpenChatWidget })
     } catch (err) {
       console.error('Erro ao carregar dados do aluno:', err);
     }
-  };
+  }, [studentId, newCategory]);
 
   useEffect(() => {
     loadData();
-  }, [studentId]);
+
+    const unsubscribe = wsService.subscribe((msg) => {
+      if (msg.type === 'TICKET_UPDATE') {
+        loadData();
+        if (msg.ticket && selectedTicket && msg.ticket.id === selectedTicket.id) {
+          setSelectedTicket((prev) => (prev ? { ...prev, ...msg.ticket } : prev));
+        }
+      } else if (msg.type === 'CHAT_MESSAGE' && msg.ticketId) {
+        if (selectedTicket && selectedTicket.id === msg.ticketId) {
+          setSelectedTicket((prev) => {
+            if (!prev) return prev;
+            const exists = prev.messages?.some((m) => m.id === msg.message?.id);
+            if (exists) return prev;
+            return {
+              ...prev,
+              messages: [...(prev.messages || []), msg.message]
+            };
+          });
+        }
+        loadData();
+      }
+    });
+
+    return () => unsubscribe();
+  }, [loadData, selectedTicket?.id]);
 
   // Refresh single ticket if open
   const refreshSelectedTicket = async (ticketId) => {

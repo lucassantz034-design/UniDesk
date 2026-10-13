@@ -109,7 +109,7 @@ export default function App() {
       />
 
       {/* Main View Module */}
-      <main style={{ flex: 1, paddingBottom: '3rem' }}>
+      <main style={{ flex: 1, paddingBottom: activeTab === 'atendente' ? 0 : '3rem', display: 'flex', flexDirection: 'column' }}>
         {activeTab === 'aluno' && (
           <StudentPortal
             config={config}

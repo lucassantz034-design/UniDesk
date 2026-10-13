@@ -183,6 +183,46 @@
   ],
   "tickets": [
     {
+      "id": "tkt-1004",
+      "ticketNumber": 1004,
+      "studentId": "usr-alu-1",
+      "attendantId": "usr-tec-1",
+      "categoryId": "cat-2",
+      "subject": "teste",
+      "description": "teste",
+      "status": "resolved",
+      "priority": "medium",
+      "origin": "portal",
+      "slaDueAt": "2026-10-14T00:22:43.871Z",
+      "firstResponseAt": null,
+      "resolvedAt": "2026-10-13T00:23:16.114Z",
+      "csatScore": null,
+      "createdAt": "2026-10-13T00:22:43.871Z",
+      "updatedAt": "2026-10-13T00:23:16.114Z",
+      "messages": [
+        {
+          "id": "msg-1791850963871",
+          "senderId": "usr-alu-1",
+          "senderName": "Aluno",
+          "senderRole": "student",
+          "message": "teste",
+          "isInternalNote": false,
+          "attachments": [],
+          "createdAt": "2026-10-13T00:22:43.871Z"
+        },
+        {
+          "id": "msg-1791850967479",
+          "senderId": "usr-alu-1",
+          "senderName": "Enzo Gabriel Martins",
+          "senderRole": "aluno",
+          "message": "teste",
+          "isInternalNote": false,
+          "attachments": [],
+          "createdAt": "2026-10-13T00:22:47.479Z"
+        }
+      ]
+    },
+    {
       "id": "tkt-1001",
       "ticketNumber": 1001,
       "studentId": "usr-stu-1",
@@ -318,6 +358,54 @@
     }
   ],
   "chatSessions": [
+    {
+      "id": "chat-sess-1791851049466",
+      "studentId": "usr-alu-1",
+      "studentName": "Aluno",
+      "department": "Geral",
+      "status": "bot",
+      "createdAt": "2026-10-13T00:24:09.466Z",
+      "messages": [
+        {
+          "id": "cmsg-1791851049466",
+          "sender": "bot",
+          "senderName": "Sophia (IA UMI)",
+          "text": "Olá! Como posso ajudar você hoje?",
+          "timestamp": "2026-10-13T00:24:09.466Z"
+        }
+      ]
+    },
+    {
+      "id": "chat-sess-1791850923099",
+      "studentId": "usr-alu-1",
+      "studentName": "Aluno",
+      "department": "Secretaria Acadêmica",
+      "status": "waiting_agent",
+      "createdAt": "2026-10-13T00:22:03.099Z",
+      "messages": [
+        {
+          "id": "cmsg-1791850923099",
+          "sender": "bot",
+          "senderName": "Sophia (IA UMI)",
+          "text": "Olá! Como posso ajudar você hoje?",
+          "timestamp": "2026-10-13T00:22:03.099Z"
+        },
+        {
+          "id": "cmsg-1791850925668",
+          "sender": "student",
+          "senderName": "Enzo Gabriel Martins",
+          "text": "ola",
+          "timestamp": "2026-10-13T00:22:05.668Z"
+        },
+        {
+          "id": "cmsg-1791850925669",
+          "sender": "bot",
+          "senderName": "Universidade Bot",
+          "text": "Com base nas normas da **Universidade Metropolitana - UMI**, encontrei a seguinte orientação:\\n\\n### Como emitir a Declaração de Matrícula e Histórico Escolar\\n\\nVocê pode emitir sua declaração de matrícula atualizada diretamente no Portal do Aluno:\n\n1. Acesse o menu lateral **Secretaria Virtual** > **Documentos Oficiais**.\n2. Selecione 'Declaração de Matrícula com Assinatura Digital'.\n3. O PDF será baixado imediatamente com chave de validação pública e QR Code.\n\n*Observação: Documentos com ementas completas de disciplinas exigem abertura de chamado específico por este helpdesk com prazo de até 5 dias úteis.*\\n\\n*Essa resposta tirou sua dúvida ou você gostaria de falar com um atendente humano?*",
+          "timestamp": "2026-10-13T00:22:05.669Z"
+        }
+      ]
+    },
     {
       "id": "chat-sess-1790458315963",
       "studentId": "usr-stu-1",
@@ -535,6 +623,17 @@
       "sentiment": "Tranquilo / Satisfeito",
       "sentimentScore": "positive",
       "recommendedAction": "Manter padrão de atendimento ágil pelo canal habitual."
+    },
+    "usr-alu-1": {
+      "summary": "Aluno de Engenharia de Software (5º Período) (RA: 20240189). Registrou um total de 4 chamados no sistema. Atualmente com 1 chamados ativos.",
+      "pointsOfAttention": [
+        "Possui 1 chamados simultâneos aguardando tratativa.",
+        "Histórico recente de dúvidas financeiras ou validação de bolsa.",
+        "Assunto crítico para conclusão ou regularidade de semestre acadêmico."
+      ],
+      "sentiment": "Ansioso / Preocupado com Prazos",
+      "sentimentScore": "warning",
+      "recommendedAction": "Priorizar resolução coordenada para evitar reincidência de contatos."
     }
   }
 }

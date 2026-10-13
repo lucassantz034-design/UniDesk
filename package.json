@@ -4,18 +4,24 @@
   "description": "Unidesk — Helpdesk Universitário Inteligente Self-Hosted (Go API + React)",
   "type": "module",
   "scripts": {
-    "start": "node -e \"const { spawn } = require('child_process'); spawn('.\\\\backend\\\\unidesk-server.exe', { stdio: 'inherit', shell: true });\"",
+    "start": "node server.js",
+    "start:go": "node -e \"const { spawn } = require('child_process'); spawn('.\\\\backend\\\\unidesk-server.exe', { stdio: 'inherit', shell: true });\"",
     "build:frontend": "npm --prefix frontend run build",
     "build:backend": "cd backend && go build -o unidesk-server.exe main.go",
-    "build": "npm run build:frontend && npm run build:backend",
+    "build": "npm run build:frontend",
     "dev:backend": "cd backend && go run main.go",
     "dev:frontend": "npm --prefix frontend run dev"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "ws": "^8.18.0"
   },
   "keywords": [
     "helpdesk",
     "universidade",
     "self-hosted",
-    "golang",
     "react",
     "ia",
     "chatbot"

@@ -7,5 +7,8 @@ Write-Host "Portal do Aluno:       http://localhost:3000/aluno" -ForegroundColor
 Write-Host "Painel do Atendente:   http://localhost:3000/atendente" -ForegroundColor Gray
 Write-Host "Painel Administrativo: http://localhost:3000/admin" -ForegroundColor Gray
 Write-Host "Pressione Ctrl+C para encerrar.`n" -ForegroundColor DarkGray
-
-& ".\backend\unidesk-server.exe"
+if (Test-Path ".\backend\unidesk-server.exe") {
+    & ".\backend\unidesk-server.exe"
+} else {
+    node server.js
+}
