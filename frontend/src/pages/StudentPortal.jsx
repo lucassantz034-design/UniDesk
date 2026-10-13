@@ -16,7 +16,7 @@ import {
   Bot
 } from 'lucide-react';
 
-export default function StudentPortal({ config, studentUser, onOpenChatWidget }) {
+export default function StudentPortal({ config, studentUser, onOpenChatWidget, onLogout }) {
   const [tickets, setTickets] = useState([]);
   const [categories, setCategories] = useState([]);
   const [faqList, setFaqList] = useState([]);

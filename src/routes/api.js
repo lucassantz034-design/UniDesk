@@ -34,6 +34,46 @@ apiRouter.put('/config', (req, res) => {
   res.json({ success: true, config: updated });
 });
 
+// Authentication (Login com E-mail institucional)
+apiRouter.post('/auth/login', (req, res) => {
+  try {
+    const { email, password, role } = req.body;
+    if (!email) {
+      return res.status(400).json({ error: 'Por favor, informe seu e-mail institucional.' });
+    }
+    const result = db.authenticate(email, password, role);
+    res.json({
+      success: true,
+      user: result.user,
+      token: result.token,
+      message: `Bem-vindo(a), ${result.user.name}!`
+    });
+  } catch (err) {
+    res.status(401).json({ error: err.message });
+  }
+});
+
+apiRouter.get('/auth/me', (req, res) => {
+  const authHeader = req.headers.authorization || '';
+  const token = authHeader.replace(/^Bearer\s+/i, '');
+  if (!token || !token.startsWith('udt_')) {
+    return res.status(401).json({ error: 'Não autenticado' });
+  }
+  try {
+    const decoded = Buffer.from(token.replace('udt_', ''), 'base64').toString('utf8');
+    const [userId] = decoded.split(':');
+    const user = db.getUserById(userId);
+    if (!user) return res.status(401).json({ error: 'Sessão inválida' });
+    res.json({ success: true, user });
+  } catch (err) {
+    res.status(401).json({ error: 'Token inválido' });
+  }
+});
+
+apiRouter.post('/auth/logout', (req, res) => {
+  res.json({ success: true, message: 'Sessão encerrada com sucesso.' });
+});
+
 // Users
 apiRouter.get('/users', (req, res) => {
   const { role } = req.query;

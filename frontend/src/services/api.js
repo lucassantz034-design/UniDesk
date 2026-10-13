@@ -1,9 +1,15 @@
 const API_BASE = '/api';
 
+function getAuthHeader() {
+  const token = localStorage.getItem('unidesk_token');
+  return token ? { Authorization: `Bearer ${token}` } : {};
+}
+
 async function fetchJSON(url, options = {}) {
   const res = await fetch(`${API_BASE}${url}`, {
     headers: {
       'Content-Type': 'application/json',
+      ...getAuthHeader(),
       ...options.headers,
     },
     ...options,
@@ -20,6 +26,11 @@ async function fetchJSON(url, options = {}) {
 }
 
 export const api = {
+  // Authentication
+  login: (data) => fetchJSON('/auth/login', { method: 'POST', body: JSON.stringify(data) }),
+  getMe: () => fetchJSON('/auth/me'),
+  logout: () => fetchJSON('/auth/logout', { method: 'POST' }),
+
   // Config
   getConfig: () => fetchJSON('/config'),
   updateConfig: (cfg) => fetchJSON('/config', { method: 'PUT', body: JSON.stringify(cfg) }),

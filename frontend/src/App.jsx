@@ -6,6 +6,7 @@ import StudentPortal from './pages/StudentPortal';
 import AttendantPortal from './pages/AttendantPortal';
 import AdminPortal from './pages/AdminPortal';
 import ChatWidget from './components/ChatWidget';
+import LoginView from './components/LoginView';
 
 export default function App() {
   const [config, setConfig] = useState(null);
@@ -13,6 +14,34 @@ export default function App() {
   const [isWsConnected, setIsWsConnected] = useState(false);
   const [isChatWidgetOpen, setIsChatWidgetOpen] = useState(false);
   const [users, setUsers] = useState([]);
+
+  // Authenticated users state (persisted in localStorage)
+  const [loggedInStudent, setLoggedInStudent] = useState(() => {
+    try {
+      const saved = localStorage.getItem('unidesk_student_user');
+      return saved ? JSON.parse(saved) : null;
+    } catch (_) {
+      return null;
+    }
+  });
+
+  const [loggedInAttendant, setLoggedInAttendant] = useState(() => {
+    try {
+      const saved = localStorage.getItem('unidesk_attendant_user');
+      return saved ? JSON.parse(saved) : null;
+    } catch (_) {
+      return null;
+    }
+  });
+
+  const [loggedInAdmin, setLoggedInAdmin] = useState(() => {
+    try {
+      const saved = localStorage.getItem('unidesk_admin_user');
+      return saved ? JSON.parse(saved) : null;
+    } catch (_) {
+      return null;
+    }
+  });
 
   // Check URL pathname for direct route access
   useEffect(() => {
@@ -39,6 +68,9 @@ export default function App() {
         const [cfg, u] = await Promise.all([api.getConfig(), api.getUsers()]);
         setConfig(cfg);
         setUsers(u);
+
+        // If no user is logged in yet, auto-populate with first demo persona for instant convenience if desired
+        // Or leave null so the student/attendant can test the email login right away
       } catch (err) {
         console.error('Erro ao inicializar aplicação:', err);
       }
@@ -73,31 +105,58 @@ export default function App() {
     }
   }, [config]);
 
-  // Current logged in demo personas
-  const studentUser = users.find((u) => u.role === 'student' || u.role === 'aluno') || {
-    id: 'usr-stu-2',
-    name: 'Larissa Vianna Castro',
-    ra: '20230512',
-    course: 'Medicina (7º Período)',
-    department: 'Medicina',
-    avatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=80'
+  // Auth Handlers
+  const handleLoginStudent = (user, token) => {
+    setLoggedInStudent(user);
+    localStorage.setItem('unidesk_student_user', JSON.stringify(user));
   };
 
-  const attendantUser = users.find((u) => u.role === 'attendant' || u.role === 'tecnico') || {
-    id: 'usr-att-1',
-    name: 'Mariana Alencar',
-    department: 'Secretaria Acadêmica',
-    avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80'
+  const handleLogoutStudent = () => {
+    setLoggedInStudent(null);
+    localStorage.removeItem('unidesk_student_user');
   };
 
-  const adminUser = users.find((u) => u.role === 'admin' || u.role === 'admin_faculdade') || {
+  const handleLoginAttendant = (user, token) => {
+    setLoggedInAttendant(user);
+    localStorage.setItem('unidesk_attendant_user', JSON.stringify(user));
+  };
+
+  const handleLogoutAttendant = () => {
+    setLoggedInAttendant(null);
+    localStorage.removeItem('unidesk_attendant_user');
+  };
+
+  const handleLogoutAdmin = () => {
+    setLoggedInAdmin(null);
+    localStorage.removeItem('unidesk_admin_user');
+  };
+
+  // Default Admin profile
+  const adminUser = loggedInAdmin || users.find((u) => u.role === 'admin' || u.role === 'admin_faculdade') || {
     id: 'usr-admin',
     name: 'Prof. Dr. Roberto Guimarães',
+    email: 'admin@metropolitana.edu.br',
     department: 'Diretoria de Tecnologia e Operações',
     avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80'
   };
 
-  const currentUser = activeTab === 'aluno' ? studentUser : activeTab === 'atendente' ? attendantUser : adminUser;
+  const isCurrentLoggedIn = activeTab === 'aluno'
+    ? !!loggedInStudent
+    : activeTab === 'atendente'
+    ? !!loggedInAttendant
+    : true;
+
+  const currentUser = activeTab === 'aluno'
+    ? loggedInStudent
+    : activeTab === 'atendente'
+    ? loggedInAttendant
+    : adminUser;
+
+  const handleCurrentLogout = activeTab === 'aluno'
+    ? handleLogoutStudent
+    : activeTab === 'atendente'
+    ? handleLogoutAttendant
+    : handleLogoutAdmin;
 
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: 'var(--bg-main)' }}>
@@ -106,25 +165,52 @@ export default function App() {
         config={config}
         isWsConnected={isWsConnected}
         currentUser={currentUser}
+        isLoggedIn={isCurrentLoggedIn}
+        onLogout={handleCurrentLogout}
+        activeTab={activeTab}
+        onTabChange={handleTabChange}
       />
 
       {/* Main View Module */}
       <main style={{ flex: 1, paddingBottom: activeTab === 'atendente' ? 0 : '3rem', display: 'flex', flexDirection: 'column' }}>
+        {/* Portal do Aluno */}
         {activeTab === 'aluno' && (
-          <StudentPortal
-            config={config}
-            studentUser={studentUser}
-            onOpenChatWidget={() => setIsChatWidgetOpen(true)}
-          />
+          !loggedInStudent ? (
+            <LoginView
+              config={config}
+              role="aluno"
+              onLoginSuccess={handleLoginStudent}
+              onSwitchPortal={() => handleTabChange('atendente')}
+            />
+          ) : (
+            <StudentPortal
+              config={config}
+              studentUser={loggedInStudent}
+              onOpenChatWidget={() => setIsChatWidgetOpen(true)}
+              onLogout={handleLogoutStudent}
+            />
+          )
         )}
 
+        {/* Painel do Atendente */}
         {activeTab === 'atendente' && (
-          <AttendantPortal
-            config={config}
-            attendantUser={attendantUser}
-          />
+          !loggedInAttendant ? (
+            <LoginView
+              config={config}
+              role="atendente"
+              onLoginSuccess={handleLoginAttendant}
+              onSwitchPortal={() => handleTabChange('aluno')}
+            />
+          ) : (
+            <AttendantPortal
+              config={config}
+              attendantUser={loggedInAttendant}
+              onLogout={handleLogoutAttendant}
+            />
+          )
         )}
 
+        {/* Painel Administrativo */}
         {activeTab === 'admin' && (
           <AdminPortal
             config={config}
@@ -138,7 +224,7 @@ export default function App() {
         config={config}
         isOpen={isChatWidgetOpen}
         setIsOpen={setIsChatWidgetOpen}
-        studentUser={studentUser}
+        studentUser={loggedInStudent || { name: 'Aluno Visitante', ra: 'N/A' }}
       />
     </div>
   );

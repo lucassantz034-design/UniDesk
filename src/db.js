@@ -330,6 +330,56 @@ export class Database {
     return users.find(u => u.id === id);
   }
 
+  findUserByEmail(email) {
+    if (!email) return null;
+    const cleanEmail = email.trim().toLowerCase();
+    const users = this.getUsers();
+    return users.find(u => u.email && u.email.trim().toLowerCase() === cleanEmail) || null;
+  }
+
+  authenticate(email, password, expectedRole = null) {
+    if (!email) {
+      throw new Error('O e-mail é obrigatório para autenticação.');
+    }
+    const cleanEmail = email.trim().toLowerCase();
+    const user = this.findUserByEmail(cleanEmail);
+
+    if (!user) {
+      throw new Error(`O e-mail institucional "${cleanEmail}" não foi encontrado no sistema.`);
+    }
+
+    if (user.ativo === false) {
+      throw new Error('Acesso suspenso ou inativado. Entre em contato com a secretaria acadêmica.');
+    }
+
+    // Role check if specified
+    if (expectedRole) {
+      const isStudentRole = expectedRole === 'student' || expectedRole === 'aluno';
+      const isAttendantRole = expectedRole === 'attendant' || expectedRole === 'tecnico';
+      const isAdminRole = expectedRole === 'admin' || expectedRole === 'admin_faculdade';
+
+      const userIsStudent = user.role === 'student' || user.role === 'aluno';
+      const userIsAttendant = user.role === 'attendant' || user.role === 'tecnico' || user.role === 'admin' || user.role === 'admin_faculdade';
+      const userIsAdmin = user.role === 'admin' || user.role === 'admin_faculdade';
+
+      if (isStudentRole && !userIsStudent) {
+        throw new Error('Este e-mail pertence a um atendente ou administrador. Acesse pelo Painel correspondente.');
+      }
+      if (isAttendantRole && !userIsAttendant) {
+        throw new Error('Este e-mail pertence a um aluno. Por favor, acesse pelo Portal do Aluno.');
+      }
+      if (isAdminRole && !userIsAdmin) {
+        throw new Error('Acesso restrito exclusivamente a administradores institucionais.');
+      }
+    }
+
+    const token = 'udt_' + Buffer.from(`${user.id}:${Date.now()}:${cleanEmail}`).toString('base64');
+    return {
+      user,
+      token
+    };
+  }
+
   getCategories() {
     return this.jsonData.categories || [
       { id: "cat-1", name: "Secretaria Acadêmica", slaHours: 24, defaultPriority: "medium" },

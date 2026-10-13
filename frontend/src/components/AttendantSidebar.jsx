@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { LogOut } from 'lucide-react';
 
 /**
  * AttendantSidebar - Barra lateral esquerda modular do Painel de Atendente
@@ -9,7 +10,8 @@ export default function AttendantSidebar({
   onSelectTab,
   items = [],
   operatorStatus = 'online',
-  onToggleStatus
+  onToggleStatus,
+  onLogout
 }) {
   const [hoveredTab, setHoveredTab] = useState(null);
 
@@ -298,6 +300,42 @@ export default function AttendantSidebar({
               }}
             />
           </div>
+        )}
+
+        {/* Logout / Switch Attendant Button */}
+        {onLogout && (
+          <button
+            type="button"
+            onClick={onLogout}
+            title="Sair / Trocar Atendente"
+            aria-label="Sair / Trocar Atendente"
+            style={{
+              width: '40px',
+              height: '40px',
+              borderRadius: '10px',
+              border: '1px solid transparent',
+              background: 'transparent',
+              color: '#94a3b8',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+              marginTop: '0.4rem',
+              transition: 'all 0.15s ease'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.color = '#ef4444';
+              e.currentTarget.style.background = 'rgba(239, 68, 68, 0.15)';
+              e.currentTarget.style.borderColor = 'rgba(239, 68, 68, 0.3)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.color = '#94a3b8';
+              e.currentTarget.style.background = 'transparent';
+              e.currentTarget.style.borderColor = 'transparent';
+            }}
+          >
+            <LogOut size={18} />
+          </button>
         )}
       </div>
     </aside>

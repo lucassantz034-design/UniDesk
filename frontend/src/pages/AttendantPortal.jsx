@@ -26,7 +26,7 @@ import {
   Calendar
 } from 'lucide-react';
 
-export default function AttendantPortal({ config, attendantUser }) {
+export default function AttendantPortal({ config, attendantUser, onLogout }) {
   const [tickets, setTickets] = useState([]);
   const [selectedTicket, setSelectedTicket] = useState(null);
   const [aiContext, setAiContext] = useState(null);
@@ -242,6 +242,7 @@ export default function AttendantPortal({ config, attendantUser }) {
         items={sidebarItems}
         operatorStatus={operatorStatus}
         onToggleStatus={() => setOperatorStatus((prev) => (prev === 'online' ? 'busy' : 'online'))}
+        onLogout={onLogout}
       />
 
       {/* Área Principal de Conteúdo do Atendente */}
