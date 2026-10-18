@@ -1,5 +1,5 @@
 import React from 'react';
-import { Wifi, WifiOff, LogOut } from 'lucide-react';
+import { Wifi, WifiOff, LogOut, Shield, Headphones } from 'lucide-react';
 
 export default function Header({
   config,
@@ -10,6 +10,8 @@ export default function Header({
   activeTab,
   onTabChange
 }) {
+  const isAdmin = currentUser?.role === 'admin' || currentUser?.role === 'admin_faculdade';
+
   return (
     <header className="unidesk-navbar">
       <div className="brand-wrapper">
@@ -29,80 +31,60 @@ export default function Header({
         </div>
       </div>
 
-      {/* Navigation Switcher */}
-      {onTabChange && (
-        <nav
+      {/* Se for Administrador, permite alternar entre Console Admin e Mesa de Atendimento */}
+      {isLoggedIn && isAdmin && onTabChange && (
+        <div
           style={{
             display: 'flex',
-            alignItems: 'center',
-            gap: '0.4rem',
-            background: 'rgba(0, 0, 0, 0.35)',
+            background: 'rgba(0, 0, 0, 0.4)',
             padding: '0.25rem',
-            borderRadius: '12px',
-            border: '1px solid var(--border-color)'
+            borderRadius: '10px',
+            border: '1px solid var(--border-color)',
+            gap: '0.35rem'
           }}
         >
           <button
             type="button"
-            onClick={() => onTabChange('aluno')}
+            onClick={() => onTabChange('admin')}
             style={{
-              background: activeTab === 'aluno' ? 'var(--primary)' : 'transparent',
-              color: activeTab === 'aluno' ? '#ffffff' : 'var(--text-muted)',
-              border: 'none',
-              padding: '0.4rem 0.85rem',
-              borderRadius: '8px',
-              fontSize: '0.82rem',
-              fontWeight: 600,
-              cursor: 'pointer',
-              transition: 'all 0.15s ease',
               display: 'flex',
               alignItems: 'center',
-              gap: '0.4rem'
+              gap: '0.4rem',
+              padding: '0.35rem 0.75rem',
+              borderRadius: '7px',
+              border: 'none',
+              background: activeTab === 'admin' ? 'linear-gradient(135deg, #f59e0b, #ef4444)' : 'transparent',
+              color: activeTab === 'admin' ? '#ffffff' : 'var(--text-muted)',
+              fontSize: '0.78rem',
+              fontWeight: 700,
+              cursor: 'pointer',
+              transition: 'all 0.15s ease'
             }}
           >
-            <span>🎓</span> Aluno
+            <Shield size={14} /> Console Admin
           </button>
+
           <button
             type="button"
             onClick={() => onTabChange('atendente')}
             style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.4rem',
+              padding: '0.35rem 0.75rem',
+              borderRadius: '7px',
+              border: 'none',
               background: activeTab === 'atendente' ? 'linear-gradient(135deg, #ec4899, #8b5cf6)' : 'transparent',
               color: activeTab === 'atendente' ? '#ffffff' : 'var(--text-muted)',
-              border: 'none',
-              padding: '0.4rem 0.85rem',
-              borderRadius: '8px',
-              fontSize: '0.82rem',
-              fontWeight: 600,
+              fontSize: '0.78rem',
+              fontWeight: 700,
               cursor: 'pointer',
-              transition: 'all 0.15s ease',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.4rem'
+              transition: 'all 0.15s ease'
             }}
           >
-            <span>🎧</span> Atendente
+            <Headphones size={14} /> Mesa de Atendimento
           </button>
-          <button
-            type="button"
-            onClick={() => onTabChange('admin')}
-            style={{
-              background: activeTab === 'admin' ? 'rgba(255, 255, 255, 0.15)' : 'transparent',
-              color: activeTab === 'admin' ? '#ffffff' : 'var(--text-muted)',
-              border: 'none',
-              padding: '0.4rem 0.85rem',
-              borderRadius: '8px',
-              fontSize: '0.82rem',
-              fontWeight: 600,
-              cursor: 'pointer',
-              transition: 'all 0.15s ease',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.4rem'
-            }}
-          >
-            <span>⚙️</span> Admin
-          </button>
-        </nav>
+        </div>
       )}
 
       {/* Status & User */}

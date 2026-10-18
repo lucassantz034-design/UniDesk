@@ -1,35 +1,60 @@
 version: '3.8'
 
+# ==============================================================================
+# UNIDESK — HELPDESK UNIVERSITÁRIO INTELIGENTE
+# Stack de Produção Zero-Friction para TI do Cliente (On-Premise / Docker)
+# Comando para rodar: docker compose up -d
+# ==============================================================================
+
 services:
-  unidesk:
-    build: .
+  # 1. Aplicação Principal UniDesk
+  unidesk_app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: unidesk:latest
     container_name: unidesk_core
-    restart: unless-stopped
+    restart: always
     ports:
-      - "3000:3000"
+      - "${HOST_PORT:-80}:3000"
     environment:
+      - NODE_ENV=production
       - PORT=3000
-      - LICENSE_KEY=${LICENSE_KEY:-UNI-HOSTED-2026-BR-ACTIVE}
+      - LICENSE_KEY=${LICENSE_KEY:-UD-PROD-DEMO-TRIAL}
+      - CENTRAL_API_URL=${CENTRAL_API_URL:-http://localhost:4000}
+      - DATABASE_URL=${DATABASE_URL:-}
     volumes:
+      # Persistência dos dados (banco SQLite, configurações e uploads)
       - ./data:/app/data
-      - ./database:/app/database
+      # Pasta onde os backups automáticos diários são armazenados
+      - ./backups:/app/backups
+    networks:
+      - unidesk_network
 
-  # Serviço opcional de PostgreSQL para faculdades que utilizam banco externo
-  postgres:
-    image: postgres:16-alpine
-    container_name: unidesk_postgres
-    restart: unless-stopped
-    profiles: ["postgres"]
-    environment:
-      POSTGRES_DB: unidesk_db
-      POSTGRES_USER: unidesk_user
-      POSTGRES_PASSWORD: unidesk_password
-    ports:
-      - "5432:5432"
+  # 2. Agente Automático de Backup do SQLite
+  unidesk_backup:
+    image: alpine:3.20
+    container_name: unidesk_backup_cron
+    restart: always
+    depends_on:
+      - unidesk_app
     volumes:
-      - unidesk_pgdata:/var/lib/postgresql/data
-      - ./database/schema.sql:/docker-entrypoint-initdb.d/01_schema.sql
-      - ./database/seeds.sql:/docker-entrypoint-initdb.d/02_seeds.sql
+      - ./data:/app/data:ro
+      - ./backups:/app/backups
+      - ./scripts/backup.sh:/app/backup.sh:ro
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        apk add --no-cache sqlite bash tzdata
+        chmod +x /app/backup.sh
+        echo "0 2 * * * /app/backup.sh >> /app/backups/backup.log 2>&1" > /etc/crontabs/root
+        echo "[Backup Daemon] Rotina de backup automático agendada para 02:00 todos os dias."
+        # Executa um primeiro backup de segurança na inicialização
+        /app/backup.sh
+        crond -f -l 2
+    networks:
+      - unidesk_network
 
-volumes:
-  unidesk_pgdata:
+networks:
+  unidesk_network:
+    driver: bridge

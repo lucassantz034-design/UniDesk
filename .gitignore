@@ -22,3 +22,9 @@ Thumbs.db
 *.exe
 unidesk-server
 
+# Dados locais sensíveis e caches de instância
+data/.session_secret
+data/instance_id.txt
+data/license_cache.enc
+data/pending_support_tickets.json
+backups/

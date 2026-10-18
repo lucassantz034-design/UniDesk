@@ -13,8 +13,13 @@ import {
   RefreshCw,
   CheckCircle,
   TrendingUp,
-  Award
+  Award,
+  LifeBuoy,
+  Database
 } from 'lucide-react';
+import AdminSupport from './AdminSupport';
+import AdminBackups from './AdminBackups';
+
 
 export default function AdminPortal({ config, onConfigUpdate }) {
   const [activeSection, setActiveSection] = useState('metrics'); // 'metrics' | 'branding' | 'users' | 'logs'
@@ -170,7 +175,9 @@ export default function AdminPortal({ config, onConfigUpdate }) {
             { id: 'metrics', label: 'Métricas & SLAs', icon: <TrendingUp size={15} /> },
             { id: 'branding', label: 'White-Label Branding', icon: <Palette size={15} /> },
             { id: 'users', label: 'Gestão de Usuários', icon: <Users size={15} /> },
-            { id: 'logs', label: 'Auditoria & Logs', icon: <FileText size={15} /> }
+            { id: 'logs', label: 'Auditoria & Logs', icon: <FileText size={15} /> },
+            { id: 'backups', label: 'Backups & Segurança', icon: <Database size={15} /> },
+            { id: 'support', label: 'Suporte Fornecedor', icon: <LifeBuoy size={15} /> }
           ].map((sec) => (
             <button
               key={sec.id}
@@ -599,6 +606,17 @@ export default function AdminPortal({ config, onConfigUpdate }) {
           </div>
         </div>
       )}
+
+      {/* SECTION 5: BACKUPS & SEGURANÇA */}
+      {activeSection === 'backups' && (
+        <AdminBackups />
+      )}
+
+      {/* SECTION 6: SUPPORT FORNECEDOR */}
+      {activeSection === 'support' && (
+        <AdminSupport />
+      )}
+
 
       {/* Create User Modal */}
       {isNewUserModalOpen && (

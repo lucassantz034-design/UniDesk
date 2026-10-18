@@ -93,4 +93,19 @@ export const api = {
   inactivateSQLUser: (userId, data) => fetchJSON(`/sql/users/${userId}/inactivate`, { method: 'POST', body: JSON.stringify(data) }),
   rateSQLTecnico: (data) => fetchJSON('/sql/ratings/tecnico', { method: 'POST', body: JSON.stringify(data) }),
   rateSQLAluno: (data) => fetchJSON('/sql/ratings/aluno', { method: 'POST', body: JSON.stringify(data) }),
+
+  // Licensing & Grace Period (EPIC-3)
+  getLicenseStatus: () => fetchJSON('/licensing/status'),
+  triggerLicenseHeartbeat: (telemetry) => fetchJSON('/licensing/heartbeat', { method: 'POST', body: JSON.stringify({ telemetry }) }),
+  getLicenseInvoice: () => fetchJSON('/licensing/invoice'),
+  simulateLicenseStatus: (status, daysInGrace, invoice) => fetchJSON('/licensing/simulate', { method: 'POST', body: JSON.stringify({ status, daysInGrace, invoice }) }),
+  verifyLicenseToken: (token) => fetchJSON('/licensing/verify-token', { method: 'POST', body: JSON.stringify({ token }) }),
+
+  // Vendor Technical Support (EPIC-4)
+  submitSupportTicket: (data) => fetchJSON('/admin/support/ticket', { method: 'POST', body: JSON.stringify(data) }),
+
+  // Backup & Disaster Recovery
+  getBackups: () => fetchJSON('/admin/backups'),
+  triggerBackup: () => fetchJSON('/admin/backups/create', { method: 'POST' }),
 };
+

@@ -7,77 +7,79 @@ import AttendantPortal from './pages/AttendantPortal';
 import AdminPortal from './pages/AdminPortal';
 import ChatWidget from './components/ChatWidget';
 import LoginView from './components/LoginView';
+import GracePeriodBanner from './components/GracePeriodBanner';
+import LicenseLockModal from './components/LicenseLockModal';
 
 export default function App() {
   const [config, setConfig] = useState(null);
-  const [activeTab, setActiveTab] = useState('aluno');
   const [isWsConnected, setIsWsConnected] = useState(false);
   const [isChatWidgetOpen, setIsChatWidgetOpen] = useState(false);
   const [users, setUsers] = useState([]);
+  const [licenseState, setLicenseState] = useState(null);
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
 
-  // Authenticated users state (persisted in localStorage)
-  const [loggedInStudent, setLoggedInStudent] = useState(() => {
+  // Usuário autenticado único (armazena o perfil do usuário logado)
+  const [currentUser, setCurrentUser] = useState(() => {
     try {
-      const saved = localStorage.getItem('unidesk_student_user');
+      const saved = localStorage.getItem('unidesk_current_user') ||
+                    localStorage.getItem('unidesk_student_user') ||
+                    localStorage.getItem('unidesk_attendant_user') ||
+                    localStorage.getItem('unidesk_admin_user');
       return saved ? JSON.parse(saved) : null;
     } catch (_) {
       return null;
     }
   });
 
-  const [loggedInAttendant, setLoggedInAttendant] = useState(() => {
-    try {
-      const saved = localStorage.getItem('unidesk_attendant_user');
-      return saved ? JSON.parse(saved) : null;
-    } catch (_) {
-      return null;
-    }
+  const isStudent = currentUser?.role === 'aluno' || currentUser?.role === 'student';
+  const isAdmin = currentUser?.role === 'admin' || currentUser?.role === 'admin_faculdade';
+  const isAttendant = !isStudent && !isAdmin && !!currentUser;
+
+  // activeView: para alunos = 'aluno'. Para equipe/admin = pode navegar entre atendimento e admin se tiver permissão de admin
+  const [activeView, setActiveView] = useState(() => {
+    if (isAdmin) return 'admin';
+    if (isAttendant) return 'atendente';
+    return 'aluno';
   });
 
-  const [loggedInAdmin, setLoggedInAdmin] = useState(() => {
-    try {
-      const saved = localStorage.getItem('unidesk_admin_user');
-      return saved ? JSON.parse(saved) : null;
-    } catch (_) {
-      return null;
-    }
-  });
-
-  // Check URL pathname for direct route access
+  // Atualiza activeView sempre que o currentUser mudar
   useEffect(() => {
-    const path = window.location.pathname;
-    if (path === '/atendente' || path === '/operador') {
-      setActiveTab('atendente');
-    } else if (path === '/admin') {
-      setActiveTab('admin');
+    if (!currentUser) return;
+    if (currentUser.role === 'admin' || currentUser.role === 'admin_faculdade') {
+      setActiveView('admin');
+    } else if (currentUser.role === 'aluno' || currentUser.role === 'student') {
+      setActiveView('aluno');
     } else {
-      setActiveTab('aluno');
+      setActiveView('atendente');
     }
-  }, []);
+  }, [currentUser?.role, currentUser?.id]);
 
-  // Update browser URL history when tab changes without full page reload
-  const handleTabChange = (tab) => {
-    setActiveTab(tab);
-    window.history.pushState({}, '', `/${tab}`);
+  const loadLicenseStatus = async () => {
+    try {
+      const res = await api.getLicenseStatus();
+      if (res.data) {
+        setLicenseState(res.data);
+      }
+    } catch (err) {
+      console.warn('Erro ao carregar status de licença:', err);
+    }
   };
 
-  // Load config and users
+  // Carrega configurações institucionais, usuários e status de licença
   useEffect(() => {
     const initApp = async () => {
       try {
         const [cfg, u] = await Promise.all([api.getConfig(), api.getUsers()]);
         setConfig(cfg);
         setUsers(u);
-
-        // If no user is logged in yet, auto-populate with first demo persona for instant convenience if desired
-        // Or leave null so the student/attendant can test the email login right away
+        await loadLicenseStatus();
       } catch (err) {
         console.error('Erro ao inicializar aplicação:', err);
       }
     };
     initApp();
 
-    // Connect WebSocket
+    // Conecta Gateway WebSocket
     wsService.connect();
     const unsubscribe = wsService.subscribe((msg) => {
       if (msg.type === 'STATUS_CHANGE') {
@@ -88,7 +90,7 @@ export default function App() {
     return () => unsubscribe();
   }, []);
 
-  // Apply dynamic institution theme colors
+  // Aplica cores dinâmicas da instituição
   useEffect(() => {
     if (config) {
       const root = document.documentElement;
@@ -105,58 +107,39 @@ export default function App() {
     }
   }, [config]);
 
-  // Auth Handlers
-  const handleLoginStudent = (user, token) => {
-    setLoggedInStudent(user);
-    localStorage.setItem('unidesk_student_user', JSON.stringify(user));
+  // Login unificado baseado nas permissões do usuário
+  const handleLoginSuccess = (user, token) => {
+    setCurrentUser(user);
+    localStorage.setItem('unidesk_current_user', JSON.stringify(user));
+
+    if (user.role === 'admin' || user.role === 'admin_faculdade') {
+      setActiveView('admin');
+      window.history.pushState({}, '', '/admin');
+    } else if (user.role === 'aluno' || user.role === 'student') {
+      setActiveView('aluno');
+      window.history.pushState({}, '', '/aluno');
+    } else {
+      setActiveView('atendente');
+      window.history.pushState({}, '', '/atendente');
+    }
   };
 
-  const handleLogoutStudent = () => {
-    setLoggedInStudent(null);
+  // Logout único e limpo
+  const handleLogout = () => {
+    setCurrentUser(null);
+    localStorage.removeItem('unidesk_current_user');
     localStorage.removeItem('unidesk_student_user');
-  };
-
-  const handleLoginAttendant = (user, token) => {
-    setLoggedInAttendant(user);
-    localStorage.setItem('unidesk_attendant_user', JSON.stringify(user));
-  };
-
-  const handleLogoutAttendant = () => {
-    setLoggedInAttendant(null);
     localStorage.removeItem('unidesk_attendant_user');
-  };
-
-  const handleLogoutAdmin = () => {
-    setLoggedInAdmin(null);
     localStorage.removeItem('unidesk_admin_user');
+    localStorage.removeItem('unidesk_token');
+    window.history.pushState({}, '', '/');
   };
 
-  // Default Admin profile
-  const adminUser = loggedInAdmin || users.find((u) => u.role === 'admin' || u.role === 'admin_faculdade') || {
-    id: 'usr-admin',
-    name: 'Prof. Dr. Roberto Guimarães',
-    email: 'admin@metropolitana.edu.br',
-    department: 'Diretoria de Tecnologia e Operações',
-    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80'
+  // Navegação para usuários com permissão
+  const handleViewChange = (view) => {
+    setActiveView(view);
+    window.history.pushState({}, '', `/${view}`);
   };
-
-  const isCurrentLoggedIn = activeTab === 'aluno'
-    ? !!loggedInStudent
-    : activeTab === 'atendente'
-    ? !!loggedInAttendant
-    : true;
-
-  const currentUser = activeTab === 'aluno'
-    ? loggedInStudent
-    : activeTab === 'atendente'
-    ? loggedInAttendant
-    : adminUser;
-
-  const handleCurrentLogout = activeTab === 'aluno'
-    ? handleLogoutStudent
-    : activeTab === 'atendente'
-    ? handleLogoutAttendant
-    : handleLogoutAdmin;
 
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: 'var(--bg-main)' }}>
@@ -165,66 +148,79 @@ export default function App() {
         config={config}
         isWsConnected={isWsConnected}
         currentUser={currentUser}
-        isLoggedIn={isCurrentLoggedIn}
-        onLogout={handleCurrentLogout}
-        activeTab={activeTab}
-        onTabChange={handleTabChange}
+        isLoggedIn={!!currentUser}
+        onLogout={handleLogout}
+        activeTab={activeView}
+        onTabChange={handleViewChange}
       />
 
-      {/* Main View Module */}
-      <main style={{ flex: 1, paddingBottom: activeTab === 'atendente' ? 0 : '3rem', display: 'flex', flexDirection: 'column' }}>
-        {/* Portal do Aluno */}
-        {activeTab === 'aluno' && (
-          !loggedInStudent ? (
-            <LoginView
-              config={config}
-              role="aluno"
-              onLoginSuccess={handleLoginStudent}
-              onSwitchPortal={() => handleTabChange('atendente')}
-            />
-          ) : (
-            <StudentPortal
-              config={config}
-              studentUser={loggedInStudent}
-              onOpenChatWidget={() => setIsChatWidgetOpen(true)}
-              onLogout={handleLogoutStudent}
-            />
-          )
-        )}
+      {/* Banner de Tolerância de 15 Dias - Exclusivo para Área Administrativa */}
+      {isAdmin && activeView === 'admin' && (
+        <GracePeriodBanner
+          licenseState={licenseState}
+          onOpenPaymentModal={() => setIsPaymentModalOpen(true)}
+        />
+      )}
 
-        {/* Painel do Atendente */}
-        {activeTab === 'atendente' && (
-          !loggedInAttendant ? (
-            <LoginView
-              config={config}
-              role="atendente"
-              onLoginSuccess={handleLoginAttendant}
-              onSwitchPortal={() => handleTabChange('aluno')}
-            />
-          ) : (
+      {/* Main View Module */}
+      <main style={{ flex: 1, paddingBottom: activeView === 'atendente' ? 0 : '3rem', display: 'flex', flexDirection: 'column' }}>
+        {!currentUser ? (
+          /* TELA ÚNICA DE LOGIN INSTITUCIONAL */
+          <LoginView
+            config={config}
+            onLoginSuccess={handleLoginSuccess}
+          />
+        ) : isStudent ? (
+          /* PORTAL DO ALUNO */
+          <StudentPortal
+            config={config}
+            studentUser={currentUser}
+            onOpenChatWidget={() => setIsChatWidgetOpen(true)}
+            onLogout={handleLogout}
+          />
+        ) : isAdmin ? (
+          /* ADMINISTRADOR: Tem visão Admin e pode alternar para Atendimento */
+          activeView === 'atendente' ? (
             <AttendantPortal
               config={config}
-              attendantUser={loggedInAttendant}
-              onLogout={handleLogoutAttendant}
+              attendantUser={currentUser}
+              onLogout={handleLogout}
+            />
+          ) : (
+            <AdminPortal
+              config={config}
+              onConfigUpdate={(newCfg) => setConfig(newCfg)}
             />
           )
-        )}
-
-        {/* Painel Administrativo */}
-        {activeTab === 'admin' && (
-          <AdminPortal
+        ) : (
+          /* ATENDENTE / SUPORTE */
+          <AttendantPortal
             config={config}
-            onConfigUpdate={(newCfg) => setConfig(newCfg)}
+            attendantUser={currentUser}
+            onLogout={handleLogout}
           />
         )}
       </main>
 
-      {/* Floating Chat Widget with Sophia IA */}
-      <ChatWidget
-        config={config}
-        isOpen={isChatWidgetOpen}
-        setIsOpen={setIsChatWidgetOpen}
-        studentUser={loggedInStudent || { name: 'Aluno Visitante', ra: 'N/A' }}
+      {/* Floating Chat Widget with Sophia IA (visível para alunos) */}
+      {(!currentUser || isStudent) && (
+        <ChatWidget
+          config={config}
+          isOpen={isChatWidgetOpen}
+          setIsOpen={setIsChatWidgetOpen}
+          studentUser={currentUser || { name: 'Aluno Visitante', ra: 'N/A' }}
+        />
+      )}
+
+      {/* Modal de Bloqueio Total (Dia 16+) ou exibição sob demanda */}
+      <LicenseLockModal
+        isOpen={licenseState?.status === 'LOCKED' || isPaymentModalOpen}
+        licenseState={licenseState}
+        onRefreshStatus={loadLicenseStatus}
+        onOpenSupport={() => {
+          setIsPaymentModalOpen(false);
+          if (isAdmin) setActiveView('admin');
+        }}
       />
     </div>
   );

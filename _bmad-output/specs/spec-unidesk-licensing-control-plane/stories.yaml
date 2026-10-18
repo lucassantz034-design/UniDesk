@@ -1,0 +1,71 @@
+# Stories Breakdown — UniDesk Licensing & Central Control Plane
+
+epics:
+  - id: EPIC-1
+    title: "Central Control Plane Core Backend & Asaas Integration"
+    description: "Criar o backend da Central em /control-plane/backend com conexão PostgreSQL (Supabase/Neon), integração com Asaas e webhooks."
+    stories:
+      - id: STORY-1.1
+        title: "Setup do servidor Central e Database Schema (PostgreSQL)"
+        description: "Estruturar o projeto Node.js/Express em control-plane/backend, conectar ao PostgreSQL e criar tabelas para Tenants, Licenças, Faturas e Tickets."
+        capability: CAP-1
+      - id: STORY-1.2
+        title: "Integração Asaas API v3 & Webhook Handler"
+        description: "Implementar rotas para criar assinaturas e processar webhooks PAYMENT_RECEIVED e PAYMENT_OVERDUE do Asaas, atualizando o status do Tenant."
+        capability: CAP-1
+
+  - id: EPIC-2
+    title: "Motor Criptográfico de Licenças e Endpoint de Heartbeat"
+    description: "Implementar assinatura assimétrica Ed25519 e verificação de licença na Central."
+    stories:
+      - id: STORY-2.1
+        title: "Geração e Emissão de Chaves e Tokens Ed25519"
+        description: "Implementar serviço de criptografia assimétrica que gera a LICENSE_KEY e assina JWTs com validade e status."
+        capability: CAP-2
+      - id: STORY-2.2
+        title: "API de Heartbeat & Ativação de Instância"
+        description: "Criar endpoints POST /api/v1/license/activate e POST /api/v1/license/heartbeat para validar requisições das instâncias clientes."
+        capability: CAP-2
+
+  - id: EPIC-3
+    title: "Agente de Licenciamento & Bloqueio no UniDesk Local"
+    description: "Implementar no UniDesk local a verificação da licença, rotina diária de heartbeat e controle dos 15 dias de tolerância com bloqueio no 16º dia."
+    stories:
+      - id: STORY-3.1
+        title: "LicenseVerifier e Heartbeat Worker no Backend Local"
+        description: "Implementar verificação com chave pública Ed25519 e rotina cron diária outbound de heartbeat para a Central."
+        capability: CAP-3
+      - id: STORY-3.2
+        title: "UI de Aviso Restrito (15 dias) e Modal de Bloqueio (Dia 16+) no Frontend"
+        description: "Criar banner de aviso restrito para administradores locais nos dias 1 a 15 e tela de bloqueio total no dia 16 com link/Pix do Asaas."
+        capability: CAP-3
+
+  - id: EPIC-4
+    title: "Módulo de Suporte Técnico da Plataforma (In-App)"
+    description: "Canal integrado no UniDesk local para envio de chamados e diagnósticos para a Central."
+    stories:
+      - id: STORY-4.1
+        title: "API de Suporte na Central e Coleta de Diagnósticos"
+        description: "Criar endpoint /api/v1/support/tickets na Central para receber chamados e salvar telemetria (versão do sistema, engine do banco, logs de erro)."
+        capability: CAP-4
+      - id: STORY-4.2
+        title: "Aba de Suporte no Painel do Administrador Local"
+        description: "Criar tela no frontend do UniDesk para administradores locais abrirem chamados com o fornecedor do software."
+        capability: CAP-4
+
+  - id: EPIC-5
+    title: "Painel Master Web (/control-plane/frontend)"
+    description: "Dashboard web para você gerenciar seus clientes, assinaturas do Asaas e chamados de suporte."
+    stories:
+      - id: STORY-5.1
+        title: "Setup do Frontend Master e Autenticação Admin"
+        description: "Criar aplicação React 18 + Vite em control-plane/frontend com login para a equipe do software."
+        capability: CAP-5
+      - id: STORY-5.2
+        title: "Gestão de Clientes, Licenças e Faturamento"
+        description: "Telas de listagem de empresas, geração de licenças, visualização de faturas do Asaas e botão de extensão manual."
+        capability: CAP-5
+      - id: STORY-5.3
+        title: "Central de Chamados Técnicos Recebidos"
+        description: "Interface para visualizar, responder e acompanhar os chamados enviados pelas empresas clientes."
+        capability: CAP-5

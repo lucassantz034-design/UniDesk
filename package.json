@@ -27,5 +27,6 @@
     "chatbot"
   ],
   "author": "Unidesk Team",
-  "license": "MIT"
+  "private": true,
+  "license": "UNLICENSED"
 }

@@ -31,8 +31,19 @@ if (hasDist) {
 }
 app.use(express.static(path.join(__dirname, 'public')));
 
+import { licenseGuardMiddleware } from './src/licensing/licenseGuard.js';
+import { heartbeatClient } from './src/licensing/heartbeatClient.js';
+import { backupService } from './src/services/backupService.js';
+
+// Apply Licensing Guard Middleware to /api
+app.use('/api', licenseGuardMiddleware);
+
 // API Routes
 app.use('/api', apiRouter);
+
+// Start licensing heartbeat agent & automated backup daemon
+heartbeatClient.startPeriodicSync();
+backupService.startScheduledBackups();
 
 // WebSocket connected clients pool
 const clients = new Set();

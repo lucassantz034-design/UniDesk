@@ -1,62 +1,59 @@
 import React, { useState } from 'react';
-import { Mail, Lock, LogIn, AlertCircle, Sparkles, CheckCircle2, User, ArrowRight, ShieldCheck } from 'lucide-react';
+import { Mail, Lock, LogIn, AlertCircle, Sparkles, CheckCircle2 } from 'lucide-react';
 import { api } from '../services/api';
 
 export default function LoginView({
   config,
-  role = 'aluno', // 'aluno' | 'atendente'
-  onLoginSuccess,
-  onSwitchPortal
+  onLoginSuccess
 }) {
-  const isStudent = role === 'aluno';
-  const portalName = isStudent ? 'Portal do Aluno' : 'Painel do Atendente';
-  const portalIcon = isStudent ? '🎓' : '🎧';
-
-  // Demo presets for 1-click test
-  const demoAccounts = isStudent
-    ? [
-        {
-          name: 'Larissa Vianna',
-          email: 'larissa.vianna@aluno.metropolitana.edu.br',
-          course: 'Medicina (7º Período)',
-          ra: '20230512',
-          avatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=80'
-        },
-        {
-          name: 'Enzo Martins',
-          email: 'enzo.martins@aluno.metropolitana.edu.br',
-          course: 'Engenharia de Software (5º Período)',
-          ra: '20240189',
-          avatar: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=80'
-        },
-        {
-          name: 'Rodrigo Sanches',
-          email: 'rodrigo.sanches@aluno.metropolitana.edu.br',
-          course: 'Direito (9º Período)',
-          ra: '20220891',
-          avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80'
-        }
-      ]
-    : [
-        {
-          name: 'Mariana Alencar',
-          email: 'mariana.suporte@metropolitana.edu.br',
-          dept: 'Secretaria Acadêmica',
-          avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80'
-        },
-        {
-          name: 'Felipe Castilho',
-          email: 'felipe.ti@metropolitana.edu.br',
-          dept: 'Suporte AVA & TI',
-          avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80'
-        },
-        {
-          name: 'Carla Esteves',
-          email: 'carla.financeiro@metropolitana.edu.br',
-          dept: 'Financeiro & Bolsas',
-          avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=80'
-        }
-      ];
+  // Lista de contas de demonstração organizadas para preenchimento com 1 clique
+  const demoAccounts = [
+    {
+      roleGroup: 'Aluno',
+      name: 'Larissa Vianna',
+      email: 'larissa.vianna@aluno.metropolitana.edu.br',
+      info: 'Medicina (7º Período)',
+      badge: '🎓 Aluno',
+      badgeColor: '#3b82f6',
+      avatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=80'
+    },
+    {
+      roleGroup: 'Aluno',
+      name: 'Enzo Martins',
+      email: 'enzo.martins@aluno.metropolitana.edu.br',
+      info: 'Engenharia de Software (5º Período)',
+      badge: '🎓 Aluno',
+      badgeColor: '#3b82f6',
+      avatar: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=80'
+    },
+    {
+      roleGroup: 'Atendente',
+      name: 'Mariana Alencar',
+      email: 'mariana.suporte@metropolitana.edu.br',
+      info: 'Secretaria Acadêmica',
+      badge: '🎧 Atendente',
+      badgeColor: '#ec4899',
+      avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80'
+    },
+    {
+      roleGroup: 'Atendente',
+      name: 'Felipe Castilho',
+      email: 'felipe.ti@metropolitana.edu.br',
+      info: 'Suporte AVA & TI',
+      badge: '🎧 Atendente',
+      badgeColor: '#ec4899',
+      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80'
+    },
+    {
+      roleGroup: 'Administrador',
+      name: 'Prof. Dr. Roberto Guimarães',
+      email: 'admin@metropolitana.edu.br',
+      info: 'Diretoria de Tecnologia e Operações',
+      badge: '⚙️ Admin',
+      badgeColor: '#f59e0b',
+      avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80'
+    }
+  ];
 
   const [email, setEmail] = useState(demoAccounts[0]?.email || '');
   const [password, setPassword] = useState('123456');
@@ -77,13 +74,12 @@ export default function LoginView({
     try {
       const res = await api.login({
         email: email.trim(),
-        password,
-        role: isStudent ? 'student' : 'attendant'
+        password
       });
 
       if (res.success && res.user) {
         if (rememberMe) {
-          localStorage.setItem(`unidesk_saved_email_${role}`, email.trim());
+          localStorage.setItem('unidesk_saved_email', email.trim());
         }
         localStorage.setItem('unidesk_token', res.token);
         onLoginSuccess(res.user, res.token);
@@ -93,11 +89,6 @@ export default function LoginView({
     } finally {
       setIsLoading(false);
     }
-  };
-
-  const handleSelectDemo = (demoEmail) => {
-    setEmail(demoEmail);
-    setErrorMsg('');
   };
 
   return (
@@ -114,7 +105,7 @@ export default function LoginView({
       <div
         style={{
           width: '100%',
-          maxWidth: '480px',
+          maxWidth: '490px',
           background: 'var(--bg-surface)',
           border: '1px solid var(--border-color)',
           borderRadius: '20px',
@@ -125,7 +116,7 @@ export default function LoginView({
           overflow: 'hidden'
         }}
       >
-        {/* Decorative Top Accent Glow */}
+        {/* Top Accent Glow */}
         <div
           style={{
             position: 'absolute',
@@ -133,9 +124,7 @@ export default function LoginView({
             left: '10%',
             right: '10%',
             height: '3px',
-            background: isStudent
-              ? 'linear-gradient(90deg, #3b82f6, #06b6d4)'
-              : 'linear-gradient(90deg, #ec4899, #8b5cf6)',
+            background: 'linear-gradient(90deg, #3b82f6, #8b5cf6, #f59e0b)',
             borderRadius: '0 0 8px 8px'
           }}
         />
@@ -145,32 +134,14 @@ export default function LoginView({
           <img
             src={config?.logoUrl || '/assets/LOGO_UD.png'}
             alt="Logo"
-            style={{ height: '48px', objectFit: 'contain', marginBottom: '0.75rem' }}
-            onError={(e) => {
-              e.target.src = '/assets/LOGO_UD.png';
-            }}
+            style={{ width: '48px', height: '48px', margin: '0 auto 0.75rem auto', display: 'block' }}
           />
-          <h2 style={{ fontSize: '1.35rem', fontWeight: 800, marginBottom: '0.25rem', color: '#ffffff' }}>
+          <h2 style={{ fontSize: '1.4rem', fontWeight: 800, color: '#ffffff', letterSpacing: '-0.02em', margin: 0 }}>
             {config?.name || 'UniDesk Helpdesk'}
           </h2>
-          <div
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '0.4rem',
-              padding: '0.3rem 0.8rem',
-              borderRadius: '20px',
-              fontSize: '0.8rem',
-              fontWeight: 700,
-              background: isStudent ? 'rgba(59, 130, 246, 0.15)' : 'rgba(236, 72, 153, 0.15)',
-              color: isStudent ? '#60a5fa' : '#f472b6',
-              marginTop: '0.35rem',
-              border: isStudent ? '1px solid rgba(59, 130, 246, 0.3)' : '1px solid rgba(236, 72, 153, 0.3)'
-            }}
-          >
-            <span>{portalIcon}</span>
-            <span>Acesso ao {portalName}</span>
-          </div>
+          <p style={{ fontSize: '0.82rem', color: 'var(--text-muted)', marginTop: '0.35rem' }}>
+            Portal Único de Acesso Institucional
+          </p>
         </div>
 
         {/* Error Alert */}
@@ -178,16 +149,15 @@ export default function LoginView({
           <div
             style={{
               background: 'rgba(239, 68, 68, 0.15)',
-              border: '1px solid rgba(239, 68, 68, 0.4)',
-              borderRadius: '12px',
-              padding: '0.85rem 1rem',
+              border: '1px solid rgba(239, 68, 68, 0.35)',
+              borderRadius: '10px',
+              padding: '0.75rem 1rem',
               color: '#fca5a5',
-              fontSize: '0.84rem',
-              marginBottom: '1.25rem',
+              fontSize: '0.82rem',
               display: 'flex',
               alignItems: 'flex-start',
-              gap: '0.6rem',
-              lineHeight: 1.4
+              gap: '0.5rem',
+              marginBottom: '1.25rem'
             }}
           >
             <AlertCircle size={18} style={{ flexShrink: 0, marginTop: '2px' }} />
@@ -197,7 +167,6 @@ export default function LoginView({
 
         {/* Login Form */}
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.1rem' }}>
-          {/* Email field */}
           <div>
             <label
               style={{
@@ -226,7 +195,7 @@ export default function LoginView({
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder={isStudent ? 'aluno@aluno.metropolitana.edu.br' : 'atendente@metropolitana.edu.br'}
+                placeholder="seu.email@metropolitana.edu.br"
                 style={{
                   width: '100%',
                   padding: '0.75rem 1rem 0.75rem 2.6rem',
@@ -244,14 +213,13 @@ export default function LoginView({
             </div>
           </div>
 
-          {/* Password field */}
           <div>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.4rem' }}>
               <label style={{ fontSize: '0.82rem', fontWeight: 600, color: 'var(--text-muted)' }}>
                 Senha de Acesso
               </label>
-              <span style={{ fontSize: '0.74rem', color: 'var(--text-muted)' }}>
-                Demo: qualquer senha
+              <span style={{ fontSize: '0.75rem', color: '#38bdf8' }}>
+                Padrão demo: 123456
               </span>
             </div>
             <div style={{ position: 'relative' }}>
@@ -267,6 +235,7 @@ export default function LoginView({
               />
               <input
                 type="password"
+                required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
@@ -287,7 +256,6 @@ export default function LoginView({
             </div>
           </div>
 
-          {/* Remember Me */}
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.8rem', color: 'var(--text-muted)', cursor: 'pointer' }}>
               <input
@@ -300,7 +268,6 @@ export default function LoginView({
             </label>
           </div>
 
-          {/* Submit Button */}
           <button
             type="submit"
             disabled={isLoading}
@@ -309,9 +276,7 @@ export default function LoginView({
               padding: '0.85rem',
               borderRadius: '12px',
               border: 'none',
-              background: isStudent
-                ? 'linear-gradient(135deg, #1d4ed8, #0284c7)'
-                : 'linear-gradient(135deg, #ec4899, #8b5cf6)',
+              background: 'linear-gradient(135deg, #1d4ed8, #0284c7)',
               color: '#ffffff',
               fontSize: '0.95rem',
               fontWeight: 700,
@@ -321,105 +286,93 @@ export default function LoginView({
               gap: '0.6rem',
               cursor: isLoading ? 'not-allowed' : 'pointer',
               opacity: isLoading ? 0.7 : 1,
-              boxShadow: isStudent
-                ? '0 6px 20px rgba(29, 78, 216, 0.4)'
-                : '0 6px 20px rgba(236, 72, 153, 0.4)',
+              boxShadow: '0 6px 20px rgba(29, 78, 216, 0.4)',
               transition: 'transform 0.15s, opacity 0.15s',
               marginTop: '0.35rem'
             }}
           >
             <LogIn size={18} />
-            {isLoading ? 'Autenticando...' : `Entrar no ${portalName}`}
+            {isLoading ? 'Autenticando...' : 'Acessar Sistema'}
           </button>
         </form>
 
-        {/* 1-Click Fast Login Demo Profiles */}
-        <div style={{ marginTop: '1.75rem', borderTop: '1px solid var(--border-color)', paddingTop: '1.25rem' }}>
+        {/* CONTAS DE DEMONSTRAÇÃO (CLIQUE PARA PREENCHER) */}
+        <div style={{ marginTop: '1.5rem', borderTop: '1px solid var(--border-color)', paddingTop: '1.1rem' }}>
           <div
             style={{
               fontSize: '0.76rem',
               fontWeight: 700,
-              textTransform: 'uppercase',
-              letterSpacing: '0.5px',
               color: 'var(--text-muted)',
               marginBottom: '0.75rem',
               display: 'flex',
               alignItems: 'center',
-              gap: '0.4rem'
+              gap: '0.4rem',
+              letterSpacing: '0.04em'
             }}
           >
-            <Sparkles size={14} color="#f59e0b" />
-            Contas de Demonstração (Clique para preencher):
+            <Sparkles size={13} color="var(--accent)" /> CONTAS DE DEMONSTRAÇÃO (CLIQUE PARA PREENCHER):
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.45rem' }}>
             {demoAccounts.map((acc) => {
-              const isSelected = email === acc.email;
+              const isSelected = email.toLowerCase() === acc.email.toLowerCase();
               return (
                 <button
                   key={acc.email}
                   type="button"
-                  onClick={() => handleSelectDemo(acc.email)}
+                  onClick={() => {
+                    setEmail(acc.email);
+                    setErrorMsg('');
+                  }}
                   style={{
-                    background: isSelected ? 'rgba(255, 255, 255, 0.1)' : 'rgba(255, 255, 255, 0.03)',
-                    border: isSelected ? '1px solid var(--primary)' : '1px solid var(--border-color)',
-                    borderRadius: '10px',
-                    padding: '0.55rem 0.75rem',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'space-between',
+                    padding: '0.55rem 0.75rem',
+                    borderRadius: '10px',
+                    border: `1px solid ${isSelected ? acc.badgeColor : 'var(--border-color)'}`,
+                    background: isSelected
+                      ? `${acc.badgeColor}22`
+                      : 'rgba(0, 0, 0, 0.25)',
                     cursor: 'pointer',
+                    transition: 'all 0.15s ease',
                     textAlign: 'left',
-                    transition: 'all 0.15s ease'
+                    width: '100%'
                   }}
                 >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
                     <img
                       src={acc.avatar}
                       alt={acc.name}
                       style={{ width: '28px', height: '28px', borderRadius: '50%', objectFit: 'cover' }}
                     />
                     <div>
-                      <div style={{ fontSize: '0.82rem', fontWeight: 600, color: '#ffffff' }}>{acc.name}</div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                        <span style={{ fontSize: '0.82rem', fontWeight: 600, color: '#ffffff' }}>{acc.name}</span>
+                        <span
+                          style={{
+                            fontSize: '0.65rem',
+                            fontWeight: 700,
+                            padding: '0.1rem 0.4rem',
+                            borderRadius: '4px',
+                            background: `${acc.badgeColor}25`,
+                            color: acc.badgeColor
+                          }}
+                        >
+                          {acc.badge}
+                        </span>
+                      </div>
                       <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
-                        {acc.course || acc.dept} • {acc.email.split('@')[0]}
+                        {acc.info} • {acc.email.split('@')[0]}
                       </div>
                     </div>
                   </div>
-                  {isSelected && <CheckCircle2 size={16} color="var(--primary)" />}
+                  {isSelected && <CheckCircle2 size={16} color={acc.badgeColor} />}
                 </button>
               );
             })}
           </div>
         </div>
-
-        {/* Switch Portal Footer */}
-        {onSwitchPortal && (
-          <div
-            style={{
-              marginTop: '1.25rem',
-              textAlign: 'center',
-              fontSize: '0.8rem',
-              color: 'var(--text-muted)'
-            }}
-          >
-            {isStudent ? 'É da equipe de suporte/atendimento?' : 'É estudante da universidade?'}{' '}
-            <button
-              type="button"
-              onClick={onSwitchPortal}
-              style={{
-                background: 'none',
-                border: 'none',
-                color: isStudent ? '#f472b6' : '#60a5fa',
-                fontWeight: 600,
-                cursor: 'pointer',
-                textDecoration: 'underline'
-              }}
-            >
-              Ir para {isStudent ? 'Painel do Atendente' : 'Portal do Aluno'} →
-            </button>
-          </div>
-        )}
       </div>
     </div>
   );

@@ -1,11 +1,11 @@
 {
   "institution": {
     "id": "inst-1",
-    "name": "Universidade Metropolitana - UMI",
-    "tagline": "Central de Atendimento ao Aluno & Suporte Integrado",
-    "primaryColor": "#1d4ed8",
+    "name": "Centro Universitário Metropolitano Teste",
+    "tagline": "Central de Atendimento Segura",
+    "primaryColor": "#0f766e",
     "secondaryColor": "#0284c7",
-    "accentColor": "#f59e0b",
+    "accentColor": "#eab308",
     "logoUrl": "/assets/LOGO_UD.png",
     "aiProvider": "local_heuristic",
     "aiApiKey": "",
@@ -58,7 +58,8 @@
       "email": "admin@metropolitana.edu.br",
       "role": "admin",
       "department": "Diretoria de Tecnologia e Operações",
-      "avatar": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&auto=format&fit=crop&q=80"
+      "avatar": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&auto=format&fit=crop&q=80",
+      "senhaHash": "scrypt:c31c9fc47ce7fa4dab0d8c395465cac0:edebd31e57ebce1745e489852021acaa6df91674eb1d1a1d52c7bdc2579d09fcada091c8a4dd5cf69fe6075426e99d21fa422c245202e4a256d1f06bd5f9d787"
     },
     {
       "id": "usr-att-1",
@@ -66,7 +67,8 @@
       "email": "mariana.suporte@metropolitana.edu.br",
       "role": "attendant",
       "department": "Secretaria Acadêmica",
-      "avatar": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&auto=format&fit=crop&q=80"
+      "avatar": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&auto=format&fit=crop&q=80",
+      "senhaHash": "scrypt:c31c9fc47ce7fa4dab0d8c395465cac0:edebd31e57ebce1745e489852021acaa6df91674eb1d1a1d52c7bdc2579d09fcada091c8a4dd5cf69fe6075426e99d21fa422c245202e4a256d1f06bd5f9d787"
     },
     {
       "id": "usr-att-2",
@@ -74,7 +76,8 @@
       "email": "felipe.ti@metropolitana.edu.br",
       "role": "attendant",
       "department": "Suporte AVA & TI",
-      "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&auto=format&fit=crop&q=80"
+      "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&auto=format&fit=crop&q=80",
+      "senhaHash": "scrypt:c31c9fc47ce7fa4dab0d8c395465cac0:edebd31e57ebce1745e489852021acaa6df91674eb1d1a1d52c7bdc2579d09fcada091c8a4dd5cf69fe6075426e99d21fa422c245202e4a256d1f06bd5f9d787"
     },
     {
       "id": "usr-att-3",
@@ -82,7 +85,8 @@
       "email": "carla.financeiro@metropolitana.edu.br",
       "role": "attendant",
       "department": "Financeiro & Bolsas",
-      "avatar": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=80&auto=format&fit=crop&q=80"
+      "avatar": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=80&auto=format&fit=crop&q=80",
+      "senhaHash": "scrypt:c31c9fc47ce7fa4dab0d8c395465cac0:edebd31e57ebce1745e489852021acaa6df91674eb1d1a1d52c7bdc2579d09fcada091c8a4dd5cf69fe6075426e99d21fa422c245202e4a256d1f06bd5f9d787"
     },
     {
       "id": "usr-stu-1",
@@ -92,7 +96,8 @@
       "ra": "20240189",
       "course": "Engenharia de Software (5º Período)",
       "avatar": "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=80&auto=format&fit=crop&q=80",
-      "phone": "(11) 98765-4321"
+      "phone": "(11) 98765-4321",
+      "senhaHash": "scrypt:c31c9fc47ce7fa4dab0d8c395465cac0:edebd31e57ebce1745e489852021acaa6df91674eb1d1a1d52c7bdc2579d09fcada091c8a4dd5cf69fe6075426e99d21fa422c245202e4a256d1f06bd5f9d787"
     },
     {
       "id": "usr-stu-2",
@@ -102,7 +107,8 @@
       "ra": "20230512",
       "course": "Medicina (7º Período)",
       "avatar": "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=80&auto=format&fit=crop&q=80",
-      "phone": "(11) 99812-3456"
+      "phone": "(11) 99812-3456",
+      "senhaHash": "scrypt:c31c9fc47ce7fa4dab0d8c395465cac0:edebd31e57ebce1745e489852021acaa6df91674eb1d1a1d52c7bdc2579d09fcada091c8a4dd5cf69fe6075426e99d21fa422c245202e4a256d1f06bd5f9d787"
     },
     {
       "id": "usr-stu-3",
@@ -112,7 +118,8 @@
       "ra": "20220891",
       "course": "Direito (9º Período)",
       "avatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&auto=format&fit=crop&q=80",
-      "phone": "(11) 97654-9870"
+      "phone": "(11) 97654-9870",
+      "senhaHash": "scrypt:c31c9fc47ce7fa4dab0d8c395465cac0:edebd31e57ebce1745e489852021acaa6df91674eb1d1a1d52c7bdc2579d09fcada091c8a4dd5cf69fe6075426e99d21fa422c245202e4a256d1f06bd5f9d787"
     },
     {
       "id": "usr-stu-1790462614758",
@@ -126,7 +133,8 @@
       "department": "Engenharia de Software",
       "ra": "20263755",
       "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=80&auto=format&fit=crop&q=80",
-      "createdAt": "2026-09-26T22:43:34.758Z"
+      "createdAt": "2026-09-26T22:43:34.758Z",
+      "senhaHash": "scrypt:c31c9fc47ce7fa4dab0d8c395465cac0:edebd31e57ebce1745e489852021acaa6df91674eb1d1a1d52c7bdc2579d09fcada091c8a4dd5cf69fe6075426e99d21fa422c245202e4a256d1f06bd5f9d787"
     }
   ],
   "knowledgeBase": [
@@ -182,6 +190,426 @@
     }
   ],
   "tickets": [
+    {
+      "id": "tkt-1013",
+      "ticketNumber": 1013,
+      "studentId": "usr-alu-1",
+      "attendantId": "usr-tec-1",
+      "categoryId": "cat-1",
+      "subject": "Chamado Pós Desbloqueio",
+      "description": "Sistema normalizado com sucesso.",
+      "status": "open",
+      "priority": "low",
+      "origin": "portal",
+      "slaDueAt": "2026-10-19T21:33:50.451Z",
+      "firstResponseAt": null,
+      "resolvedAt": null,
+      "csatScore": null,
+      "createdAt": "2026-10-18T21:33:50.451Z",
+      "updatedAt": "2026-10-18T21:33:50.451Z",
+      "messages": [
+        {
+          "id": "msg-1792359230451",
+          "senderId": "usr-alu-1",
+          "senderName": "Aluno",
+          "senderRole": "student",
+          "message": "Sistema normalizado com sucesso.",
+          "isInternalNote": false,
+          "attachments": [],
+          "createdAt": "2026-10-18T21:33:50.451Z"
+        }
+      ]
+    },
+    {
+      "id": "tkt-1012",
+      "ticketNumber": 1012,
+      "studentId": "usr-alu-1",
+      "attendantId": "usr-tec-1",
+      "categoryId": "cat-1",
+      "subject": "Solicitação de Segunda Via de Carteirinha Estudantil",
+      "description": "Perdi minha carteirinha no campus norte e preciso de uma 2ª via urgente para o transporte público.",
+      "status": "resolved",
+      "priority": "high",
+      "origin": "web",
+      "slaDueAt": "2026-10-19T21:33:49.786Z",
+      "firstResponseAt": "2026-10-18T21:33:49.901Z",
+      "resolvedAt": "2026-10-18T21:33:49.918Z",
+      "csatScore": null,
+      "createdAt": "2026-10-18T21:33:49.786Z",
+      "updatedAt": "2026-10-18T21:33:49.918Z",
+      "messages": [
+        {
+          "id": "msg-1792359229787",
+          "senderId": "usr-alu-1",
+          "senderName": "Aluno",
+          "senderRole": "student",
+          "message": "Perdi minha carteirinha no campus norte e preciso de uma 2ª via urgente para o transporte público.",
+          "isInternalNote": false,
+          "attachments": [],
+          "createdAt": "2026-10-18T21:33:49.786Z"
+        },
+        {
+          "id": "msg-1792359229800",
+          "senderId": "usr-alu-1",
+          "senderName": "Enzo Gabriel Martins",
+          "senderRole": "aluno",
+          "message": "Seguem em anexo os comprovantes solicitados.",
+          "isInternalNote": false,
+          "attachments": [],
+          "createdAt": "2026-10-18T21:33:49.800Z"
+        },
+        {
+          "id": "msg-1792359229901",
+          "senderId": "usr-tec-1",
+          "senderName": "Mariana Alencar",
+          "senderRole": "tecnico",
+          "message": "Olá Enzo, recebemos sua solicitação! A 2ª via já foi enviada para impressão.",
+          "isInternalNote": false,
+          "attachments": [],
+          "createdAt": "2026-10-18T21:33:49.901Z"
+        },
+        {
+          "id": "msg-1792359229914",
+          "senderId": "usr-tec-1",
+          "senderName": "Mariana Alencar",
+          "senderRole": "tecnico",
+          "message": "Nota interna: Cobrança de taxa de R$ 15,00 isenta devido a bolsa PROUNI.",
+          "isInternalNote": true,
+          "attachments": [],
+          "createdAt": "2026-10-18T21:33:49.914Z"
+        }
+      ]
+    },
+    {
+      "id": "tkt-1011",
+      "ticketNumber": 1011,
+      "studentId": "usr-alu-1",
+      "attendantId": "usr-tec-1",
+      "categoryId": "cat-1",
+      "subject": "Chamado Pós Desbloqueio",
+      "description": "Sistema normalizado com sucesso.",
+      "status": "open",
+      "priority": "low",
+      "origin": "portal",
+      "slaDueAt": "2026-10-18T16:30:38.676Z",
+      "firstResponseAt": null,
+      "resolvedAt": null,
+      "csatScore": null,
+      "createdAt": "2026-10-17T16:30:38.676Z",
+      "updatedAt": "2026-10-17T16:30:38.676Z",
+      "messages": [
+        {
+          "id": "msg-1792254638676",
+          "senderId": "usr-alu-1",
+          "senderName": "Aluno",
+          "senderRole": "student",
+          "message": "Sistema normalizado com sucesso.",
+          "isInternalNote": false,
+          "attachments": [],
+          "createdAt": "2026-10-17T16:30:38.676Z"
+        }
+      ]
+    },
+    {
+      "id": "tkt-1010",
+      "ticketNumber": 1010,
+      "studentId": "usr-alu-1",
+      "attendantId": "usr-tec-1",
+      "categoryId": "cat-1",
+      "subject": "Solicitação de Segunda Via de Carteirinha Estudantil",
+      "description": "Perdi minha carteirinha no campus norte e preciso de uma 2ª via urgente para o transporte público.",
+      "status": "resolved",
+      "priority": "high",
+      "origin": "web",
+      "slaDueAt": "2026-10-18T16:30:38.364Z",
+      "firstResponseAt": "2026-10-17T16:30:38.421Z",
+      "resolvedAt": "2026-10-17T16:30:38.425Z",
+      "csatScore": null,
+      "createdAt": "2026-10-17T16:30:38.364Z",
+      "updatedAt": "2026-10-17T16:30:38.425Z",
+      "messages": [
+        {
+          "id": "msg-1792254638364",
+          "senderId": "usr-alu-1",
+          "senderName": "Aluno",
+          "senderRole": "student",
+          "message": "Perdi minha carteirinha no campus norte e preciso de uma 2ª via urgente para o transporte público.",
+          "isInternalNote": false,
+          "attachments": [],
+          "createdAt": "2026-10-17T16:30:38.364Z"
+        },
+        {
+          "id": "msg-1792254638372",
+          "senderId": "usr-alu-1",
+          "senderName": "Enzo Gabriel Martins",
+          "senderRole": "aluno",
+          "message": "Seguem em anexo os comprovantes solicitados.",
+          "isInternalNote": false,
+          "attachments": [],
+          "createdAt": "2026-10-17T16:30:38.372Z"
+        },
+        {
+          "id": "msg-1792254638421",
+          "senderId": "usr-tec-1",
+          "senderName": "Mariana Alencar",
+          "senderRole": "tecnico",
+          "message": "Olá Enzo, recebemos sua solicitação! A 2ª via já foi enviada para impressão.",
+          "isInternalNote": false,
+          "attachments": [],
+          "createdAt": "2026-10-17T16:30:38.421Z"
+        },
+        {
+          "id": "msg-1792254638423",
+          "senderId": "usr-tec-1",
+          "senderName": "Mariana Alencar",
+          "senderRole": "tecnico",
+          "message": "Nota interna: Cobrança de taxa de R$ 15,00 isenta devido a bolsa PROUNI.",
+          "isInternalNote": true,
+          "attachments": [],
+          "createdAt": "2026-10-17T16:30:38.423Z"
+        }
+      ]
+    },
+    {
+      "id": "tkt-1009",
+      "ticketNumber": 1009,
+      "studentId": "usr-alu-1",
+      "attendantId": "usr-tec-1",
+      "categoryId": "cat-1",
+      "subject": "Chamado Pós Desbloqueio",
+      "description": "Sistema normalizado com sucesso.",
+      "status": "open",
+      "priority": "low",
+      "origin": "portal",
+      "slaDueAt": "2026-10-18T16:29:09.093Z",
+      "firstResponseAt": null,
+      "resolvedAt": null,
+      "csatScore": null,
+      "createdAt": "2026-10-17T16:29:09.093Z",
+      "updatedAt": "2026-10-17T16:29:09.093Z",
+      "messages": [
+        {
+          "id": "msg-1792254549093",
+          "senderId": "usr-alu-1",
+          "senderName": "Aluno",
+          "senderRole": "student",
+          "message": "Sistema normalizado com sucesso.",
+          "isInternalNote": false,
+          "attachments": [],
+          "createdAt": "2026-10-17T16:29:09.093Z"
+        }
+      ]
+    },
+    {
+      "id": "tkt-1008",
+      "ticketNumber": 1008,
+      "studentId": "usr-alu-1",
+      "attendantId": "usr-tec-1",
+      "categoryId": "cat-1",
+      "subject": "Solicitação de Segunda Via de Carteirinha Estudantil",
+      "description": "Perdi minha carteirinha no campus norte e preciso de uma 2ª via urgente para o transporte público.",
+      "status": "resolved",
+      "priority": "high",
+      "origin": "web",
+      "slaDueAt": "2026-10-18T16:29:08.704Z",
+      "firstResponseAt": "2026-10-17T16:29:08.759Z",
+      "resolvedAt": "2026-10-17T16:29:08.763Z",
+      "csatScore": null,
+      "createdAt": "2026-10-17T16:29:08.704Z",
+      "updatedAt": "2026-10-17T16:29:08.763Z",
+      "messages": [
+        {
+          "id": "msg-1792254548705",
+          "senderId": "usr-alu-1",
+          "senderName": "Aluno",
+          "senderRole": "student",
+          "message": "Perdi minha carteirinha no campus norte e preciso de uma 2ª via urgente para o transporte público.",
+          "isInternalNote": false,
+          "attachments": [],
+          "createdAt": "2026-10-17T16:29:08.704Z"
+        },
+        {
+          "id": "msg-1792254548712",
+          "senderId": "usr-alu-1",
+          "senderName": "Enzo Gabriel Martins",
+          "senderRole": "aluno",
+          "message": "Seguem em anexo os comprovantes solicitados.",
+          "isInternalNote": false,
+          "attachments": [],
+          "createdAt": "2026-10-17T16:29:08.712Z"
+        },
+        {
+          "id": "msg-1792254548759",
+          "senderId": "usr-tec-1",
+          "senderName": "Mariana Alencar",
+          "senderRole": "tecnico",
+          "message": "Olá Enzo, recebemos sua solicitação! A 2ª via já foi enviada para impressão.",
+          "isInternalNote": false,
+          "attachments": [],
+          "createdAt": "2026-10-17T16:29:08.759Z"
+        },
+        {
+          "id": "msg-1792254548761",
+          "senderId": "usr-tec-1",
+          "senderName": "Mariana Alencar",
+          "senderRole": "tecnico",
+          "message": "Nota interna: Cobrança de taxa de R$ 15,00 isenta devido a bolsa PROUNI.",
+          "isInternalNote": true,
+          "attachments": [],
+          "createdAt": "2026-10-17T16:29:08.761Z"
+        }
+      ]
+    },
+    {
+      "id": "tkt-1007",
+      "ticketNumber": 1007,
+      "studentId": "usr-alu-1",
+      "attendantId": "usr-tec-1",
+      "categoryId": "cat-1",
+      "subject": "Chamado Pós Desbloqueio",
+      "description": "Sistema normalizado com sucesso.",
+      "status": "open",
+      "priority": "low",
+      "origin": "portal",
+      "slaDueAt": "2026-10-18T16:28:38.226Z",
+      "firstResponseAt": null,
+      "resolvedAt": null,
+      "csatScore": null,
+      "createdAt": "2026-10-17T16:28:38.226Z",
+      "updatedAt": "2026-10-17T16:28:38.226Z",
+      "messages": [
+        {
+          "id": "msg-1792254518226",
+          "senderId": "usr-alu-1",
+          "senderName": "Aluno",
+          "senderRole": "student",
+          "message": "Sistema normalizado com sucesso.",
+          "isInternalNote": false,
+          "attachments": [],
+          "createdAt": "2026-10-17T16:28:38.226Z"
+        }
+      ]
+    },
+    {
+      "id": "tkt-1006",
+      "ticketNumber": 1006,
+      "studentId": "usr-alu-1",
+      "attendantId": "usr-tec-1",
+      "categoryId": "cat-1",
+      "subject": "Solicitação de Segunda Via de Carteirinha Estudantil",
+      "description": "Perdi minha carteirinha no campus norte e preciso de uma 2ª via urgente para o transporte público.",
+      "status": "resolved",
+      "priority": "high",
+      "origin": "web",
+      "slaDueAt": "2026-10-18T16:28:37.915Z",
+      "firstResponseAt": "2026-10-17T16:28:37.971Z",
+      "resolvedAt": "2026-10-17T16:28:37.976Z",
+      "csatScore": null,
+      "createdAt": "2026-10-17T16:28:37.915Z",
+      "updatedAt": "2026-10-17T16:28:37.976Z",
+      "messages": [
+        {
+          "id": "msg-1792254517915",
+          "senderId": "usr-alu-1",
+          "senderName": "Aluno",
+          "senderRole": "student",
+          "message": "Perdi minha carteirinha no campus norte e preciso de uma 2ª via urgente para o transporte público.",
+          "isInternalNote": false,
+          "attachments": [],
+          "createdAt": "2026-10-17T16:28:37.915Z"
+        },
+        {
+          "id": "msg-1792254517923",
+          "senderId": "usr-alu-1",
+          "senderName": "Enzo Gabriel Martins",
+          "senderRole": "aluno",
+          "message": "Seguem em anexo os comprovantes solicitados.",
+          "isInternalNote": false,
+          "attachments": [],
+          "createdAt": "2026-10-17T16:28:37.923Z"
+        },
+        {
+          "id": "msg-1792254517971",
+          "senderId": "usr-tec-1",
+          "senderName": "Mariana Alencar",
+          "senderRole": "tecnico",
+          "message": "Olá Enzo, recebemos sua solicitação! A 2ª via já foi enviada para impressão.",
+          "isInternalNote": false,
+          "attachments": [],
+          "createdAt": "2026-10-17T16:28:37.971Z"
+        },
+        {
+          "id": "msg-1792254517973",
+          "senderId": "usr-tec-1",
+          "senderName": "Mariana Alencar",
+          "senderRole": "tecnico",
+          "message": "Nota interna: Cobrança de taxa de R$ 15,00 isenta devido a bolsa PROUNI.",
+          "isInternalNote": true,
+          "attachments": [],
+          "createdAt": "2026-10-17T16:28:37.973Z"
+        }
+      ]
+    },
+    {
+      "id": "tkt-1005",
+      "ticketNumber": 1005,
+      "studentId": "usr-alu-1",
+      "attendantId": "usr-tec-1",
+      "categoryId": "cat-1",
+      "subject": "Solicitação de Segunda Via de Carteirinha Estudantil",
+      "description": "Perdi minha carteirinha no campus norte e preciso de uma 2ª via urgente para o transporte público.",
+      "status": "resolved",
+      "priority": "high",
+      "origin": "web",
+      "slaDueAt": "2026-10-18T16:26:52.401Z",
+      "firstResponseAt": "2026-10-17T16:26:52.457Z",
+      "resolvedAt": "2026-10-17T16:26:52.461Z",
+      "csatScore": null,
+      "createdAt": "2026-10-17T16:26:52.401Z",
+      "updatedAt": "2026-10-17T16:26:52.461Z",
+      "messages": [
+        {
+          "id": "msg-1792254412401",
+          "senderId": "usr-alu-1",
+          "senderName": "Aluno",
+          "senderRole": "student",
+          "message": "Perdi minha carteirinha no campus norte e preciso de uma 2ª via urgente para o transporte público.",
+          "isInternalNote": false,
+          "attachments": [],
+          "createdAt": "2026-10-17T16:26:52.401Z"
+        },
+        {
+          "id": "msg-1792254412411",
+          "senderId": "usr-alu-1",
+          "senderName": "Enzo Gabriel Martins",
+          "senderRole": "aluno",
+          "message": "Seguem em anexo os comprovantes solicitados.",
+          "isInternalNote": false,
+          "attachments": [],
+          "createdAt": "2026-10-17T16:26:52.411Z"
+        },
+        {
+          "id": "msg-1792254412457",
+          "senderId": "usr-tec-1",
+          "senderName": "Mariana Alencar",
+          "senderRole": "tecnico",
+          "message": "Olá Enzo, recebemos sua solicitação! A 2ª via já foi enviada para impressão.",
+          "isInternalNote": false,
+          "attachments": [],
+          "createdAt": "2026-10-17T16:26:52.457Z"
+        },
+        {
+          "id": "msg-1792254412459",
+          "senderId": "usr-tec-1",
+          "senderName": "Mariana Alencar",
+          "senderRole": "tecnico",
+          "message": "Nota interna: Cobrança de taxa de R$ 15,00 isenta devido a bolsa PROUNI.",
+          "isInternalNote": true,
+          "attachments": [],
+          "createdAt": "2026-10-17T16:26:52.459Z"
+        }
+      ]
+    },
     {
       "id": "tkt-1004",
       "ticketNumber": 1004,
@@ -358,6 +786,248 @@
     }
   ],
   "chatSessions": [
+    {
+      "id": "chat-sess-1792359229759",
+      "studentId": "usr-alu-1",
+      "studentName": "Aluno",
+      "department": "Financeiro & Bolsas",
+      "status": "waiting_agent",
+      "createdAt": "2026-10-18T21:33:49.759Z",
+      "messages": [
+        {
+          "id": "cmsg-1792359229759",
+          "sender": "bot",
+          "senderName": "Sophia (IA UMI)",
+          "text": "Olá! Como posso ajudar você hoje?",
+          "timestamp": "2026-10-18T21:33:49.759Z"
+        },
+        {
+          "id": "cmsg-1792359229766",
+          "sender": "student",
+          "senderName": "Enzo Gabriel Martins",
+          "text": "Como faço para trancar uma matéria?",
+          "timestamp": "2026-10-18T21:33:49.766Z"
+        },
+        {
+          "id": "cmsg-1792359229768",
+          "sender": "bot",
+          "senderName": "Centro Bot",
+          "text": "Entendi sua dúvida sobre *\"\"Como faço para trancar uma matéria?\"*. Como a regra para esse procedimento pode variar dependendo do seu curso e semestre, você prefere que eu abra um chamado formal para a Secretaria Acadêmica ou transfira para um atendente humano agora?",
+          "timestamp": "2026-10-18T21:33:49.768Z"
+        },
+        {
+          "id": "cmsg-1792359229775",
+          "sender": "student",
+          "senderName": "Enzo Gabriel Martins",
+          "text": "Não ajudou nada, preciso falar com atendente humano urgente sobre meu boleto!",
+          "timestamp": "2026-10-18T21:33:49.775Z"
+        },
+        {
+          "id": "cmsg-1792359229778",
+          "sender": "bot",
+          "senderName": "Centro Bot",
+          "text": "Compreendo a necessidade de um suporte especializado. Já estou transferindo sua solicitação para a equipe do setor **Financeiro & Bolsas**. Um atendente humano responderá nesta mesma tela!",
+          "timestamp": "2026-10-18T21:33:49.779Z"
+        }
+      ]
+    },
+    {
+      "id": "chat-sess-1792254638353",
+      "studentId": "usr-alu-1",
+      "studentName": "Aluno",
+      "department": "Financeiro & Bolsas",
+      "status": "waiting_agent",
+      "createdAt": "2026-10-17T16:30:38.353Z",
+      "messages": [
+        {
+          "id": "cmsg-1792254638353",
+          "sender": "bot",
+          "senderName": "Sophia (IA UMI)",
+          "text": "Olá! Como posso ajudar você hoje?",
+          "timestamp": "2026-10-17T16:30:38.353Z"
+        },
+        {
+          "id": "cmsg-1792254638356",
+          "sender": "student",
+          "senderName": "Enzo Gabriel Martins",
+          "text": "Como faço para trancar uma matéria?",
+          "timestamp": "2026-10-17T16:30:38.356Z"
+        },
+        {
+          "id": "cmsg-1792254638357",
+          "sender": "bot",
+          "senderName": "Centro Bot",
+          "text": "Entendi sua dúvida sobre *\"\"Como faço para trancar uma matéria?\"*. Como a regra para esse procedimento pode variar dependendo do seu curso e semestre, você prefere que eu abra um chamado formal para a Secretaria Acadêmica ou transfira para um atendente humano agora?",
+          "timestamp": "2026-10-17T16:30:38.357Z"
+        },
+        {
+          "id": "cmsg-1792254638359",
+          "sender": "student",
+          "senderName": "Enzo Gabriel Martins",
+          "text": "Não ajudou nada, preciso falar com atendente humano urgente sobre meu boleto!",
+          "timestamp": "2026-10-17T16:30:38.359Z"
+        },
+        {
+          "id": "cmsg-1792254638360",
+          "sender": "bot",
+          "senderName": "Centro Bot",
+          "text": "Compreendo a necessidade de um suporte especializado. Já estou transferindo sua solicitação para a equipe do setor **Financeiro & Bolsas**. Um atendente humano responderá nesta mesma tela!",
+          "timestamp": "2026-10-17T16:30:38.360Z"
+        }
+      ]
+    },
+    {
+      "id": "chat-sess-1792254548692",
+      "studentId": "usr-alu-1",
+      "studentName": "Aluno",
+      "department": "Financeiro & Bolsas",
+      "status": "waiting_agent",
+      "createdAt": "2026-10-17T16:29:08.692Z",
+      "messages": [
+        {
+          "id": "cmsg-1792254548693",
+          "sender": "bot",
+          "senderName": "Sophia (IA UMI)",
+          "text": "Olá! Como posso ajudar você hoje?",
+          "timestamp": "2026-10-17T16:29:08.693Z"
+        },
+        {
+          "id": "cmsg-1792254548696",
+          "sender": "student",
+          "senderName": "Enzo Gabriel Martins",
+          "text": "Como faço para trancar uma matéria?",
+          "timestamp": "2026-10-17T16:29:08.696Z"
+        },
+        {
+          "id": "cmsg-1792254548696",
+          "sender": "bot",
+          "senderName": "Centro Bot",
+          "text": "Entendi sua dúvida sobre *\"\"Como faço para trancar uma matéria?\"*. Como a regra para esse procedimento pode variar dependendo do seu curso e semestre, você prefere que eu abra um chamado formal para a Secretaria Acadêmica ou transfira para um atendente humano agora?",
+          "timestamp": "2026-10-17T16:29:08.696Z"
+        },
+        {
+          "id": "cmsg-1792254548699",
+          "sender": "student",
+          "senderName": "Enzo Gabriel Martins",
+          "text": "Não ajudou nada, preciso falar com atendente humano urgente sobre meu boleto!",
+          "timestamp": "2026-10-17T16:29:08.699Z"
+        },
+        {
+          "id": "cmsg-1792254548700",
+          "sender": "bot",
+          "senderName": "Centro Bot",
+          "text": "Compreendo a necessidade de um suporte especializado. Já estou transferindo sua solicitação para a equipe do setor **Financeiro & Bolsas**. Um atendente humano responderá nesta mesma tela!",
+          "timestamp": "2026-10-17T16:29:08.700Z"
+        }
+      ]
+    },
+    {
+      "id": "chat-sess-1792254517904",
+      "studentId": "usr-alu-1",
+      "studentName": "Aluno",
+      "department": "Financeiro & Bolsas",
+      "status": "waiting_agent",
+      "createdAt": "2026-10-17T16:28:37.904Z",
+      "messages": [
+        {
+          "id": "cmsg-1792254517904",
+          "sender": "bot",
+          "senderName": "Sophia (IA UMI)",
+          "text": "Olá! Como posso ajudar você hoje?",
+          "timestamp": "2026-10-17T16:28:37.904Z"
+        },
+        {
+          "id": "cmsg-1792254517906",
+          "sender": "student",
+          "senderName": "Enzo Gabriel Martins",
+          "text": "Como faço para trancar uma matéria?",
+          "timestamp": "2026-10-17T16:28:37.906Z"
+        },
+        {
+          "id": "cmsg-1792254517907",
+          "sender": "bot",
+          "senderName": "Centro Bot",
+          "text": "Entendi sua dúvida sobre *\"\"Como faço para trancar uma matéria?\"*. Como a regra para esse procedimento pode variar dependendo do seu curso e semestre, você prefere que eu abra um chamado formal para a Secretaria Acadêmica ou transfira para um atendente humano agora?",
+          "timestamp": "2026-10-17T16:28:37.907Z"
+        },
+        {
+          "id": "cmsg-1792254517910",
+          "sender": "student",
+          "senderName": "Enzo Gabriel Martins",
+          "text": "Não ajudou nada, preciso falar com atendente humano urgente sobre meu boleto!",
+          "timestamp": "2026-10-17T16:28:37.910Z"
+        },
+        {
+          "id": "cmsg-1792254517911",
+          "sender": "bot",
+          "senderName": "Centro Bot",
+          "text": "Compreendo a necessidade de um suporte especializado. Já estou transferindo sua solicitação para a equipe do setor **Financeiro & Bolsas**. Um atendente humano responderá nesta mesma tela!",
+          "timestamp": "2026-10-17T16:28:37.911Z"
+        }
+      ]
+    },
+    {
+      "id": "chat-sess-1792254412389",
+      "studentId": "usr-alu-1",
+      "studentName": "Aluno",
+      "department": "Financeiro & Bolsas",
+      "status": "waiting_agent",
+      "createdAt": "2026-10-17T16:26:52.389Z",
+      "messages": [
+        {
+          "id": "cmsg-1792254412389",
+          "sender": "bot",
+          "senderName": "Sophia (IA UMI)",
+          "text": "Olá! Como posso ajudar você hoje?",
+          "timestamp": "2026-10-17T16:26:52.389Z"
+        },
+        {
+          "id": "cmsg-1792254412392",
+          "sender": "student",
+          "senderName": "Enzo Gabriel Martins",
+          "text": "Como faço para trancar uma matéria?",
+          "timestamp": "2026-10-17T16:26:52.392Z"
+        },
+        {
+          "id": "cmsg-1792254412393",
+          "sender": "bot",
+          "senderName": "Universidade Bot",
+          "text": "Entendi sua dúvida sobre *\"\"Como faço para trancar uma matéria?\"*. Como a regra para esse procedimento pode variar dependendo do seu curso e semestre, você prefere que eu abra um chamado formal para a Secretaria Acadêmica ou transfira para um atendente humano agora?",
+          "timestamp": "2026-10-17T16:26:52.393Z"
+        },
+        {
+          "id": "cmsg-1792254412395",
+          "sender": "student",
+          "senderName": "Enzo Gabriel Martins",
+          "text": "Não ajudou nada, preciso falar com atendente humano urgente sobre meu boleto!",
+          "timestamp": "2026-10-17T16:26:52.395Z"
+        },
+        {
+          "id": "cmsg-1792254412396",
+          "sender": "bot",
+          "senderName": "Universidade Bot",
+          "text": "Compreendo a necessidade de um suporte especializado. Já estou transferindo sua solicitação para a equipe do setor **Financeiro & Bolsas**. Um atendente humano responderá nesta mesma tela!",
+          "timestamp": "2026-10-17T16:26:52.396Z"
+        }
+      ]
+    },
+    {
+      "id": "chat-sess-1792021461127",
+      "studentId": "usr-alu-2",
+      "studentName": "Aluno",
+      "department": "Geral",
+      "status": "bot",
+      "createdAt": "2026-10-14T23:44:21.127Z",
+      "messages": [
+        {
+          "id": "cmsg-1792021461127",
+          "sender": "bot",
+          "senderName": "Sophia (IA UMI)",
+          "text": "Olá! Como posso ajudar você hoje?",
+          "timestamp": "2026-10-14T23:44:21.127Z"
+        }
+      ]
+    },
     {
       "id": "chat-sess-1791851049466",
       "studentId": "usr-alu-1",

@@ -1,6 +1,12 @@
 import express from 'express';
 import { db } from '../db.js';
 import { AIService } from '../aiService.js';
+import { heartbeatClient } from '../licensing/heartbeatClient.js';
+import { licenseVerifier } from '../licensing/licenseVerifier.js';
+import { supportClient } from '../support/supportClient.js';
+import { requireAuth } from '../middleware/auth.js';
+import path from 'path';
+import fs from 'fs';
 
 export const apiRouter = express.Router();
 
@@ -24,17 +30,30 @@ apiRouter.get('/health', (req, res) => {
   });
 });
 
-// Institution & Branding Configuration
+// Institution & Branding Configuration (Sanitizada para acesso público)
 apiRouter.get('/config', (req, res) => {
+  const cfg = { ...db.getConfig() };
+  if (cfg.aiApiKey) {
+    cfg.aiApiKey = '••••••••';
+  }
+  res.json(cfg);
+});
+
+// Configuração completa restrita a administradores (com visualização de aiApiKey)
+apiRouter.get('/admin/config', requireAuth(['admin']), (req, res) => {
   res.json(db.getConfig());
 });
 
-apiRouter.put('/config', (req, res) => {
-  const updated = db.updateConfig(req.body);
+apiRouter.put('/config', requireAuth(['admin']), (req, res) => {
+  const body = { ...req.body };
+  if (body.aiApiKey && body.aiApiKey.includes('••••')) {
+    delete body.aiApiKey;
+  }
+  const updated = db.updateConfig(body);
   res.json({ success: true, config: updated });
 });
 
-// Authentication (Login com E-mail institucional)
+// Authentication (Login com E-mail institucional e validação obrigatória de senha)
 apiRouter.post('/auth/login', (req, res) => {
   try {
     const { email, password, role } = req.body;
@@ -49,25 +68,13 @@ apiRouter.post('/auth/login', (req, res) => {
       message: `Bem-vindo(a), ${result.user.name}!`
     });
   } catch (err) {
-    res.status(401).json({ error: err.message });
+    const statusCode = err.statusCode || 401;
+    res.status(statusCode).json({ error: err.message });
   }
 });
 
-apiRouter.get('/auth/me', (req, res) => {
-  const authHeader = req.headers.authorization || '';
-  const token = authHeader.replace(/^Bearer\s+/i, '');
-  if (!token || !token.startsWith('udt_')) {
-    return res.status(401).json({ error: 'Não autenticado' });
-  }
-  try {
-    const decoded = Buffer.from(token.replace('udt_', ''), 'base64').toString('utf8');
-    const [userId] = decoded.split(':');
-    const user = db.getUserById(userId);
-    if (!user) return res.status(401).json({ error: 'Sessão inválida' });
-    res.json({ success: true, user });
-  } catch (err) {
-    res.status(401).json({ error: 'Token inválido' });
-  }
+apiRouter.get('/auth/me', requireAuth(), (req, res) => {
+  res.json({ success: true, user: req.user });
 });
 
 apiRouter.post('/auth/logout', (req, res) => {
@@ -86,7 +93,7 @@ apiRouter.get('/users/:id', (req, res) => {
   res.json(user);
 });
 
-apiRouter.post('/users', (req, res) => {
+apiRouter.post('/users', requireAuth(['admin']), (req, res) => {
   const { name, email, role, department, course, period, cpf, phone } = req.body;
   if (!name || !email) {
     return res.status(400).json({ error: "Nome e E-mail são obrigatórios para cadastro" });
@@ -304,7 +311,7 @@ apiRouter.post('/chat/:id/escalate', (req, res) => {
 });
 
 // Admin Metrics
-apiRouter.get('/admin/metrics', (req, res) => {
+apiRouter.get('/admin/metrics', requireAuth(['admin', 'attendant']), (req, res) => {
   res.json(db.getMetrics());
 });
 
@@ -352,42 +359,45 @@ apiRouter.get('/sql/alunos-rating', (req, res) => {
   res.json(db.getNotaMediaAlunos());
 });
 
-apiRouter.get('/sql/users-by-role', (req, res) => {
+apiRouter.get('/sql/users-by-role', requireAuth(['admin', 'attendant']), (req, res) => {
   res.json(db.getUsuariosPorRole());
 });
 
-apiRouter.get('/sql/logs-admin', (req, res) => {
+apiRouter.get('/sql/logs-admin', requireAuth(['admin']), (req, res) => {
   res.json(db.getLogsAdmin());
 });
 
 // 2. Gestão de Usuários pelo Admin Faculdade (Seção 5)
-apiRouter.post('/sql/users', (req, res) => {
+apiRouter.post('/sql/users', requireAuth(['admin']), (req, res) => {
   try {
     const { adminId, nomeCompleto, cpf, email, role, extra } = req.body;
     if (!nomeCompleto || !cpf || !email || !role) {
       return res.status(400).json({ error: "Campos obrigatórios ausentes (nomeCompleto, cpf, email, role)." });
     }
-    const created = db.criarUsuario({ adminId, nomeCompleto, cpf, email, role, extra });
+    const effectiveAdminId = req.user?.id || adminId;
+    const created = db.criarUsuario({ adminId: effectiveAdminId, nomeCompleto, cpf, email, role, extra });
     res.status(201).json(created);
   } catch (err) {
     res.status(500).json({ error: "Erro ao criar usuário", details: err.message });
   }
 });
 
-apiRouter.post('/sql/users/:id/reset-password', (req, res) => {
+apiRouter.post('/sql/users/:id/reset-password', requireAuth(['admin']), (req, res) => {
   try {
-    const { adminId, novoHash } = req.body;
-    const result = db.redefinirSenha({ adminId, usuarioId: req.params.id, novoHash });
+    const { adminId, novoHash, novaSenha } = req.body;
+    const effectiveAdminId = req.user?.id || adminId;
+    const result = db.redefinirSenha({ adminId: effectiveAdminId, usuarioId: req.params.id, novoHash, novaSenha });
     res.json(result);
   } catch (err) {
     res.status(500).json({ error: "Erro ao redefinir senha", details: err.message });
   }
 });
 
-apiRouter.post('/sql/users/:id/inactivate', (req, res) => {
+apiRouter.post('/sql/users/:id/inactivate', requireAuth(['admin']), (req, res) => {
   try {
     const { adminId } = req.body;
-    const result = db.inativarUsuario({ adminId, usuarioId: req.params.id });
+    const effectiveAdminId = req.user?.id || adminId;
+    const result = db.inativarUsuario({ adminId: effectiveAdminId, usuarioId: req.params.id });
     res.json(result);
   } catch (err) {
     res.status(500).json({ error: "Erro ao inativar usuário", details: err.message });
@@ -420,3 +430,185 @@ apiRouter.post('/sql/ratings/aluno', (req, res) => {
     res.status(500).json({ error: "Erro ao registrar avaliação do aluno", details: err.message });
   }
 });
+
+// ==========================================
+// MÓDULO DE LICENCIAMENTO (EPIC-3)
+// ==========================================
+
+// Retorna o status da licença (com flag de warning se em grace period)
+apiRouter.get('/licensing/status', (req, res) => {
+  const status = heartbeatClient.getStatus();
+  res.json({
+    success: true,
+    data: status,
+    warning: req.licenseWarning || null
+  });
+});
+
+// Força emissão de heartbeat outbound para a Central
+apiRouter.post('/licensing/heartbeat', async (req, res) => {
+  try {
+    const result = await heartbeatClient.sendHeartbeat(req.body?.telemetry || {});
+    res.json(result);
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// Retorna dados da fatura / cobrança Asaas
+apiRouter.get('/licensing/invoice', (req, res) => {
+  const status = heartbeatClient.getStatus();
+  res.json({
+    success: true,
+    invoice: status.invoice || {
+      message: 'Fatura anual de licenciamento UniDesk',
+      paymentUrl: 'https://asaas.com/i/unidesk-licenca',
+      amount: 1499.00,
+      pixQrCode: '00020101021226840014br.gov.bcb.pix2562pix.asaas.com/qr/v2/cobv/unidesk-licenca-anual5204000053039865405599.005802BR5925UNIDESK SOLUCOES SAAS LTDA6009SAO PAULO62070503***6304E85C'
+    }
+  });
+});
+
+// Endpoint administrativo para simular status (demonstração / testes de QA)
+apiRouter.post('/licensing/simulate', requireAuth(['admin']), (req, res) => {
+  if (process.env.NODE_ENV === 'production') {
+    return res.status(403).json({ error: 'A rota de simulação está desativada em ambiente de produção.' });
+  }
+
+  const { status, daysInGrace, invoice } = req.body;
+  if (!status || !['ACTIVE', 'GRACE_PERIOD', 'LOCKED'].includes(status)) {
+    return res.status(400).json({ error: 'Status deve ser ACTIVE, GRACE_PERIOD ou LOCKED' });
+  }
+  const updated = heartbeatClient.forceState({
+    status,
+    daysInGrace: daysInGrace !== undefined ? Number(daysInGrace) : (status === 'GRACE_PERIOD' ? 5 : status === 'LOCKED' ? 16 : 0),
+    daysRemainingGrace: status === 'GRACE_PERIOD' ? Math.max(0, 15 - (Number(daysInGrace) || 5)) : (status === 'LOCKED' ? 0 : 15),
+    invoice: invoice || (status !== 'ACTIVE' ? {
+      message: 'Fatura de Renovação Anual do Software UniDesk',
+      amount: 1499.00,
+      paymentUrl: 'https://asaas.com/i/unidesk-licenca',
+      pixQrCode: '00020101021226840014br.gov.bcb.pix2562pix.asaas.com/qr/v2/cobv/unidesk-licenca-anual5204000053039865405599.005802BR5925UNIDESK SOLUCOES SAAS LTDA6009SAO PAULO62070503***6304E85C'
+    } : null)
+  });
+  res.json({ success: true, state: updated });
+});
+
+// Validação matemática de token avulso
+apiRouter.post('/licensing/verify-token', (req, res) => {
+  const { token } = req.body;
+  const result = licenseVerifier.verifyToken(token);
+  res.json(result);
+});
+
+// ==========================================
+// MÓDULO DE SUPORTE DA PLATAFORMA (EPIC-4)
+// ==========================================
+
+// Despacha chamado técnico com diagnósticos para a Central do Fornecedor
+apiRouter.post('/admin/support/ticket', requireAuth(['admin', 'attendant']), async (req, res) => {
+  try {
+    const title = req.body.title || req.body.subject;
+    const { description, priority, contactEmail, category } = req.body;
+    if (!title || !description) {
+      return res.status(400).json({ error: 'Título e descrição são obrigatórios para abertura de chamado.' });
+    }
+
+    const result = await supportClient.submitTicket({
+      title,
+      description,
+      priority: priority || 'MEDIUM',
+      category: category || 'INCIDENT',
+      contactEmail: contactEmail || 'admin@metropolitana.edu.br'
+    });
+
+    res.status(201).json(result);
+  } catch (err) {
+    res.status(500).json({ error: 'Erro ao despachar chamado para a Central do Fornecedor', details: err.message });
+  }
+});
+
+// Consulta chamados na fila de contingência local
+apiRouter.get('/admin/support/pending', requireAuth(['admin', 'attendant']), (req, res) => {
+  try {
+    const pending = supportClient.loadPendingTickets();
+    res.json({
+      success: true,
+      count: pending.length,
+      pending
+    });
+  } catch (err) {
+    res.status(500).json({ error: 'Erro ao consultar fila de suporte local', details: err.message });
+  }
+});
+
+// Força reenvio de chamados da fila de contingência
+apiRouter.post('/admin/support/flush', requireAuth(['admin', 'attendant']), async (req, res) => {
+  try {
+    const result = await supportClient.flushPendingTickets();
+    res.json({
+      success: true,
+      result
+    });
+  } catch (err) {
+    res.status(500).json({ error: 'Erro ao executar reenvio de contingência', details: err.message });
+  }
+});
+
+// ==========================================
+// MÓDULO DE BACKUP & SEGURANÇA DE DADOS
+// ==========================================
+import { backupService } from '../services/backupService.js';
+
+// Listar backups existentes
+apiRouter.get('/admin/backups', requireAuth(['admin']), (req, res) => {
+  try {
+    const list = backupService.listBackups();
+    res.json({
+      success: true,
+      retentionDays: backupService.retentionDays,
+      intervalHours: backupService.intervalHours,
+      backups: list
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Disparar backup imediato
+apiRouter.post('/admin/backups/create', requireAuth(['admin']), async (req, res) => {
+  try {
+    const backup = await backupService.createBackup();
+    res.status(201).json({
+      success: true,
+      message: 'Backup transacional concluído com sucesso!',
+      backup
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Baixar um backup existente (autenticado, somente o arquivo solicitado)
+apiRouter.get('/admin/backups/:filename', requireAuth(['admin']), (req, res) => {
+  try {
+    const { filename } = req.params;
+    const backupDir = path.join(__dirname, '..', 'data', 'backups');
+    const filePath = path.resolve(backupDir, filename);
+
+    // Apenas o backup pertencente ao diretório de backups pode ser servido
+    if (!filePath.startsWith(backupDir)) {
+      return res.status(403).json({ error: 'Acesso negado.' });
+    }
+    if (!fs.existsSync(filePath)) {
+      return res.status(404).json({ error: 'Backup não encontrado.' });
+    }
+
+    res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+    res.setHeader('Content-Type', 'application/gzip');
+    res.sendFile(filePath);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+

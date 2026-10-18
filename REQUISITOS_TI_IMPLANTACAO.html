@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>UniDesk — Requisitos Técnicos e Diretrizes de Implantação</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 15mm 15mm 15mm 15mm;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color: #1f2937;
+      line-height: 1.45;
+      margin: 0;
+      padding: 0;
+      font-size: 11pt;
+      background: #ffffff;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid #4f46e5;
+      padding-bottom: 10px;
+      margin-bottom: 16px;
+    }
+    .logo-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .logo-badge {
+      background: #4f46e5;
+      color: #ffffff;
+      font-weight: 800;
+      font-size: 16pt;
+      padding: 6px 12px;
+      border-radius: 8px;
+    }
+    .doc-info {
+      text-align: right;
+      font-size: 9pt;
+      color: #6b7280;
+    }
+    h1 {
+      font-size: 14pt;
+      color: #111827;
+      margin: 0;
+      font-weight: 800;
+    }
+    .subtitle {
+      font-size: 9pt;
+      color: #4b5563;
+      margin-top: 2px;
+    }
+    h2 {
+      font-size: 11pt;
+      color: #4f46e5;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-bottom: 1px solid #e5e7eb;
+      padding-bottom: 4px;
+      margin-top: 14px;
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+    p {
+      margin: 4px 0 8px 0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 6px 0 10px 0;
+      font-size: 9.5pt;
+    }
+    th, td {
+      border: 1px solid #d1d5db;
+      padding: 6px 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #f3f4f6;
+      color: #374151;
+      font-weight: 700;
+    }
+    .grid {
+      display: flex;
+      gap: 14px;
+    }
+    .col {
+      flex: 1;
+    }
+    .card {
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: 6px;
+      padding: 8px 10px;
+      margin-bottom: 8px;
+    }
+    .card-title {
+      font-weight: 700;
+      font-size: 9.5pt;
+      color: #1f2937;
+      margin-bottom: 3px;
+    }
+    .badge {
+      display: inline-block;
+      padding: 2px 6px;
+      font-size: 8pt;
+      font-weight: 700;
+      border-radius: 4px;
+    }
+    .badge-green { background: #def7ec; color: #03543f; }
+    .badge-blue { background: #e1effe; color: #1e429f; }
+    code {
+      font-family: Consolas, Monaco, "Courier New", monospace;
+      background: #f3f4f6;
+      padding: 1px 4px;
+      border-radius: 3px;
+      font-size: 9pt;
+      color: #374151;
+    }
+    pre {
+      background: #1f2937;
+      color: #f9fafb;
+      padding: 8px 10px;
+      border-radius: 6px;
+      font-size: 8.5pt;
+      margin: 4px 0 8px 0;
+      overflow-x: auto;
+    }
+    .footer {
+      margin-top: 18px;
+      border-top: 1px solid #e5e7eb;
+      padding-top: 8px;
+      font-size: 8.5pt;
+      color: #9ca3af;
+      display: flex;
+      justify-content: space-between;
+    }
+    @media print {
+      body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="logo-title">
+      <div class="logo-badge">UD</div>
+      <div>
+        <h1>UniDesk — Helpdesk Universitário Inteligente</h1>
+        <div class="subtitle">DOCUMENTO DE ESPECIFICAÇÃO DE INFRAESTRUTURA & IMPLANTAÇÃO (TI)</div>
+      </div>
+    </div>
+    <div class="doc-info">
+      <strong>Versão:</strong> 2.0.0 (On-Premise)<br>
+      <strong>Público:</strong> DTI / Redes / Segurança
+    </div>
+  </div>
+
+  <h2>1. Requisitos de Hardware & Ambiente</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Recurso</th>
+        <th>Mínimo (Até 3.000 alunos)</th>
+        <th>Recomendado (Acima de 5.000 alunos)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Processador (vCPU)</strong></td>
+        <td>2 vCPUs (x86_64 ou ARM64)</td>
+        <td>4 vCPUs</td>
+      </tr>
+      <tr>
+        <td><strong>Memória RAM</strong></td>
+        <td>4 GB</td>
+        <td>8 GB</td>
+      </tr>
+      <tr>
+        <td><strong>Armazenamento</strong></td>
+        <td>20 GB SSD (NVMe recomendado)</td>
+        <td>50 GB SSD</td>
+      </tr>
+      <tr>
+        <td><strong>Sistema Operacional</strong></td>
+        <td colspan="2">Linux (Ubuntu 22.04+, Debian 12+, RHEL 9+) ou Windows Server com Docker</td>
+      </tr>
+      <tr>
+        <td><strong>Motor de Execução</strong></td>
+        <td colspan="2">Docker 24.0+ &amp; Docker Compose v2+ (Instalação isolada sem dependências)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>2. Topologia de Rede &amp; Segurança (Zero Inbound)</h2>
+  <div class="grid">
+    <div class="col card">
+      <div class="card-title">Portas Locais de Entrada (Inbound na LAN)</div>
+      <p style="font-size: 9pt;">Acessível apenas aos alunos e colaboradores na rede interna da instituição ou via VPN:</p>
+      <ul style="margin: 0; padding-left: 18px; font-size: 9pt;">
+        <li><code>Porta 80 / 443 (HTTP/HTTPS)</code>: Portais Web &amp; WebSockets em tempo real.</li>
+        <li><code>Porta 22 (SSH)</code>: Gestão restrita exclusiva da TI institucional.</li>
+      </ul>
+    </div>
+    <div class="col card">
+      <div class="card-title">Portas de Saída (Outbound para Internet) <span class="badge badge-green">Zero Inbound</span></div>
+      <p style="font-size: 9pt;"><strong>Nenhuma porta precisa ser exposta para a internet pública</strong>. O sistema opera 100% isolado:</p>
+      <ul style="margin: 0; padding-left: 18px; font-size: 9pt;">
+        <li><code>Porta 443 (HTTPS Outbound)</code>: 1 requisição diária para validação matemática de licença com a Central.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>3. Conformidade LGPD &amp; Soberania de Dados</h2>
+  <div class="card">
+    <p style="font-size: 9pt; margin: 0;">
+      <strong>100% On-Premise:</strong> Todos os bancos de dados, cadastros de alunos, conversas e protocolos de chamados permanecem armazenados exclusivamente no hardware da instituição. O fornecedor do software <strong>não possui acesso</strong> nem armazena PII acadêmica externa.
+    </p>
+  </div>
+
+  <h2>4. Instalação em 1 Comando &amp; Rotinas de Backup</h2>
+  <div class="grid">
+    <div class="col">
+      <div class="card-title" style="font-size: 9pt;">Passo Único de Execução (Docker Compose)</div>
+      <pre># 1. Configurar chave no .env e subir
+cp .env.production.example .env
+docker compose up -d</pre>
+    </div>
+    <div class="col">
+      <div class="card-title" style="font-size: 9pt;">Hot Backup Transacional Automático</div>
+      <p style="font-size: 8.5pt; margin: 0;">
+        Daemon nativo em segundo plano que gera snapshots <code>.sqlite.gz</code> diariamente às 02:00, com retenção automática de 15 dias e restauração rápida via <code>./scripts/restore.sh</code>.
+      </p>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span>UniDesk Soluções Tecnológicas © 2026 — Todos os direitos reservados.</span>
+    <span>Homologação e Suporte: suporte@unidesk.com.br</span>
+  </div>
+
+</body>
+</html>
