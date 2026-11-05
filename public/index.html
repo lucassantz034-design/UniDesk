@@ -6,6 +6,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Portal do Aluno — UniDesk Helpdesk</title>
   <link rel="stylesheet" href="/css/styles.css">
+  <script>
+    (function() {
+      try {
+        var t = localStorage.getItem('unidesk_theme');
+        if (t === 'light' || t === 'dark') {
+          document.documentElement.setAttribute('data-theme', t);
+        } else {
+          document.documentElement.removeAttribute('data-theme');
+        }
+      } catch(e) {}
+    })();
+  </script>
 </head>
 
 <body>
@@ -278,12 +290,7 @@
               <div class="form-group">
                 <label>Setor / Departamento Acadêmico <span style="color:#ef4444;">*</span></label>
                 <select id="new-ticket-category" class="form-select" required>
-                  <option value="" disabled selected>Selecione o setor...</option>
-                  <option value="cat-1">Secretaria Acadêmica (Documentos, Matrícula)</option>
-                  <option value="cat-2">Financeiro & Bolsas (Boletos, FIES, Prouni)</option>
-                  <option value="cat-3">Suporte AVA & TI (Moodle, Acesso Portal, Wi-Fi)</option>
-                  <option value="cat-4">Coordenação Pedagógica (Disciplinas, Ementas)</option>
-                  <option value="cat-5">Estágios & Carreiras (Termos de Compromisso)</option>
+                  <option value="cat-ti" selected>Suporte de T.I. (SLA: 6h)</option>
                 </select>
               </div>
 
@@ -301,7 +308,7 @@
             <div class="form-group" style="margin-bottom:1.25rem;">
               <label>Assunto Resumido <span style="color:#ef4444;">*</span></label>
               <input type="text" id="new-ticket-subject" class="form-input"
-                placeholder="Ex: Correção no boleto de outubro com desconto Prouni" required>
+                placeholder="Ex: Problema com acesso ao Portal / Moodle / Wi-Fi" required>
             </div>
 
             <div class="form-group" style="margin-bottom:1.25rem;">
@@ -521,18 +528,13 @@
           <div class="form-group">
             <label>Setor / Departamento Acadêmico <span style="color:#ef4444;">*</span></label>
             <select id="modal-ticket-category" class="form-select" required>
-              <option value="" disabled selected>Selecione o setor...</option>
-              <option value="cat-1">Secretaria Acadêmica</option>
-              <option value="cat-2">Financeiro & Bolsas</option>
-              <option value="cat-3">Suporte AVA & TI</option>
-              <option value="cat-4">Coordenação Pedagógica</option>
-              <option value="cat-5">Estágios & Carreiras</option>
+              <option value="cat-ti" selected>Suporte de T.I. (SLA: 6h)</option>
             </select>
           </div>
 
           <div class="form-group">
             <label>Assunto <span style="color:#ef4444;">*</span></label>
-            <input type="text" id="modal-ticket-subject" class="form-input" placeholder="Ex: Solicitação de declaração de conclusão" required>
+            <input type="text" id="modal-ticket-subject" class="form-input" placeholder="Ex: Problema com acesso ao Portal / Moodle / Wi-Fi" required>
           </div>
 
           <div class="form-group">
@@ -556,6 +558,7 @@
     <span id="toast-message">Operação realizada com sucesso!</span>
   </div>
 
+  <script src="/js/unidesk-popup.js"></script>
   <script src="/js/studentPortal.js"></script>
 </body>
 

@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
 
 :root {
+  /* Default: Dark Theme */
   --primary: #1d4ed8;
   --primary-light: #3b82f6;
   --primary-dark: #1e3a8a;
@@ -12,17 +13,56 @@
   --bg-surface: #111827;
   --bg-card: rgba(17, 24, 39, 0.85);
   --bg-card-hover: rgba(31, 41, 55, 0.95);
+  --bg-card-subtle: rgba(255, 255, 255, 0.03);
+  --bg-navbar: rgba(11, 15, 25, 0.85);
+  --bg-input: rgba(255, 255, 255, 0.05);
+  --bg-btn-secondary: rgba(255, 255, 255, 0.08);
+  --bg-btn-secondary-hover: rgba(255, 255, 255, 0.14);
+  --bg-bubble-student: rgba(255, 255, 255, 0.05);
+  --bg-bubble-bot: rgba(139, 92, 246, 0.15);
+  --border-bubble-bot: rgba(139, 92, 246, 0.3);
+  --text-bubble-bot: #f3e8ff;
+  --bg-sidebar: #131722;
+  --bg-sidebar-active: #232839;
+  --text-sidebar: #8a94a6;
+  --text-sidebar-hover: #f1f5f9;
+
   --border-color: rgba(255, 255, 255, 0.08);
   --border-focus: rgba(59, 130, 246, 0.5);
 
   --text-main: #f9fafb;
   --text-muted: #9ca3af;
   --text-subtle: #6b7280;
+  --brand-title-gradient: linear-gradient(135deg, #ffffff 40%, var(--primary-light) 100%);
+  --hero-bg: linear-gradient(135deg, rgba(29, 78, 216, 0.12) 0%, rgba(17, 24, 39, 0.8) 100%);
+  --ai-panel-bg: linear-gradient(160deg, rgba(30, 27, 75, 0.7) 0%, rgba(17, 24, 39, 0.9) 100%);
+  --ai-panel-title: #c4b5fd;
+  --ai-panel-summary-bg: rgba(255, 255, 255, 0.03);
+  --ai-panel-summary-text: #e5e7eb;
 
   --status-open: #3b82f6;
   --status-progress: #f59e0b;
   --status-resolved: #10b981;
   --status-urgent: #ef4444;
+
+  --badge-open-bg: rgba(59, 130, 246, 0.15);
+  --badge-open-text: #60a5fa;
+  --badge-open-border: rgba(59, 130, 246, 0.3);
+
+  --badge-progress-bg: rgba(245, 158, 11, 0.15);
+  --badge-progress-text: #fbbf24;
+  --badge-progress-border: rgba(245, 158, 11, 0.3);
+
+  --badge-resolved-bg: rgba(16, 185, 129, 0.15);
+  --badge-resolved-text: #34d399;
+  --badge-resolved-border: rgba(16, 185, 129, 0.3);
+
+  --badge-urgent-bg: rgba(239, 68, 68, 0.15);
+  --badge-urgent-text: #f87171;
+  --badge-urgent-border: rgba(239, 68, 68, 0.3);
+
+  --scrollbar-thumb: rgba(255, 255, 255, 0.15);
+  --scrollbar-thumb-hover: rgba(255, 255, 255, 0.25);
 
   --radius-sm: 8px;
   --radius-md: 12px;
@@ -33,6 +73,218 @@
   --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.35);
   --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.5);
   --glass-backdrop: blur(16px);
+  color-scheme: dark;
+}
+
+/* Light theme: automatically active when browser prefers light mode (unless data-theme="dark") */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --primary: #1d4ed8;
+    --primary-light: #2563eb;
+    --primary-dark: #1e40af;
+    --primary-glow: rgba(29, 78, 216, 0.12);
+    --secondary: #0284c7;
+    --accent: #d97706;
+
+    --bg-main: #f8fafc;
+    --bg-surface: #ffffff;
+    --bg-card: #ffffff;
+    --bg-card-hover: #f1f5f9;
+    --bg-card-subtle: #ffffff;
+    --bg-navbar: rgba(255, 255, 255, 0.9);
+    --bg-input: #f1f5f9;
+    --bg-btn-secondary: rgba(0, 0, 0, 0.05);
+    --bg-btn-secondary-hover: rgba(0, 0, 0, 0.09);
+    --bg-bubble-student: #f1f5f9;
+    --bg-bubble-bot: #f3e8ff;
+    --border-bubble-bot: #d8b4fe;
+    --text-bubble-bot: #581c87;
+    --bg-sidebar: #ffffff;
+    --bg-sidebar-active: #e2e8f0;
+    --text-sidebar: #64748b;
+    --text-sidebar-hover: #0f172a;
+
+    --border-color: rgba(0, 0, 0, 0.1);
+    --border-focus: rgba(37, 99, 235, 0.5);
+
+    --text-main: #0f172a;
+    --text-muted: #64748b;
+    --text-subtle: #94a3b8;
+    --brand-title-gradient: linear-gradient(135deg, #0f172a 40%, var(--primary) 100%);
+    --hero-bg: linear-gradient(135deg, rgba(37, 99, 235, 0.08) 0%, #ffffff 100%);
+    --ai-panel-bg: linear-gradient(160deg, #f5f3ff 0%, #ffffff 100%);
+    --ai-panel-title: #6d28d9;
+    --ai-panel-summary-bg: #f8fafc;
+    --ai-panel-summary-text: #334155;
+
+    --status-open: #2563eb;
+    --status-progress: #d97706;
+    --status-resolved: #059669;
+    --status-urgent: #dc2626;
+
+    --badge-open-bg: rgba(37, 99, 235, 0.1);
+    --badge-open-text: #2563eb;
+    --badge-open-border: rgba(37, 99, 235, 0.25);
+
+    --badge-progress-bg: rgba(217, 119, 6, 0.1);
+    --badge-progress-text: #b45309;
+    --badge-progress-border: rgba(217, 119, 6, 0.25);
+
+    --badge-resolved-bg: rgba(5, 150, 105, 0.1);
+    --badge-resolved-text: #059669;
+    --badge-resolved-border: rgba(5, 150, 105, 0.25);
+
+    --badge-urgent-bg: rgba(220, 38, 38, 0.1);
+    --badge-urgent-text: #dc2626;
+    --badge-urgent-border: rgba(220, 38, 38, 0.25);
+
+    --scrollbar-thumb: rgba(0, 0, 0, 0.18);
+    --scrollbar-thumb-hover: rgba(0, 0, 0, 0.32);
+
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
+    --shadow-md: 0 4px 14px -2px rgba(0, 0, 0, 0.08), 0 2px 6px -1px rgba(0, 0, 0, 0.04);
+    --shadow-lg: 0 12px 28px -4px rgba(0, 0, 0, 0.12), 0 4px 10px -2px rgba(0, 0, 0, 0.06);
+    color-scheme: light;
+  }
+}
+
+/* Explicit Light Mode Override */
+:root[data-theme="light"] {
+  --primary: #1d4ed8;
+  --primary-light: #2563eb;
+  --primary-dark: #1e40af;
+  --primary-glow: rgba(29, 78, 216, 0.12);
+  --secondary: #0284c7;
+  --accent: #d97706;
+
+  --bg-main: #f8fafc;
+  --bg-surface: #ffffff;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f1f5f9;
+  --bg-card-subtle: #ffffff;
+  --bg-navbar: rgba(255, 255, 255, 0.9);
+  --bg-input: #f1f5f9;
+  --bg-btn-secondary: rgba(0, 0, 0, 0.05);
+  --bg-btn-secondary-hover: rgba(0, 0, 0, 0.09);
+  --bg-bubble-student: #f1f5f9;
+  --bg-bubble-bot: #f3e8ff;
+  --border-bubble-bot: #d8b4fe;
+  --text-bubble-bot: #581c87;
+  --bg-sidebar: #ffffff;
+  --bg-sidebar-active: #e2e8f0;
+  --text-sidebar: #64748b;
+  --text-sidebar-hover: #0f172a;
+
+  --border-color: rgba(0, 0, 0, 0.1);
+  --border-focus: rgba(37, 99, 235, 0.5);
+
+  --text-main: #0f172a;
+  --text-muted: #64748b;
+  --text-subtle: #94a3b8;
+  --brand-title-gradient: linear-gradient(135deg, #0f172a 40%, var(--primary) 100%);
+  --hero-bg: linear-gradient(135deg, rgba(37, 99, 235, 0.08) 0%, #ffffff 100%);
+  --ai-panel-bg: linear-gradient(160deg, #f5f3ff 0%, #ffffff 100%);
+  --ai-panel-title: #6d28d9;
+  --ai-panel-summary-bg: #f8fafc;
+  --ai-panel-summary-text: #334155;
+
+  --status-open: #2563eb;
+  --status-progress: #d97706;
+  --status-resolved: #059669;
+  --status-urgent: #dc2626;
+
+  --badge-open-bg: rgba(37, 99, 235, 0.1);
+  --badge-open-text: #2563eb;
+  --badge-open-border: rgba(37, 99, 235, 0.25);
+
+  --badge-progress-bg: rgba(217, 119, 6, 0.1);
+  --badge-progress-text: #b45309;
+  --badge-progress-border: rgba(217, 119, 6, 0.25);
+
+  --badge-resolved-bg: rgba(5, 150, 105, 0.1);
+  --badge-resolved-text: #059669;
+  --badge-resolved-border: rgba(5, 150, 105, 0.25);
+
+  --badge-urgent-bg: rgba(220, 38, 38, 0.1);
+  --badge-urgent-text: #dc2626;
+  --badge-urgent-border: rgba(220, 38, 38, 0.25);
+
+  --scrollbar-thumb: rgba(0, 0, 0, 0.18);
+  --scrollbar-thumb-hover: rgba(0, 0, 0, 0.32);
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 14px -2px rgba(0, 0, 0, 0.08), 0 2px 6px -1px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 12px 28px -4px rgba(0, 0, 0, 0.12), 0 4px 10px -2px rgba(0, 0, 0, 0.06);
+  color-scheme: light;
+}
+
+/* Explicit Dark Mode Override */
+:root[data-theme="dark"] {
+  --primary: #1d4ed8;
+  --primary-light: #3b82f6;
+  --primary-dark: #1e3a8a;
+  --primary-glow: rgba(29, 78, 216, 0.18);
+  --secondary: #0284c7;
+  --accent: #f59e0b;
+
+  --bg-main: #0b0f19;
+  --bg-surface: #111827;
+  --bg-card: rgba(17, 24, 39, 0.85);
+  --bg-card-hover: rgba(31, 41, 55, 0.95);
+  --bg-card-subtle: rgba(255, 255, 255, 0.03);
+  --bg-navbar: rgba(11, 15, 25, 0.85);
+  --bg-input: rgba(255, 255, 255, 0.05);
+  --bg-btn-secondary: rgba(255, 255, 255, 0.08);
+  --bg-btn-secondary-hover: rgba(255, 255, 255, 0.14);
+  --bg-bubble-student: rgba(255, 255, 255, 0.05);
+  --bg-bubble-bot: rgba(139, 92, 246, 0.15);
+  --border-bubble-bot: rgba(139, 92, 246, 0.3);
+  --text-bubble-bot: #f3e8ff;
+  --bg-sidebar: #131722;
+  --bg-sidebar-active: #232839;
+  --text-sidebar: #8a94a6;
+  --text-sidebar-hover: #f1f5f9;
+
+  --border-color: rgba(255, 255, 255, 0.08);
+  --border-focus: rgba(59, 130, 246, 0.5);
+
+  --text-main: #f9fafb;
+  --text-muted: #9ca3af;
+  --text-subtle: #6b7280;
+  --brand-title-gradient: linear-gradient(135deg, #ffffff 40%, var(--primary-light) 100%);
+  --hero-bg: linear-gradient(135deg, rgba(29, 78, 216, 0.12) 0%, rgba(17, 24, 39, 0.8) 100%);
+  --ai-panel-bg: linear-gradient(160deg, rgba(30, 27, 75, 0.7) 0%, rgba(17, 24, 39, 0.9) 100%);
+  --ai-panel-title: #c4b5fd;
+  --ai-panel-summary-bg: rgba(255, 255, 255, 0.03);
+  --ai-panel-summary-text: #e5e7eb;
+
+  --status-open: #3b82f6;
+  --status-progress: #f59e0b;
+  --status-resolved: #10b981;
+  --status-urgent: #ef4444;
+
+  --badge-open-bg: rgba(59, 130, 246, 0.15);
+  --badge-open-text: #60a5fa;
+  --badge-open-border: rgba(59, 130, 246, 0.3);
+
+  --badge-progress-bg: rgba(245, 158, 11, 0.15);
+  --badge-progress-text: #fbbf24;
+  --badge-progress-border: rgba(245, 158, 11, 0.3);
+
+  --badge-resolved-bg: rgba(16, 185, 129, 0.15);
+  --badge-resolved-text: #34d399;
+  --badge-resolved-border: rgba(16, 185, 129, 0.3);
+
+  --badge-urgent-bg: rgba(239, 68, 68, 0.15);
+  --badge-urgent-text: #f87171;
+  --badge-urgent-border: rgba(239, 68, 68, 0.3);
+
+  --scrollbar-thumb: rgba(255, 255, 255, 0.15);
+  --scrollbar-thumb-hover: rgba(255, 255, 255, 0.25);
+
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.25);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.5);
   color-scheme: dark;
 }
 
@@ -69,7 +321,7 @@ body::before {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(11, 15, 25, 0.85);
+  background: var(--bg-navbar);
   backdrop-filter: var(--glass-backdrop);
   border-bottom: 1px solid var(--border-color);
   padding: 0.85rem 2rem;
@@ -98,7 +350,7 @@ body::before {
   font-size: 1.15rem;
   font-weight: 700;
   letter-spacing: -0.02em;
-  background: linear-gradient(135deg, #ffffff 40%, var(--primary-light) 100%);
+  background: var(--brand-title-gradient);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -150,7 +402,7 @@ body::before {
 
 /* Page Header & Stats Banner */
 .page-hero {
-  background: linear-gradient(135deg, rgba(29, 78, 216, 0.12) 0%, rgba(17, 24, 39, 0.8) 100%);
+  background: var(--hero-bg);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
   padding: 2rem 2.5rem;
@@ -197,7 +449,7 @@ body::before {
 }
 
 .btn-secondary {
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--bg-btn-secondary);
   color: var(--text-main);
   border: 1px solid var(--border-color);
   padding: 0.75rem 1.4rem;
@@ -212,8 +464,8 @@ body::before {
 }
 
 .btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.12);
-  border-color: rgba(255, 255, 255, 0.2);
+  background: var(--bg-btn-secondary-hover);
+  border-color: var(--border-focus);
 }
 
 /* Tab controls */
@@ -244,7 +496,7 @@ body::before {
 }
 
 .tab-btn.active {
-  color: #fff;
+  color: var(--text-main);
 }
 
 .tab-btn.active::after {
@@ -285,7 +537,7 @@ body::before {
 
 /* Ticket List Item */
 .ticket-card {
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--bg-card-subtle);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
   padding: 1.15rem;
@@ -297,7 +549,7 @@ body::before {
 
 .ticket-card:hover {
   background: var(--bg-card-hover);
-  border-color: rgba(255, 255, 255, 0.16);
+  border-color: var(--border-focus);
   transform: translateY(-2px);
   box-shadow: var(--shadow-sm);
 }
@@ -361,27 +613,63 @@ body::before {
 }
 
 .badge-open {
-  background: rgba(59, 130, 246, 0.15);
-  color: #60a5fa;
-  border: 1px solid rgba(59, 130, 246, 0.3);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--radius-full);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  background: var(--badge-open-bg);
+  color: var(--badge-open-text);
+  border: 1px solid var(--badge-open-border);
 }
 
 .badge-in_progress {
-  background: rgba(245, 158, 11, 0.15);
-  color: #fbbf24;
-  border: 1px solid rgba(245, 158, 11, 0.3);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--radius-full);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  background: var(--badge-progress-bg);
+  color: var(--badge-progress-text);
+  border: 1px solid var(--badge-progress-border);
 }
 
 .badge-resolved {
-  background: rgba(16, 185, 129, 0.15);
-  color: #34d399;
-  border: 1px solid rgba(16, 185, 129, 0.3);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--radius-full);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  background: var(--badge-resolved-bg);
+  color: var(--badge-resolved-text);
+  border: 1px solid var(--badge-resolved-border);
 }
 
 .badge-urgent {
-  background: rgba(239, 68, 68, 0.15);
-  color: #f87171;
-  border: 1px solid rgba(239, 68, 68, 0.3);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--radius-full);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  background: var(--badge-urgent-bg);
+  color: var(--badge-urgent-text);
+  border: 1px solid var(--badge-urgent-border);
 }
 
 .badge-high {
@@ -404,9 +692,9 @@ body::before {
 
 /* AI Context Card */
 .ai-context-panel {
-  background: linear-gradient(160deg, rgba(30, 27, 75, 0.7) 0%, rgba(17, 24, 39, 0.9) 100%);
-  border: 1px solid rgba(139, 92, 246, 0.3);
-  box-shadow: 0 0 30px rgba(139, 92, 246, 0.15);
+  background: var(--ai-panel-bg);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-md);
 }
 
 .ai-header-tag {
@@ -422,7 +710,7 @@ body::before {
   gap: 0.5rem;
   font-size: 0.88rem;
   font-weight: 700;
-  color: #c4b5fd;
+  color: var(--ai-panel-title);
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
@@ -466,13 +754,13 @@ body::before {
 }
 
 .ai-summary-box {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: var(--ai-panel-summary-bg);
+  border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
   padding: 0.85rem;
   font-size: 0.85rem;
   line-height: 1.5;
-  color: #e5e7eb;
+  color: var(--ai-panel-summary-text);
 }
 
 .ai-attention-item {
@@ -518,7 +806,8 @@ body::before {
 
 .msg-student {
   align-self: flex-start;
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--bg-bubble-student);
+  color: var(--text-main);
   border: 1px solid var(--border-color);
   border-bottom-left-radius: 2px;
 }
@@ -543,9 +832,9 @@ body::before {
 
 .msg-bot {
   align-self: flex-start;
-  background: rgba(139, 92, 246, 0.15);
-  border: 1px solid rgba(139, 92, 246, 0.3);
-  color: #f3e8ff;
+  background: var(--bg-bubble-bot);
+  border: 1px solid var(--border-bubble-bot);
+  color: var(--text-bubble-bot);
   border-bottom-left-radius: 2px;
 }
 
@@ -590,7 +879,7 @@ body::before {
   font-size: 2rem;
   font-weight: 800;
   letter-spacing: -0.03em;
-  color: #fff;
+  color: var(--text-main);
 }
 
 .kpi-sub {
@@ -659,14 +948,14 @@ body::before {
 
 .form-input, .form-select, .form-textarea {
   width: 100%;
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--bg-input);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
-  color: #fff;
+  color: var(--text-main);
   padding: 0.75rem 1rem;
   font-family: inherit;
   font-size: 0.9rem;
-  transition: border-color 0.2s;
+  transition: border-color 0.2s, background-color 0.2s;
 }
 
 .form-input:focus, .form-select:focus, .form-textarea:focus {
@@ -683,7 +972,7 @@ body::before {
 /* Contact Popup Modal Specific Styles */
 .contact-modal-box {
   max-width: 580px;
-  background: linear-gradient(180deg, #151d2f 0%, #0d121e 100%);
+  background: var(--bg-surface);
   border: 1px solid rgba(255, 255, 255, 0.12);
   box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 30px rgba(59, 130, 246, 0.12);
   border-radius: 18px;
@@ -719,7 +1008,7 @@ body::before {
 .modal-title {
   font-size: 1.28rem;
   font-weight: 800;
-  color: #ffffff;
+  color: var(--text-main);
   letter-spacing: -0.02em;
   margin-bottom: 2px;
 }
@@ -758,7 +1047,7 @@ body::before {
   gap: 0.85rem;
   margin-top: 1.75rem;
   padding-top: 1.25rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid var(--border-color);
 }
 
 /* Toast Notification */
@@ -767,9 +1056,9 @@ body::before {
   bottom: 2rem;
   left: 50%;
   transform: translateX(-50%) translateY(20px);
-  background: #182236;
+  background: var(--bg-surface);
   border: 1px solid rgba(59, 130, 246, 0.4);
-  color: #ffffff;
+  color: var(--text-main);
   padding: 0.9rem 1.6rem;
   border-radius: 12px;
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6), 0 0 20px rgba(59, 130, 246, 0.25);
@@ -877,11 +1166,11 @@ body::before {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.15);
+  background: var(--scrollbar-thumb);
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.25);
+  background: var(--scrollbar-thumb-hover);
 }
 
 /* Responsive adjustments */
@@ -915,8 +1204,8 @@ body::before {
   width: 60px;
   min-width: 60px;
   height: 100vh;
-  background: #131722;
-  border-right: 1px solid rgba(255, 255, 255, 0.05);
+  background: var(--bg-sidebar);
+  border-right: 1px solid var(--border-color);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -980,7 +1269,7 @@ body::before {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #8a94a6;
+  color: var(--text-sidebar);
   background: transparent;
   border: 1px solid transparent;
   cursor: pointer;
@@ -995,14 +1284,14 @@ body::before {
 }
 
 .sidebar-rail-btn:hover {
-  background: rgba(255, 255, 255, 0.05);
-  color: #f1f5f9;
+  background: var(--bg-btn-secondary);
+  color: var(--text-sidebar-hover);
 }
 
 /* Active State with Vertical Magenta Bar */
 .sidebar-rail-btn.active {
-  background: #232839;
-  color: #ffffff;
+  background: var(--bg-sidebar-active);
+  color: var(--text-main);
   border-color: transparent;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
@@ -1024,8 +1313,8 @@ body::before {
 .sidebar-rail-btn .sidebar-tooltip {
   position: absolute;
   left: 52px;
-  background: #181f2f;
-  color: #ffffff;
+  background: var(--bg-surface);
+  color: var(--text-main);
   padding: 5px 11px;
   border-radius: 6px;
   font-size: 11.5px;
@@ -1037,7 +1326,7 @@ body::before {
   transform: translateX(-4px);
   transition: opacity 0.15s ease, transform 0.15s ease;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: 1px solid var(--border-color);
   z-index: 9999;
 }
 
@@ -1111,13 +1400,13 @@ body::before {
 }
 
 .sidebar-user-la-card:hover {
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--bg-btn-secondary);
 }
 
 .sidebar-user-la-text {
   font-size: 13.5px;
   font-weight: 800;
-  color: #f1f5f9;
+  color: var(--text-main);
   letter-spacing: 0.04em;
 }
 
@@ -1172,7 +1461,7 @@ body::before {
   align-items: center;
   justify-content: space-between;
   padding: 0 2rem;
-  background: rgba(11, 15, 25, 0.8);
+  background: var(--bg-navbar);
   backdrop-filter: var(--glass-backdrop);
   position: sticky;
   top: 0;
@@ -1232,4 +1521,49 @@ body::before {
   background: linear-gradient(135deg, #38bdf8, #c084fc);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+
+/* Ticket Fullscreen Chat Workspace */
+.ticket-chat-fullscreen {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: var(--bg-main);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: fadeIn 0.18s ease-out;
+}
+
+.ticket-chat-modal-wrap {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  animation: fadeIn 0.18s ease-out;
+}
+
+.ticket-chat-modal-box {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  width: 100%;
+  max-width: 1300px;
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
+  overflow: hidden;
+}
+
+@media (max-width: 960px) {
+  .ticket-chat-sidebar {
+    display: none !important;
+  }
 }

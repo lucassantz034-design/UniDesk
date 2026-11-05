@@ -1,0 +1,413 @@
+{
+  "tickets": {
+    "tkt-1007": {
+      "id": "tkt-1007",
+      "ticketNumber": 1007,
+      "subject": "Solicitação de Segunda Via de Carteirinha Estudantil",
+      "studentId": "usr-alu-1",
+      "attendantId": "usr-tec-1",
+      "closedAt": "2026-11-05T03:13:05.584Z",
+      "messages": [
+        {
+          "id": "msg-1793848385514",
+          "senderId": "usr-alu-1",
+          "senderName": "Enzo Gabriel Martins",
+          "senderRole": "aluno",
+          "message": "Perdi minha carteirinha no campus norte e preciso de uma 2ª via urgente para o transporte público.",
+          "isInternalNote": false,
+          "attachments": [],
+          "createdAt": "2026-11-05T03:13:05.513Z"
+        },
+        {
+          "id": "msg-1793848385523",
+          "senderId": "usr-alu-1",
+          "senderName": "Enzo Gabriel Martins",
+          "senderRole": "aluno",
+          "message": "Seguem em anexo os comprovantes solicitados.",
+          "isInternalNote": false,
+          "attachments": [],
+          "createdAt": "2026-11-05T03:13:05.523Z"
+        },
+        {
+          "id": "msg-1793848385580",
+          "senderId": "usr-tec-1",
+          "senderName": "Mariana Alencar",
+          "senderRole": "tecnico",
+          "message": "Olá Enzo, recebemos sua solicitação! A 2ª via já foi enviada para impressão.",
+          "isInternalNote": false,
+          "attachments": [],
+          "createdAt": "2026-11-05T03:13:05.580Z"
+        },
+        {
+          "id": "msg-1793848385583",
+          "senderId": "usr-tec-1",
+          "senderName": "Mariana Alencar",
+          "senderRole": "tecnico",
+          "message": "Nota interna: Cobrança de taxa de R$ 15,00 isenta devido a bolsa PROUNI.",
+          "isInternalNote": true,
+          "attachments": [],
+          "createdAt": "2026-11-05T03:13:05.583Z"
+        }
+      ],
+      "archivedAt": "2026-11-05T03:23:05.453Z"
+    },
+    "tkt-1006": {
+      "id": "tkt-1006",
+      "ticketNumber": 1006,
+      "subject": "Remoção de dados de pesquisa",
+      "studentId": "usr-alu-1",
+      "attendantId": "usr-tec-1",
+      "closedAt": "2026-11-05T03:04:30.131Z",
+      "messages": [
+        {
+          "id": "msg-1793847854349",
+          "senderId": "usr-alu-1",
+          "senderName": "Aluno",
+          "senderRole": "student",
+          "message": "Preciso remover dados de uma pesquisa pois é de nivel mestrado\n",
+          "isInternalNote": false,
+          "attachments": [],
+          "createdAt": "2026-11-05T03:04:14.349Z"
+        }
+      ],
+      "archivedAt": "2026-11-05T03:41:59.333Z"
+    },
+    "tkt-1001": {
+      "id": "tkt-1001",
+      "ticketNumber": 1001,
+      "subject": "Erro 403 e bloqueio de tentativa de envio de prova no AVA Moodle",
+      "studentId": "usr-alu-1",
+      "attendantId": "usr-att-1",
+      "closedAt": "2026-11-05T01:14:56.844Z",
+      "messages": [
+        {
+          "id": "msg-101",
+          "senderId": "usr-stu-1",
+          "senderName": "Enzo Gabriel Martins",
+          "senderRole": "student",
+          "message": "Estava submetendo a questão final e o sistema travou com tela branca e Erro 403. Não consigo reabrir a tentativa.",
+          "isInternalNote": false,
+          "attachments": [
+            "print_erro_403_moodle.png"
+          ],
+          "createdAt": "2026-11-04T23:44:56.844Z"
+        },
+        {
+          "id": "msg-102",
+          "senderId": "usr-att-1",
+          "senderName": "Mariana Alencar",
+          "senderRole": "attendant",
+          "message": "Olá Enzo! Identificamos o bloqueio de sessão por token expirado. Acabamos de disparar a rotina de auto-reparo de sessão no cluster do Moodle e adicionamos 20 minutos de tolerância na sua prova.",
+          "isInternalNote": false,
+          "attachments": [],
+          "createdAt": "2026-11-05T00:44:56.844Z"
+        },
+        {
+          "id": "msg-103",
+          "senderId": "usr-stu-1",
+          "senderName": "Enzo Gabriel Martins",
+          "senderRole": "student",
+          "message": "Excelente! Consegui acessar novamente e submeter tudo com sucesso. Muito obrigado!",
+          "isInternalNote": false,
+          "attachments": [],
+          "createdAt": "2026-11-05T01:14:56.844Z"
+        }
+      ],
+      "archivedAt": "2026-11-05T03:41:59.336Z"
+    },
+    "tkt-1002": {
+      "id": "tkt-1002",
+      "ticketNumber": 1002,
+      "subject": "Wi-Fi Eduroam com erro de autenticação no Bloco B",
+      "studentId": "usr-alu-2",
+      "attendantId": "usr-att-2",
+      "closedAt": "2026-11-05T01:24:56.844Z",
+      "messages": [
+        {
+          "id": "msg-104",
+          "senderId": "usr-stu-2",
+          "senderName": "Larissa Vianna Castro",
+          "senderRole": "student",
+          "message": "Boa tarde! Não consigo conectar à rede Eduroam no Bloco B. Dá erro de certificado digital expirado.",
+          "isInternalNote": false,
+          "attachments": [],
+          "createdAt": "2026-11-04T22:44:56.844Z"
+        },
+        {
+          "id": "msg-105",
+          "senderId": "usr-att-2",
+          "senderName": "Felipe Castilho",
+          "senderRole": "attendant",
+          "message": "Olá Larissa! O ponto de acesso do Bloco B havia sofrido uma oscilação na sincronização do RADIUS. Executamos o rebalanceamento e o diagnóstico de rede automático já está normalizado.",
+          "isInternalNote": false,
+          "attachments": [],
+          "createdAt": "2026-11-05T00:14:56.844Z"
+        }
+      ],
+      "archivedAt": "2026-11-05T03:41:59.338Z"
+    },
+    "tkt-1009": {
+      "id": "tkt-1009",
+      "ticketNumber": 1009,
+      "subject": "Solicitação de Segunda Via de Carteirinha Estudantil",
+      "studentId": "usr-alu-1",
+      "studentName": "Enzo Gabriel Martins",
+      "attendantId": "usr-tec-1",
+      "closedAt": "2026-11-05T03:23:05.654Z",
+      "messages": [
+        {
+          "id": "msg-1793848985583",
+          "senderId": "usr-alu-1",
+          "senderName": "Enzo Gabriel Martins",
+          "senderRole": "aluno",
+          "message": "Perdi minha carteirinha no campus norte e preciso de uma 2ª via urgente para o transporte público.",
+          "isInternalNote": false,
+          "attachments": [],
+          "createdAt": "2026-11-05T03:23:05.582Z"
+        },
+        {
+          "id": "msg-1793848985591",
+          "senderId": "usr-alu-1",
+          "senderName": "Enzo Gabriel Martins",
+          "senderRole": "aluno",
+          "message": "Seguem em anexo os comprovantes solicitados.",
+          "isInternalNote": false,
+          "attachments": [],
+          "createdAt": "2026-11-05T03:23:05.591Z"
+        },
+        {
+          "id": "msg-1793848985646",
+          "senderId": "usr-tec-1",
+          "senderName": "Mariana Alencar",
+          "senderRole": "tecnico",
+          "message": "Olá Enzo, recebemos sua solicitação! A 2ª via já foi enviada para impressão.",
+          "isInternalNote": false,
+          "attachments": [],
+          "createdAt": "2026-11-05T03:23:05.646Z"
+        },
+        {
+          "id": "msg-1793848985651",
+          "senderId": "usr-tec-1",
+          "senderName": "Mariana Alencar",
+          "senderRole": "tecnico",
+          "message": "Nota interna: Cobrança de taxa de R$ 15,00 isenta devido a bolsa PROUNI.",
+          "isInternalNote": true,
+          "attachments": [],
+          "createdAt": "2026-11-05T03:23:05.651Z"
+        }
+      ],
+      "archivedAt": "2026-11-05T03:23:05.655Z"
+    },
+    "tkt-1011": {
+      "id": "tkt-1011",
+      "ticketNumber": 1011,
+      "subject": "Problema na emissão de histórico escolar",
+      "studentId": "usr-alu-1",
+      "studentName": "Carlos Silva",
+      "attendantId": "usr-tec-1",
+      "closedAt": "2026-11-05T03:23:38.166Z",
+      "messages": [
+        {
+          "id": "msg-1793849018117",
+          "senderId": "usr-alu-1",
+          "senderName": "Carlos Silva",
+          "senderRole": "aluno",
+          "message": "Solicito a emissão urgente do meu histórico com carimbo digital.",
+          "isInternalNote": false,
+          "attachments": [],
+          "createdAt": "2026-11-05T03:23:38.115Z"
+        },
+        {
+          "id": "msg-1793849018125",
+          "senderId": "usr-alu-1",
+          "senderName": "Enzo Gabriel Martins",
+          "senderRole": "aluno",
+          "message": "Mensagem de detalhamento volumosa 1: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Dados extras da transação 1793849018124",
+          "isInternalNote": false,
+          "attachments": [],
+          "createdAt": "2026-11-05T03:23:38.125Z"
+        },
+        {
+          "id": "msg-1793849018128",
+          "senderId": "usr-tec-1",
+          "senderName": "Mariana Alencar",
+          "senderRole": "tecnico",
+          "message": "Mensagem de detalhamento volumosa 2: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Dados extras da transação 1793849018127",
+          "isInternalNote": false,
+          "attachments": [],
+          "createdAt": "2026-11-05T03:23:38.128Z"
+        },
+        {
+          "id": "msg-1793849018129",
+          "senderId": "usr-alu-1",
+          "senderName": "Enzo Gabriel Martins",
+          "senderRole": "aluno",
+          "message": "Mensagem de detalhamento volumosa 3: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Dados extras da transação 1793849018129",
+          "isInternalNote": false,
+          "attachments": [],
+          "createdAt": "2026-11-05T03:23:38.129Z"
+        },
+        {
+          "id": "msg-1793849018130",
+          "senderId": "usr-tec-1",
+          "senderName": "Mariana Alencar",
+          "senderRole": "tecnico",
+          "message": "Mensagem de detalhamento volumosa 4: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Dados extras da transação 1793849018130",
+          "isInternalNote": false,
+          "attachments": [],
+          "createdAt": "2026-11-05T03:23:38.130Z"
+        },
+        {
+          "id": "msg-1793849018131",
+          "senderId": "usr-alu-1",
+          "senderName": "Enzo Gabriel Martins",
+          "senderRole": "aluno",
+          "message": "Mensagem de detalhamento volumosa 5: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Dados extras da transação 1793849018131",
+          "isInternalNote": false,
+          "attachments": [],
+          "createdAt": "2026-11-05T03:23:38.131Z"
+        }
+      ],
+      "archivedAt": "2026-11-05T03:23:38.167Z"
+    },
+    "tkt-1012": {
+      "id": "tkt-1012",
+      "ticketNumber": 1012,
+      "subject": "Solicitação de Segunda Via de Carteirinha Estudantil",
+      "studentId": "usr-alu-1",
+      "studentName": "Enzo Gabriel Martins",
+      "attendantId": "usr-tec-1",
+      "closedAt": "2026-11-05T03:23:45.240Z",
+      "messages": [
+        {
+          "id": "msg-1793849025170",
+          "senderId": "usr-alu-1",
+          "senderName": "Enzo Gabriel Martins",
+          "senderRole": "aluno",
+          "message": "Perdi minha carteirinha no campus norte e preciso de uma 2ª via urgente para o transporte público.",
+          "isInternalNote": false,
+          "attachments": [],
+          "createdAt": "2026-11-05T03:23:45.170Z"
+        },
+        {
+          "id": "msg-1793849025179",
+          "senderId": "usr-alu-1",
+          "senderName": "Enzo Gabriel Martins",
+          "senderRole": "aluno",
+          "message": "Seguem em anexo os comprovantes solicitados.",
+          "isInternalNote": false,
+          "attachments": [],
+          "createdAt": "2026-11-05T03:23:45.179Z"
+        },
+        {
+          "id": "msg-1793849025234",
+          "senderId": "usr-tec-1",
+          "senderName": "Mariana Alencar",
+          "senderRole": "tecnico",
+          "message": "Olá Enzo, recebemos sua solicitação! A 2ª via já foi enviada para impressão.",
+          "isInternalNote": false,
+          "attachments": [],
+          "createdAt": "2026-11-05T03:23:45.234Z"
+        },
+        {
+          "id": "msg-1793849025236",
+          "senderId": "usr-tec-1",
+          "senderName": "Mariana Alencar",
+          "senderRole": "tecnico",
+          "message": "Nota interna: Cobrança de taxa de R$ 15,00 isenta devido a bolsa PROUNI.",
+          "isInternalNote": true,
+          "attachments": [],
+          "createdAt": "2026-11-05T03:23:45.236Z"
+        }
+      ],
+      "archivedAt": "2026-11-05T03:23:45.242Z"
+    },
+    "tkt-1008": {
+      "id": "tkt-1008",
+      "ticketNumber": 1008,
+      "subject": "Solicitação de Segunda Via de Carteirinha Estudantil",
+      "studentId": "usr-alu-1",
+      "studentName": "Enzo Gabriel Martins",
+      "attendantId": "usr-tec-1",
+      "closedAt": "2026-11-05T03:51:02.280Z",
+      "messages": [
+        {
+          "id": "msg-1793850662218",
+          "senderId": "usr-alu-1",
+          "senderName": "Enzo Gabriel Martins",
+          "senderRole": "aluno",
+          "message": "Perdi minha carteirinha no campus norte e preciso de uma 2ª via urgente para o transporte público.",
+          "isInternalNote": false,
+          "attachments": [],
+          "createdAt": "2026-11-05T03:51:02.217Z"
+        },
+        {
+          "id": "msg-1793850662221",
+          "senderId": "usr-alu-1",
+          "senderName": "Enzo Gabriel Martins",
+          "senderRole": "aluno",
+          "message": "Seguem em anexo os comprovantes solicitados.",
+          "isInternalNote": false,
+          "attachments": [],
+          "createdAt": "2026-11-05T03:51:02.221Z"
+        },
+        {
+          "id": "msg-1793850662274",
+          "senderId": "usr-tec-1",
+          "senderName": "Mariana Alencar",
+          "senderRole": "tecnico",
+          "message": "Olá Enzo, recebemos sua solicitação! A 2ª via já foi enviada para impressão.",
+          "isInternalNote": false,
+          "attachments": [],
+          "createdAt": "2026-11-05T03:51:02.274Z"
+        },
+        {
+          "id": "msg-1793850662276",
+          "senderId": "usr-tec-1",
+          "senderName": "Mariana Alencar",
+          "senderRole": "tecnico",
+          "message": "Nota interna: Cobrança de taxa de R$ 15,00 isenta devido a bolsa PROUNI.",
+          "isInternalNote": true,
+          "attachments": [],
+          "createdAt": "2026-11-05T03:51:02.276Z"
+        }
+      ],
+      "archivedAt": "2026-11-05T03:51:02.280Z"
+    }
+  },
+  "chatSessions": {
+    "chat-sess-1793849018213": {
+      "id": "chat-sess-1793849018213",
+      "studentId": "usr-alu-1",
+      "studentName": "Carlos Silva",
+      "department": "Geral",
+      "status": "bot",
+      "createdAt": "2026-11-05T03:23:38.213Z",
+      "messages": [
+        {
+          "id": "cmsg-1793849018213",
+          "sender": "bot",
+          "senderName": "Sophia (IA UMI)",
+          "text": "Olá, Carlos! Como posso ajudar você hoje?",
+          "timestamp": "2026-11-05T03:23:38.213Z"
+        },
+        {
+          "id": "cmsg-1793849018216",
+          "sender": "student",
+          "senderName": "Enzo Gabriel Martins",
+          "text": "Como emitir minha carteirinha estudantil?",
+          "timestamp": "2026-11-05T03:23:38.216Z"
+        },
+        {
+          "id": "cmsg-1793849018217",
+          "sender": "bot",
+          "senderName": "Centro Bot",
+          "text": "Entendi sua solicitação sobre **\"Como emitir minha carteirinha estudantil?\"**. Como assistente técnico do UniDesk, posso orientar você com rotinas de **Auto-Reparo de T.I.** ou abrir um chamado formal para nossa equipe de suporte. Gostaria de abrir um chamado técnico agora?",
+          "timestamp": "2026-11-05T03:23:38.217Z"
+        }
+      ],
+      "closedAt": "2026-11-05T03:23:38.220Z",
+      "archivedAt": "2026-11-05T03:23:38.221Z"
+    }
+  }
+}

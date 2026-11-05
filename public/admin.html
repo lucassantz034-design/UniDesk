@@ -5,6 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Painel do Administrador — Unidesk</title>
   <link rel="stylesheet" href="/css/styles.css">
+  <script>
+    (function() {
+      try {
+        var t = localStorage.getItem('unidesk_theme');
+        if (t === 'light' || t === 'dark') {
+          document.documentElement.setAttribute('data-theme', t);
+        } else {
+          document.documentElement.removeAttribute('data-theme');
+        }
+      } catch(e) {}
+    })();
+  </script>
 </head>
 <body>
 
@@ -305,6 +317,7 @@
 
   </main>
 
+  <script src="/js/unidesk-popup.js"></script>
   <script src="/js/adminPortal.js"></script>
 </body>
 </html>

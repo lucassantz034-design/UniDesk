@@ -78,6 +78,9 @@ type Ticket struct {
 	FirstResponseAt *string         `json:"firstResponseAt"`
 	ResolvedAt      *string         `json:"resolvedAt"`
 	CSATScore       *int            `json:"csatScore"`
+	Closed          bool            `json:"closed"`
+	ClosedAt        *string         `json:"closedAt,omitempty"`
+	SimpleRecord    map[string]any  `json:"simpleRecord,omitempty"`
 	CreatedAt       string          `json:"createdAt"`
 	UpdatedAt       string          `json:"updatedAt"`
 	Messages        []TicketMessage `json:"messages"`
@@ -94,13 +97,16 @@ type ChatMessage struct {
 
 // ChatSession represents an active or past chat session
 type ChatSession struct {
-	ID          string        `json:"id"`
-	StudentID   string        `json:"studentId"`
-	StudentName string        `json:"studentName"`
-	Department  string        `json:"department"`
-	Status      string        `json:"status"` // "bot", "waiting_agent", "active", "closed"
-	CreatedAt   string        `json:"createdAt"`
-	Messages    []ChatMessage `json:"messages"`
+	ID          string         `json:"id"`
+	StudentID   string         `json:"studentId"`
+	StudentName string         `json:"studentName"`
+	Department  string         `json:"department"`
+	Status      string         `json:"status"` // "bot", "waiting_agent", "active", "closed", "finalizado"
+	Closed      bool           `json:"closed"`
+	ClosedAt    *string        `json:"closedAt,omitempty"`
+	SimpleRecord map[string]any `json:"simpleRecord,omitempty"`
+	CreatedAt   string         `json:"createdAt"`
+	Messages    []ChatMessage  `json:"messages"`
 }
 
 // KnowledgeBaseArticle represents an entry in the FAQ / Knowledge base

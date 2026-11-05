@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { api } from '../services/api';
+import { usePopup } from '../context/PopupContext';
 import {
   LifeBuoy,
   Send,
@@ -17,6 +18,7 @@ import {
 } from 'lucide-react';
 
 export default function AdminSupport() {
+  const { showWarning } = usePopup();
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [priority, setPriority] = useState('MEDIUM');
@@ -54,7 +56,7 @@ export default function AdminSupport() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!title.trim() || !description.trim()) {
-      alert('Por favor, preencha o título e os detalhes do chamado.');
+      showWarning('Por favor, preencha o título e os detalhes do chamado antes de prosseguir.', 'Campos Obrigatórios');
       return;
     }
 
@@ -106,7 +108,7 @@ export default function AdminSupport() {
             <LifeBuoy size={28} color="#3b82f6" />
           </div>
           <div>
-            <h2 style={{ fontSize: '1.3rem', fontWeight: 800, color: '#fff' }}>
+            <h2 style={{ fontSize: '1.3rem', fontWeight: 800, color: 'var(--text-main)' }}>
               Suporte Técnico da Plataforma (Nível Fornecedor)
             </h2>
             <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>
@@ -184,7 +186,7 @@ export default function AdminSupport() {
           borderRadius: '16px',
           padding: '1.5rem'
         }}>
-          <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color: '#fff', marginBottom: '1.25rem' }}>
+          <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--text-main)', marginBottom: '1.25rem' }}>
             Abrir Chamado Técnico com Fornecedor
           </h3>
 
@@ -201,11 +203,11 @@ export default function AdminSupport() {
                 required
                 style={{
                   width: '100%',
-                  background: 'var(--bg-main)',
+                  background: 'var(--bg-input)',
                   border: '1px solid var(--border-color)',
                   borderRadius: '10px',
                   padding: '0.65rem 0.85rem',
-                  color: '#fff',
+                  color: 'var(--text-main)',
                   fontSize: '0.85rem',
                   outline: 'none'
                 }}
@@ -222,11 +224,11 @@ export default function AdminSupport() {
                   onChange={(e) => setPriority(e.target.value)}
                   style={{
                     width: '100%',
-                    background: 'var(--bg-main)',
-                    border: '1px solid var(--border-color)',
-                    borderRadius: '10px',
-                    padding: '0.65rem 0.85rem',
-                    color: '#fff',
+                    background: 'var(--bg-input)',
+                  border: '1px solid var(--border-color)',
+                  borderRadius: '10px',
+                  padding: '0.65rem 0.85rem',
+                  color: 'var(--text-main)',
                     fontSize: '0.85rem',
                     outline: 'none'
                   }}
@@ -247,11 +249,11 @@ export default function AdminSupport() {
                   onChange={(e) => setCategory(e.target.value)}
                   style={{
                     width: '100%',
-                    background: 'var(--bg-main)',
-                    border: '1px solid var(--border-color)',
-                    borderRadius: '10px',
-                    padding: '0.65rem 0.85rem',
-                    color: '#fff',
+                    background: 'var(--bg-input)',
+                  border: '1px solid var(--border-color)',
+                  borderRadius: '10px',
+                  padding: '0.65rem 0.85rem',
+                  color: 'var(--text-main)',
                     fontSize: '0.85rem',
                     outline: 'none'
                   }}
@@ -276,11 +278,11 @@ export default function AdminSupport() {
                 required
                 style={{
                   width: '100%',
-                  background: 'var(--bg-main)',
+                  background: 'var(--bg-input)',
                   border: '1px solid var(--border-color)',
                   borderRadius: '10px',
                   padding: '0.65rem 0.85rem',
-                  color: '#fff',
+                  color: 'var(--text-main)',
                   fontSize: '0.85rem',
                   outline: 'none'
                 }}

@@ -10,7 +10,7 @@ export default function LoginView({
   const demoAccounts = [
     {
       roleGroup: 'Aluno',
-      name: 'Larissa Vianna',
+      name: 'Larissa Vianna Castro',
       email: 'larissa.vianna@aluno.metropolitana.edu.br',
       info: 'Medicina (7º Período)',
       badge: '🎓 Aluno',
@@ -19,7 +19,7 @@ export default function LoginView({
     },
     {
       roleGroup: 'Aluno',
-      name: 'Enzo Martins',
+      name: 'Enzo Gabriel Martins',
       email: 'enzo.martins@aluno.metropolitana.edu.br',
       info: 'Engenharia de Software (5º Período)',
       badge: '🎓 Aluno',
@@ -27,10 +27,19 @@ export default function LoginView({
       avatar: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=80'
     },
     {
+      roleGroup: 'Aluno',
+      name: 'Rodrigo Sanches Lima',
+      email: 'rodrigo.sanches@aluno.metropolitana.edu.br',
+      info: 'Direito (9º Período)',
+      badge: '🎓 Aluno',
+      badgeColor: '#3b82f6',
+      avatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=80'
+    },
+    {
       roleGroup: 'Atendente',
       name: 'Mariana Alencar',
       email: 'mariana.suporte@metropolitana.edu.br',
-      info: 'Secretaria Acadêmica',
+      info: 'Secretaria Acadêmica & Diplomas',
       badge: '🎧 Atendente',
       badgeColor: '#ec4899',
       avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80'
@@ -39,19 +48,46 @@ export default function LoginView({
       roleGroup: 'Atendente',
       name: 'Felipe Castilho',
       email: 'felipe.ti@metropolitana.edu.br',
-      info: 'Suporte AVA & TI',
+      info: 'Suporte de T.I. & Redes',
       badge: '🎧 Atendente',
       badgeColor: '#ec4899',
       avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80'
+    },
+    {
+      roleGroup: 'Atendente',
+      name: 'Carla Esteves',
+      email: 'carla.financeiro@metropolitana.edu.br',
+      info: 'Sistemas Financeiros & FIES',
+      badge: '🎧 Atendente',
+      badgeColor: '#ec4899',
+      avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=80'
+    },
+    {
+      roleGroup: 'Gestor de Setor',
+      name: 'Coord. André Bastos',
+      email: 'andre.gestor@metropolitana.edu.br',
+      info: 'Gestão de Atendimento & SLA',
+      badge: '👔 Gestor de Setor',
+      badgeColor: '#10b981',
+      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=80'
     },
     {
       roleGroup: 'Administrador',
       name: 'Prof. Dr. Roberto Guimarães',
       email: 'admin@metropolitana.edu.br',
       info: 'Diretoria de Tecnologia e Operações',
-      badge: '⚙️ Admin',
+      badge: '⚙️ Admin Faculdade',
       badgeColor: '#f59e0b',
       avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80'
+    },
+    {
+      roleGroup: 'Administrador',
+      name: 'Carlos Eduardo Silveira',
+      email: 'admin.software@unidesk.com',
+      info: 'Administrador Global do Software',
+      badge: '⚙️ Admin Software',
+      badgeColor: '#8b5cf6',
+      avatar: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=80'
     }
   ];
 
@@ -136,7 +172,7 @@ export default function LoginView({
             alt="Logo"
             style={{ width: '48px', height: '48px', margin: '0 auto 0.75rem auto', display: 'block' }}
           />
-          <h2 style={{ fontSize: '1.4rem', fontWeight: 800, color: '#ffffff', letterSpacing: '-0.02em', margin: 0 }}>
+          <h2 style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--text-main)', letterSpacing: '-0.02em', margin: 0 }}>
             {config?.name || 'UniDesk Helpdesk'}
           </h2>
           <p style={{ fontSize: '0.82rem', color: 'var(--text-muted)', marginTop: '0.35rem' }}>
@@ -200,9 +236,9 @@ export default function LoginView({
                   width: '100%',
                   padding: '0.75rem 1rem 0.75rem 2.6rem',
                   borderRadius: '10px',
-                  background: 'rgba(0, 0, 0, 0.3)',
+                  background: 'var(--bg-input)',
                   border: '1px solid var(--border-color)',
-                  color: '#ffffff',
+                  color: 'var(--text-main)',
                   fontSize: '0.9rem',
                   outline: 'none',
                   transition: 'border-color 0.2s'
@@ -243,9 +279,9 @@ export default function LoginView({
                   width: '100%',
                   padding: '0.75rem 1rem 0.75rem 2.6rem',
                   borderRadius: '10px',
-                  background: 'rgba(0, 0, 0, 0.3)',
+                  background: 'var(--bg-input)',
                   border: '1px solid var(--border-color)',
-                  color: '#ffffff',
+                  color: 'var(--text-main)',
                   fontSize: '0.9rem',
                   outline: 'none',
                   transition: 'border-color 0.2s'
@@ -315,7 +351,7 @@ export default function LoginView({
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.45rem' }}>
             {demoAccounts.map((acc) => {
-              const isSelected = email.toLowerCase() === acc.email.toLowerCase();
+              const isSelected = String(email || '').toLowerCase() === String(acc.email || '').toLowerCase();
               return (
                 <button
                   key={acc.email}
@@ -333,7 +369,7 @@ export default function LoginView({
                     border: `1px solid ${isSelected ? acc.badgeColor : 'var(--border-color)'}`,
                     background: isSelected
                       ? `${acc.badgeColor}22`
-                      : 'rgba(0, 0, 0, 0.25)',
+                      : 'var(--bg-input)',
                     cursor: 'pointer',
                     transition: 'all 0.15s ease',
                     textAlign: 'left',
@@ -348,7 +384,7 @@ export default function LoginView({
                     />
                     <div>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                        <span style={{ fontSize: '0.82rem', fontWeight: 600, color: '#ffffff' }}>{acc.name}</span>
+                        <span style={{ fontSize: '0.82rem', fontWeight: 600, color: 'var(--text-main)' }}>{acc.name}</span>
                         <span
                           style={{
                             fontSize: '0.65rem',

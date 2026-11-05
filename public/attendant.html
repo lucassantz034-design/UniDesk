@@ -6,6 +6,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Painel do Atendente — UniDesk Helpdesk</title>
   <link rel="stylesheet" href="/css/styles.css">
+  <script>
+    (function() {
+      try {
+        var t = localStorage.getItem('unidesk_theme');
+        if (t === 'light' || t === 'dark') {
+          document.documentElement.setAttribute('data-theme', t);
+        } else {
+          document.documentElement.removeAttribute('data-theme');
+        }
+      } catch(e) {}
+    })();
+  </script>
 </head>
 
 <body>
@@ -627,6 +639,7 @@
     <span id="toast-message">Operação realizada com sucesso!</span>
   </div>
 
+  <script src="/js/unidesk-popup.js"></script>
   <script src="/js/attendantPortal.js"></script>
 </body>
 </html>

@@ -9,6 +9,7 @@ const __dirname = path.dirname(__filename);
 const DATA_DIR = path.join(__dirname, '..', 'data');
 const DB_SQLITE_PATH = path.join(DATA_DIR, 'unidesk.db');
 const DB_JSON_FILE = path.join(DATA_DIR, 'database.json');
+const ARCHIVE_JSON_FILE = path.join(DATA_DIR, 'chats_archive.json');
 
 // Ensure data folder exists
 if (!fs.existsSync(DATA_DIR)) {
@@ -21,6 +22,7 @@ export class Database {
     this.initSQLite();
     this.loadJsonFallback();
     this.initPasswordHashes();
+    this.compactExistingFinalizedChats();
   }
 
   initSQLite() {
@@ -52,6 +54,144 @@ export class Database {
       fs.writeFileSync(DB_JSON_FILE, JSON.stringify(this.jsonData, null, 2), 'utf8');
     } catch (err) {
       console.error('Erro ao salvar fallback JSON:', err);
+    }
+  }
+
+  loadArchiveData() {
+    if (fs.existsSync(ARCHIVE_JSON_FILE)) {
+      try {
+        const raw = fs.readFileSync(ARCHIVE_JSON_FILE, 'utf8');
+        return JSON.parse(raw);
+      } catch (err) {
+        return { tickets: {}, chatSessions: {} };
+      }
+    }
+    return { tickets: {}, chatSessions: {} };
+  }
+
+  saveToArchive(type, id, data) {
+    try {
+      const archive = this.loadArchiveData();
+      if (!archive[type]) archive[type] = {};
+      archive[type][id] = {
+        ...data,
+        archivedAt: new Date().toISOString()
+      };
+      fs.writeFileSync(ARCHIVE_JSON_FILE, JSON.stringify(archive, null, 2), 'utf8');
+    } catch (err) {
+      console.warn('Aviso ao gravar arquivo de histórico:', err.message);
+    }
+  }
+
+  getFromArchive(type, id) {
+    try {
+      const archive = this.loadArchiveData();
+      return archive[type]?.[id] || null;
+    } catch (err) {
+      return null;
+    }
+  }
+
+  compactExistingFinalizedChats() {
+    let changed = false;
+    // 1. Compacta chamados finalizados/resolvidos existentes em memória
+    if (Array.isArray(this.jsonData?.tickets)) {
+      for (const t of this.jsonData.tickets) {
+        const isFin = t.status === 'resolved' || t.status === 'finalizado' || t.status === 'closed';
+        if (isFin && (!t.simpleRecord || !t.closed)) {
+          const rawMsgs = Array.isArray(t.messages) ? t.messages : [];
+          const count = rawMsgs.length;
+          const closedAt = t.resolvedAt || t.updatedAt || new Date().toISOString();
+
+          this.saveToArchive('tickets', t.id, {
+            id: t.id,
+            ticketNumber: t.ticketNumber,
+            subject: t.subject,
+            studentId: t.studentId,
+            attendantId: t.attendantId,
+            closedAt,
+            messages: rawMsgs
+          });
+
+          t.closed = true;
+          t.closedAt = closedAt;
+          t.simpleRecord = {
+            id: t.id,
+            ticketNumber: t.ticketNumber,
+            subject: t.subject,
+            studentId: t.studentId,
+            studentName: t.studentName || 'Aluno',
+            attendantId: t.attendantId,
+            attendantName: t.attendantName || 'Atendente',
+            status: t.status,
+            closed: true,
+            closedAt,
+            resolvedAt: t.resolvedAt || closedAt,
+            totalMessages: count,
+            summary: `Atendimento finalizado com ${count} mensagem(ns). Registro simplificado mantido em memória.`
+          };
+          t.messages = [
+            {
+              id: `msg-summary-${t.id}`,
+              senderRole: 'system',
+              senderName: 'Registro Simples',
+              message: `Atendimento finalizado e fechado. Total de mensagens processadas: ${count}. Registro simples mantido em memória.`,
+              createdAt: closedAt,
+              isSimpleRecord: true
+            }
+          ];
+          t.isCompact = true;
+          changed = true;
+        }
+      }
+    }
+
+    // 2. Compacta sessões de chat com bot/atendente finalizadas existentes em memória
+    if (Array.isArray(this.jsonData?.chatSessions)) {
+      for (const s of this.jsonData.chatSessions) {
+        const isFin = s.status === 'finalizado' || s.status === 'resolved' || s.status === 'closed';
+        if (isFin && (!s.simpleRecord || !s.closed)) {
+          const rawMsgs = Array.isArray(s.messages) ? s.messages : [];
+          const count = rawMsgs.length;
+          const closedAt = s.closedAt || new Date().toISOString();
+
+          this.saveToArchive('chatSessions', s.id, {
+            id: s.id,
+            studentId: s.studentId,
+            closedAt,
+            messages: rawMsgs
+          });
+
+          s.closed = true;
+          s.closedAt = closedAt;
+          s.simpleRecord = {
+            id: s.id,
+            studentId: s.studentId,
+            studentName: s.studentName,
+            status: 'finalizado',
+            closed: true,
+            closedAt,
+            totalMessages: count,
+            summary: `Chat finalizado com ${count} mensagem(ns). Registro simples mantido em memória.`
+          };
+          s.messages = [
+            {
+              id: `cmsg-summary-${s.id}`,
+              sender: 'system',
+              senderName: 'Registro Simples',
+              text: `Chat finalizado e fechado. Mantido registro simples em memória.`,
+              timestamp: closedAt,
+              isSimpleRecord: true
+            }
+          ];
+          s.isCompact = true;
+          changed = true;
+        }
+      }
+    }
+
+    if (changed) {
+      this.saveJsonFallback();
     }
   }
 
@@ -239,31 +379,119 @@ export class Database {
 
   // Avaliações das Seções 3.3 e 3.4
   avaliarTecnico({ chamadoId, alunoId, tecnicoId, nota, comentario }) {
-    if (!this.sqlite) throw new Error('SQLite offline');
-
     const id = 'avt-' + Date.now();
     const now = new Date().toISOString();
+    const safeNota = Math.max(1, Math.min(5, Number(nota) || 5));
 
-    this.sqlite.prepare(`
-      INSERT INTO avaliacoes_tecnico (id, chamado_id, aluno_id, tecnico_id, nota, comentario, criado_em)
-      VALUES (?, ?, ?, ?, ?, ?, ?);
-    `).run(id, chamadoId, alunoId, tecnicoId, nota, comentario || '', now);
+    const tecId = (tecnicoId || 'usr-tec-1').replace('usr-att-', 'usr-tec-');
+    const aluId = (alunoId || 'usr-alu-1').replace('usr-stu-', 'usr-alu-');
 
-    return { id, chamadoId, nota, comentario };
+    if (this.sqlite) {
+      try {
+        const chk = this.sqlite.prepare('SELECT id FROM chamados WHERE id = ?').get(chamadoId);
+        if (!chk) {
+          try {
+            this.sqlite.prepare(`
+              INSERT OR IGNORE INTO chamados (id, aluno_id, tecnico_id, titulo, descricao, status, categoria, criado_em)
+              VALUES (?, ?, ?, 'Atendimento Finalizado', 'Atendimento UniDesk', 'finalizado', 'Geral', ?)
+            `).run(chamadoId, aluId, tecId, now);
+          } catch (_) {}
+        }
+
+        this.sqlite.prepare(`
+          INSERT INTO avaliacoes_tecnico (id, chamado_id, aluno_id, tecnico_id, nota, comentario, criado_em)
+          VALUES (?, ?, ?, ?, ?, ?, ?)
+          ON CONFLICT(chamado_id) DO UPDATE SET nota = excluded.nota, comentario = excluded.comentario;
+        `).run(id, chamadoId, aluId, tecId, safeNota, comentario || '', now);
+      } catch (err) {
+        console.warn('Aviso ao registrar avaliacao_tecnico no SQLite:', err.message);
+      }
+    }
+
+    if (!this.jsonData) {
+      this.jsonData = {};
+    }
+    if (!Array.isArray(this.jsonData.ratings)) {
+      this.jsonData.ratings = [];
+    }
+
+    const existingIdx = this.jsonData.ratings.findIndex(r => r.chamadoId === chamadoId);
+    if (existingIdx >= 0) {
+      this.jsonData.ratings[existingIdx] = {
+        ...this.jsonData.ratings[existingIdx],
+        nota: safeNota,
+        comentario: comentario || '',
+        atualizadoEm: now
+      };
+    } else {
+      this.jsonData.ratings.push({ id, chamadoId, alunoId, tecnicoId, nota: safeNota, comentario: comentario || '', criadoEm: now });
+    }
+
+    // Sincroniza csatScore diretamente no objeto do chamado para exibição imediata
+    const ticket = this.getTicketById(chamadoId);
+    if (ticket) {
+      ticket.csatScore = safeNota;
+      ticket.ratingComment = comentario || '';
+      ticket.ratedAt = now;
+    }
+
+    this.saveJsonFallback();
+
+    return { id, chamadoId, nota: safeNota, comentario };
   }
 
   avaliarAluno({ chamadoId, tecnicoId, alunoId, nota, comentario }) {
-    if (!this.sqlite) throw new Error('SQLite offline');
-
     const id = 'ava-' + Date.now();
     const now = new Date().toISOString();
+    const safeNota = Math.max(1, Math.min(5, Number(nota) || 5));
 
-    this.sqlite.prepare(`
-      INSERT INTO avaliacoes_aluno (id, chamado_id, tecnico_id, aluno_id, nota, comentario, criado_em)
-      VALUES (?, ?, ?, ?, ?, ?, ?);
-    `).run(id, chamadoId, tecnicoId, alunoId, nota, comentario || '', now);
+    const tecId = (tecnicoId || 'usr-tec-1').replace('usr-att-', 'usr-tec-');
+    const aluId = (alunoId || 'usr-alu-1').replace('usr-stu-', 'usr-alu-');
 
-    return { id, chamadoId, nota, comentario };
+    if (this.sqlite) {
+      try {
+        const chk = this.sqlite.prepare('SELECT id FROM chamados WHERE id = ?').get(chamadoId);
+        if (!chk) {
+          try {
+            this.sqlite.prepare(`
+              INSERT OR IGNORE INTO chamados (id, aluno_id, tecnico_id, titulo, descricao, status, categoria, criado_em)
+              VALUES (?, ?, ?, 'Atendimento Finalizado', 'Atendimento UniDesk', 'finalizado', 'Geral', ?)
+            `).run(chamadoId, aluId, tecId, now);
+          } catch (_) {}
+        }
+
+        this.sqlite.prepare(`
+          INSERT INTO avaliacoes_aluno (id, chamado_id, tecnico_id, aluno_id, nota, comentario, criado_em)
+          VALUES (?, ?, ?, ?, ?, ?, ?)
+          ON CONFLICT(chamado_id) DO UPDATE SET nota = excluded.nota, comentario = excluded.comentario;
+        `).run(id, chamadoId, tecId, aluId, safeNota, comentario || '', now);
+      } catch (err) {
+        console.warn('Aviso ao registrar avaliacao_aluno no SQLite:', err.message);
+      }
+    }
+
+    if (!this.jsonData) {
+      this.jsonData = {};
+    }
+    if (!Array.isArray(this.jsonData.studentRatings)) {
+      this.jsonData.studentRatings = [];
+    }
+
+    const existingIdx = this.jsonData.studentRatings.findIndex(r => r.chamadoId === chamadoId);
+    if (existingIdx >= 0) {
+      this.jsonData.studentRatings[existingIdx] = {
+        ...this.jsonData.studentRatings[existingIdx],
+        nota: safeNota,
+        comentario: comentario || '',
+        atualizadoEm: now
+      };
+    } else {
+      this.jsonData.studentRatings.push({ id, chamadoId, tecnicoId, alunoId, nota: safeNota, comentario: comentario || '', criadoEm: now });
+    }
+
+    this.saveJsonFallback();
+
+    return { id, chamadoId, nota: safeNota, comentario };
   }
 
   // =========================================================================
@@ -300,8 +528,19 @@ export class Database {
         let query = 'SELECT * FROM vw_usuarios_por_role';
         const params = [];
         if (role) {
-          query += ' WHERE role = ?';
-          params.push(role);
+          if (role === 'aluno' || role === 'student') {
+            query += ' WHERE role IN (?, ?)';
+            params.push('aluno', 'student');
+          } else if (role === 'tecnico' || role === 'attendant') {
+            query += ' WHERE role IN (?, ?)';
+            params.push('tecnico', 'attendant');
+          } else if (role === 'admin' || role === 'admin_faculdade' || role === 'admin_software') {
+            query += ' WHERE role IN (?, ?, ?)';
+            params.push('admin', 'admin_faculdade', 'admin_software');
+          } else {
+            query += ' WHERE role = ?';
+            params.push(role);
+          }
         }
         const rows = this.sqlite.prepare(query).all(...params);
         return rows.map(r => ({
@@ -315,10 +554,10 @@ export class Database {
           ra: r.matricula,
           course: r.curso,
           avatar: r.role === 'aluno'
-            ? "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=80"
+            ? (r.id === 'usr-alu-2' ? "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=80" : r.id === 'usr-alu-3' ? "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=80" : "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=80")
             : r.role === 'tecnico'
-            ? "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80"
-            : "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80"
+            ? (r.id === 'usr-tec-3' ? "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=80" : r.id === 'usr-tec-2' ? "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80" : "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80")
+            : (r.id === 'usr-adm-soft' ? "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=80" : "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80")
         }));
       } catch (err) {
         console.warn('Fallback para usuarios JSON devido a erro SQLite:', err.message);
@@ -326,7 +565,16 @@ export class Database {
     }
     const users = this.jsonData.users || [];
     if (role) {
-      return users.filter(u => u.role === role || (role === 'aluno' && u.role === 'student'));
+      if (role === 'aluno' || role === 'student') {
+        return users.filter(u => u.role === 'student' || u.role === 'aluno');
+      }
+      if (role === 'tecnico' || role === 'attendant') {
+        return users.filter(u => u.role === 'attendant' || u.role === 'tecnico' || u.role === 'gestor' || u.role === 'gestor_setor');
+      }
+      if (role === 'admin' || role === 'admin_faculdade' || role === 'admin_software') {
+        return users.filter(u => u.role === 'admin' || u.role === 'admin_faculdade' || u.role === 'admin_software');
+      }
+      return users.filter(u => u.role === role);
     }
     return users;
   }
@@ -378,13 +626,29 @@ export class Database {
   }
 
   getUserById(id) {
+    if (!id) return null;
     const users = this.getUsers();
     let found = users.find(u => u.id === id);
     if (!found) {
-      if (id === 'usr-admin') {
-        found = users.find(u => u.id === 'usr-adm-fac');
-      } else if (id === 'usr-adm-fac') {
-        found = users.find(u => u.id === 'usr-admin');
+      const aliasMap = {
+        'usr-stu-1': 'usr-alu-1',
+        'usr-stu-2': 'usr-alu-2',
+        'usr-stu-3': 'usr-alu-3',
+        'usr-alu-1': 'usr-stu-1',
+        'usr-alu-2': 'usr-stu-2',
+        'usr-alu-3': 'usr-stu-3',
+        'usr-att-1': 'usr-tec-1',
+        'usr-att-2': 'usr-tec-2',
+        'usr-att-3': 'usr-tec-3',
+        'usr-tec-1': 'usr-att-1',
+        'usr-tec-2': 'usr-att-2',
+        'usr-tec-3': 'usr-att-3',
+        'usr-admin': 'usr-adm-fac',
+        'usr-adm-fac': 'usr-admin'
+      };
+      const mappedId = aliasMap[id];
+      if (mappedId) {
+        found = users.find(u => u.id === mappedId);
       }
     }
     return found || null;
@@ -396,10 +660,8 @@ export class Database {
     const users = this.getUsers();
     let found = users.find(u => u.email && u.email.trim().toLowerCase() === cleanEmail);
     if (!found) {
-      if (cleanEmail === 'admin@metropolitana.edu.br') {
-        found = users.find(u => u.id === 'usr-adm-fac' || u.id === 'usr-admin' || (u.email && u.email.toLowerCase() === 'roberto.ti@metropolitana.edu.br'));
-      } else if (cleanEmail === 'roberto.ti@metropolitana.edu.br') {
-        found = users.find(u => u.id === 'usr-adm-fac' || u.id === 'usr-admin');
+      if (cleanEmail === 'admin@metropolitana.edu.br' || cleanEmail === 'roberto.ti@metropolitana.edu.br') {
+        found = users.find(u => u.id === 'usr-adm-fac' || u.id === 'usr-admin' || (u.email && (u.email.toLowerCase() === 'roberto.ti@metropolitana.edu.br' || u.email.toLowerCase() === 'admin@metropolitana.edu.br')));
       }
     }
     return found || null;
@@ -480,19 +742,35 @@ export class Database {
 
   getCategories() {
     return this.jsonData.categories || [
-      { id: "cat-1", name: "Secretaria Acadêmica", slaHours: 24, defaultPriority: "medium" },
-      { id: "cat-2", name: "Financeiro & Bolsas (FIES/Prouni)", slaHours: 12, defaultPriority: "high" },
-      { id: "cat-3", name: "Suporte AVA & TI (Moodle/Portal)", slaHours: 6, defaultPriority: "high" }
+      { id: 'cat-ti', name: 'Suporte de T.I.', slaHours: 6, defaultPriority: 'medium', icon: 'laptop' }
     ];
   }
 
   getTickets(filters = {}) {
     let tickets = this.jsonData.tickets || [];
     if (filters.studentId) {
-      tickets = tickets.filter(t => t.studentId === filters.studentId);
+      const aliasMap = {
+        'usr-stu-1': 'usr-alu-1',
+        'usr-stu-2': 'usr-alu-2',
+        'usr-stu-3': 'usr-alu-3',
+        'usr-alu-1': 'usr-stu-1',
+        'usr-alu-2': 'usr-stu-2',
+        'usr-alu-3': 'usr-stu-3'
+      };
+      const altStudentId = aliasMap[filters.studentId];
+      tickets = tickets.filter(t => t.studentId === filters.studentId || (altStudentId && t.studentId === altStudentId));
     }
     if (filters.attendantId) {
-      tickets = tickets.filter(t => t.attendantId === filters.attendantId);
+      const aliasMap = {
+        'usr-att-1': 'usr-tec-1',
+        'usr-att-2': 'usr-tec-2',
+        'usr-att-3': 'usr-tec-3',
+        'usr-tec-1': 'usr-att-1',
+        'usr-tec-2': 'usr-att-2',
+        'usr-tec-3': 'usr-att-3'
+      };
+      const altAttendantId = aliasMap[filters.attendantId];
+      tickets = tickets.filter(t => t.attendantId === filters.attendantId || (altAttendantId && t.attendantId === altAttendantId));
     }
     if (filters.status && filters.status !== 'all') {
       const s = filters.status.toLowerCase();
@@ -500,7 +778,9 @@ export class Database {
         const ts = (t.status || '').toLowerCase();
         if (s === 'open' || s === 'aberto') return ts === 'open' || ts === 'aberto';
         if (s === 'in_progress' || s === 'em_atendimento') return ts === 'in_progress' || ts === 'em_atendimento';
-        if (s === 'resolved' || s === 'finalizado') return ts === 'resolved' || ts === 'finalizado';
+        if (s === 'resolved' || s === 'finalizado' || s === 'closed' || s === 'fechado') {
+          return ts === 'resolved' || ts === 'finalizado' || ts === 'closed' || t.closed === true;
+        }
         return ts === s;
       });
     }
@@ -510,20 +790,37 @@ export class Database {
     return tickets;
   }
 
-  getTicketById(id) {
+  getTicketById(id, { full = false } = {}) {
     const tickets = this.getTickets();
-    return tickets.find(t => t.id === id || String(t.ticketNumber) === String(id));
+    const ticket = tickets.find(t => t.id === id || String(t.ticketNumber) === String(id));
+    if (!ticket) return null;
+    if (full && ticket.isCompact) {
+      const archived = this.getFromArchive('tickets', ticket.id);
+      if (archived && archived.messages) {
+        return {
+          ...ticket,
+          messages: archived.messages
+        };
+      }
+    }
+    return ticket;
   }
 
   createTicket(params) {
     if (!this.jsonData.tickets) this.jsonData.tickets = [];
     const ticketNumber = 1000 + this.jsonData.tickets.length + 1;
     const now = new Date();
+    const student = this.getUserById(params.studentId);
+    const studentName = params.studentName || (student ? student.name : "Aluno");
+    const studentRole = student ? student.role : "student";
+    const resolvedStudentId = student ? student.id : params.studentId;
+
     const newTicket = {
       id: "tkt-" + ticketNumber,
       ticketNumber,
-      studentId: params.studentId,
-      attendantId: "usr-tec-1",
+      studentId: resolvedStudentId,
+      studentName: studentName,
+      attendantId: params.attendantId || "usr-tec-1",
       categoryId: params.categoryId,
       subject: params.subject,
       description: params.description,
@@ -539,9 +836,9 @@ export class Database {
       messages: [
         {
           id: "msg-" + Date.now(),
-          senderId: params.studentId,
-          senderName: "Aluno",
-          senderRole: "student",
+          senderId: resolvedStudentId,
+          senderName: studentName,
+          senderRole: studentRole,
           message: params.description,
           isInternalNote: false,
           attachments: params.attachments || [],
@@ -552,31 +849,46 @@ export class Database {
     this.jsonData.tickets.unshift(newTicket);
     this.saveJsonFallback();
 
-    // Also mirror to SQLite if available
+    // Mirror to SQLite if available
     if (this.sqlite) {
       try {
+        const aluId = (resolvedStudentId.startsWith('usr-stu-'))
+          ? resolvedStudentId.replace('usr-stu-', 'usr-alu-')
+          : resolvedStudentId;
         this.sqlite.prepare(`
           INSERT INTO chamados (id, aluno_id, tecnico_id, titulo, descricao, status, categoria, criado_em)
           VALUES (?, ?, NULL, ?, ?, 'aberto', ?, ?);
-        `).run(newTicket.id, params.studentId, params.subject, params.description, params.categoryId, now.toISOString());
-      } catch (err) {}
+        `).run(newTicket.id, aluId, params.subject, params.description, params.categoryId, now.toISOString());
+      } catch (err) {
+        console.warn('Aviso ao espelhar chamado no SQLite:', err.message);
+      }
     }
 
     return newTicket;
   }
 
-  addTicketMessage(ticketId, { senderId, message, isInternalNote, attachments }) {
+  addTicketMessage(ticketId, { senderId, senderName, senderRole, message, isInternalNote, attachments }) {
     const ticket = this.getTicketById(ticketId);
     if (!ticket) return null;
 
-    const sender = this.getUserById(senderId) || { name: "Usuário", role: "student" };
+    const sender = this.getUserById(senderId);
+    const resolvedRole = sender ? sender.role : (senderRole || 'student');
+    const isStudent = resolvedRole === 'student' || resolvedRole === 'aluno';
+    let resolvedName = sender ? sender.name : senderName;
+    if (!resolvedName || resolvedName === 'Aluno' || resolvedName === 'Usuário') {
+      if (isStudent && ticket.studentName && ticket.studentName !== 'Aluno') {
+        resolvedName = ticket.studentName;
+      } else {
+        resolvedName = isStudent ? 'Aluno' : 'Atendente';
+      }
+    }
     const now = new Date();
 
     const newMsg = {
       id: "msg-" + Date.now(),
-      senderId,
-      senderName: sender.name,
-      senderRole: sender.role,
+      senderId: sender ? sender.id : senderId,
+      senderName: resolvedName,
+      senderRole: resolvedRole,
       message,
       isInternalNote: !!isInternalNote,
       attachments: attachments || [],
@@ -586,9 +898,9 @@ export class Database {
     ticket.messages.push(newMsg);
     ticket.updatedAt = now.toISOString();
 
-    if (sender.role === 'tecnico' && !ticket.firstResponseAt) {
+    if ((resolvedRole === 'tecnico' || resolvedRole === 'attendant') && !ticket.firstResponseAt) {
       ticket.firstResponseAt = now.toISOString();
-      if (ticket.status === 'open') ticket.status = 'in_progress';
+      if (ticket.status === 'open' || ticket.status === 'aberto') ticket.status = 'in_progress';
     }
 
     this.saveJsonFallback();
@@ -599,14 +911,85 @@ export class Database {
     const ticket = this.getTicketById(ticketId);
     if (!ticket) return null;
 
+    const isFinalizing = status === 'resolved' || status === 'finalizado' || status === 'closed';
+    const nowIso = new Date().toISOString();
+
     ticket.status = status;
-    ticket.updatedAt = new Date().toISOString();
-    if (status === 'resolved' || status === 'finalizado') {
-      ticket.resolvedAt = new Date().toISOString();
-    }
+    ticket.updatedAt = nowIso;
     if (csatScore) {
       ticket.csatScore = csatScore;
     }
+
+    if (isFinalizing) {
+      ticket.resolvedAt = ticket.resolvedAt || nowIso;
+      ticket.closed = true;
+      ticket.closedAt = ticket.closedAt || nowIso;
+
+      const rawMessages = Array.isArray(ticket.messages) ? ticket.messages : [];
+      const totalMessages = rawMessages.length;
+      const firstMsg = rawMessages[0]?.message || ticket.description || '';
+      const lastMsg = rawMessages[totalMessages - 1]?.message || '';
+
+      // Arquiva o histórico detalhado de mensagens em disco antes de descarregar a memória
+      this.saveToArchive('tickets', ticket.id, {
+        id: ticket.id,
+        ticketNumber: ticket.ticketNumber,
+        subject: ticket.subject,
+        studentId: ticket.studentId,
+        studentName: ticket.studentName,
+        attendantId: ticket.attendantId,
+        attendantName: ticket.attendantName,
+        closedAt: ticket.closedAt,
+        messages: rawMessages
+      });
+
+      // Registro simples mantido na memória do software
+      ticket.simpleRecord = {
+        id: ticket.id,
+        ticketNumber: ticket.ticketNumber,
+        subject: ticket.subject,
+        studentId: ticket.studentId,
+        studentName: ticket.studentName || 'Aluno',
+        attendantId: ticket.attendantId,
+        attendantName: ticket.attendantName || 'Atendente',
+        status: ticket.status,
+        closed: true,
+        closedAt: ticket.closedAt,
+        resolvedAt: ticket.resolvedAt,
+        totalMessages,
+        firstMessageSnippet: firstMsg.slice(0, 80),
+        lastMessageSnippet: lastMsg.slice(0, 80),
+        summary: `Atendimento finalizado com ${totalMessages} mensagem(ns). Histórico arquivado em disco e registro simples mantido em memória.`
+      };
+
+      // Compactação em memória: substitui o array pesado por uma entrada sintética leve
+      ticket.messages = [
+        {
+          id: `msg-summary-${ticket.id}`,
+          senderRole: 'system',
+          senderName: 'Registro Simples',
+          message: `Atendimento finalizado e fechado em ${new Date(ticket.closedAt).toLocaleString('pt-BR')}. Total de mensagens processadas: ${totalMessages}. Histórico arquivado em disco; mantido registro simples em memória para otimização de recursos.`,
+          createdAt: ticket.closedAt,
+          isSimpleRecord: true
+        }
+      ];
+
+      ticket.isCompact = true;
+
+      // Sincroniza fechamento com SQLite Relacional se ativo
+      if (this.sqlite) {
+        try {
+          this.sqlite.prepare(`
+            UPDATE chamados
+            SET status = 'finalizado', finalizado_em = COALESCE(finalizado_em, ?)
+            WHERE id = ?
+          `).run(ticket.closedAt, ticket.id);
+        } catch (err) {
+          console.warn('Aviso ao sincronizar fechamento no SQLite:', err.message);
+        }
+      }
+    }
+
     this.saveJsonFallback();
     return ticket;
   }
@@ -615,16 +998,77 @@ export class Database {
     return this.jsonData.chatSessions || [];
   }
 
-  getChatSession(id) {
-    return (this.jsonData.chatSessions || []).find(s => s.id === id);
+  getChatSession(id, { full = false } = {}) {
+    const session = (this.jsonData.chatSessions || []).find(s => s.id === id);
+    if (!session) return null;
+    if (full && session.isCompact) {
+      const archived = this.getFromArchive('chatSessions', session.id);
+      if (archived && archived.messages) {
+        return {
+          ...session,
+          messages: archived.messages
+        };
+      }
+    }
+    return session;
   }
 
-  createChatSession(studentId, department) {
+  closeChatSession(sessionId) {
+    const session = this.getChatSession(sessionId);
+    if (!session) return null;
+
+    const rawMessages = Array.isArray(session.messages) ? session.messages : [];
+    const totalMessages = rawMessages.length;
+    const nowIso = new Date().toISOString();
+
+    // Arquivar histórico detalhado em disco
+    this.saveToArchive('chatSessions', session.id, {
+      ...session,
+      closedAt: nowIso,
+      messages: rawMessages
+    });
+
+    session.status = 'finalizado';
+    session.closed = true;
+    session.closedAt = nowIso;
+    session.simpleRecord = {
+      id: session.id,
+      studentId: session.studentId,
+      studentName: session.studentName || 'Aluno',
+      department: session.department || 'Geral',
+      status: 'finalizado',
+      closed: true,
+      closedAt: nowIso,
+      totalMessages,
+      summary: `Chat finalizado com ${totalMessages} mensagem(ns). Histórico arquivado em disco e mantido registro simples em memória.`
+    };
+
+    // Compacta mensagens em memória para liberar RAM
+    session.messages = [
+      {
+        id: `cmsg-summary-${session.id}`,
+        sender: 'system',
+        senderName: 'Registro Simples',
+        text: `Chat finalizado e fechado em ${new Date(nowIso).toLocaleString('pt-BR')}. Total de mensagens: ${totalMessages}. Mantido registro simples em memória.`,
+        timestamp: nowIso,
+        isSimpleRecord: true
+      }
+    ];
+
+    session.isCompact = true;
+    this.saveJsonFallback();
+    return session;
+  }
+
+  createChatSession(studentId, department, requestedStudentName = null) {
     if (!this.jsonData.chatSessions) this.jsonData.chatSessions = [];
+    const student = this.getUserById(studentId);
+    const studentName = requestedStudentName || (student ? student.name : "Aluno");
+    const greetingName = studentName && studentName !== 'Aluno' ? `, ${studentName.split(' ')[0]}` : '';
     const newSession = {
       id: "chat-sess-" + Date.now(),
-      studentId,
-      studentName: "Aluno",
+      studentId: student ? student.id : (studentId || "usr-alu-2"),
+      studentName: studentName,
       department: department || "Geral",
       status: "bot",
       createdAt: new Date().toISOString(),
@@ -633,7 +1077,7 @@ export class Database {
           id: "cmsg-" + Date.now(),
           sender: "bot",
           senderName: "Sophia (IA UMI)",
-          text: "Olá! Como posso ajudar você hoje?",
+          text: `Olá${greetingName}! Como posso ajudar você hoje?`,
           timestamp: new Date().toISOString()
         }
       ]
@@ -647,10 +1091,22 @@ export class Database {
     const session = this.getChatSession(sessionId);
     if (!session) return null;
 
+    let finalSenderName = senderName;
+    const isStudent = sender === 'student' || sender === 'aluno';
+    if (isStudent) {
+      if (!finalSenderName || finalSenderName === 'Aluno' || finalSenderName === 'Você') {
+        const student = this.getUserById(session.studentId);
+        finalSenderName = (student && student.name) || (session.studentName && session.studentName !== 'Aluno' ? session.studentName : 'Aluno');
+      }
+      if (session.studentName === 'Aluno' && finalSenderName && finalSenderName !== 'Aluno') {
+        session.studentName = finalSenderName;
+      }
+    }
+
     const msg = {
       id: "cmsg-" + Date.now(),
       sender,
-      senderName,
+      senderName: finalSenderName || (sender === 'bot' ? 'Sophia (IA UMI)' : (isStudent ? 'Aluno' : 'Atendente')),
       text,
       timestamp: new Date().toISOString()
     };
@@ -712,9 +1168,7 @@ export class Database {
       averageCsat: mediaGeralTecnicos,
       averageFirstResponseHours: 1.5,
       byCategory: {
-        "Secretaria Acadêmica": 1,
-        "Financeiro & Bolsas": 1,
-        "Suporte AVA & TI": 1
+        "Suporte de T.I.": abertos + resolvidos
       }
     };
   }

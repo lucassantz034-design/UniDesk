@@ -53,7 +53,7 @@ export default function AdminBackups() {
         <div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '0.4rem' }}>
             <Database size={22} color="var(--primary-light)" />
-            <h3 style={{ fontSize: '1.15rem', fontWeight: 700, color: '#fff', margin: 0 }}>Rotina de Backup Automático & Recuperação de Desastres</h3>
+            <h3 style={{ fontSize: '1.15rem', fontWeight: 700, color: 'var(--text-main)', margin: 0 }}>Rotina de Backup Automático & Recuperação de Desastres</h3>
           </div>
           <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', margin: 0, maxWidth: '650px', lineHeight: '1.4' }}>
             O UniDesk realiza backups transacionais a quente do banco SQLite sem interromper atendimentos. Compactação nativa com retenção de segurança de {retentionDays} dias.
@@ -104,7 +104,7 @@ export default function AdminBackups() {
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-muted)', fontSize: '0.8rem', marginBottom: '0.4rem' }}>
             <Clock size={16} color="var(--primary-light)" /> Intervalo Automático
           </div>
-          <div style={{ fontSize: '1.5rem', fontWeight: 800, color: '#fff' }}>A cada {intervalHours}h</div>
+          <div style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--text-main)' }}>A cada {intervalHours}h</div>
           <div style={{ fontSize: '0.75rem', color: '#10b981', marginTop: '0.2rem' }}>● Agendador Ativo (02:00)</div>
         </div>
 
@@ -112,7 +112,7 @@ export default function AdminBackups() {
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-muted)', fontSize: '0.8rem', marginBottom: '0.4rem' }}>
             <ShieldCheck size={16} color="#10b981" /> Política de Retenção
           </div>
-          <div style={{ fontSize: '1.5rem', fontWeight: 800, color: '#fff' }}>{retentionDays} Dias</div>
+          <div style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--text-main)' }}>{retentionDays} Dias</div>
           <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.2rem' }}>Limpeza automática de arquivos antigos</div>
         </div>
 
@@ -120,14 +120,14 @@ export default function AdminBackups() {
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-muted)', fontSize: '0.8rem', marginBottom: '0.4rem' }}>
             <HardDrive size={16} color="#38bdf8" /> Backups Disponíveis
           </div>
-          <div style={{ fontSize: '1.5rem', fontWeight: 800, color: '#fff' }}>{backups.length} Snapshots</div>
+          <div style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--text-main)' }}>{backups.length} Snapshots</div>
           <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.2rem' }}>Armazenados em /backups</div>
         </div>
       </div>
 
       {/* Tabela de Backups */}
       <div style={{ background: 'var(--bg-surface)', border: '1px solid var(--border-color)', borderRadius: '14px', padding: '1.5rem' }}>
-        <h4 style={{ fontSize: '1rem', fontWeight: 700, color: '#fff', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+        <h4 style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--text-main)', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
           <Database size={18} color="var(--primary-light)" /> Histórico de Backups Compactados (.sqlite.gz)
         </h4>
 
@@ -151,8 +151,8 @@ export default function AdminBackups() {
               </thead>
               <tbody>
                 {backups.map((b, idx) => (
-                  <tr key={b.filename} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)', background: idx === 0 ? 'rgba(79, 70, 229, 0.05)' : 'transparent' }}>
-                    <td style={{ padding: '0.75rem', fontWeight: 600, color: '#fff', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                  <tr key={b.filename} style={{ borderBottom: '1px solid var(--border-color)', background: idx === 0 ? 'rgba(79, 70, 229, 0.05)' : 'transparent' }}>
+                    <td style={{ padding: '0.75rem', fontWeight: 600, color: 'var(--text-main)', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
                       <Database size={14} color="var(--primary-light)" />
                       {b.filename}
                       {idx === 0 && <span style={{ fontSize: '0.7rem', background: '#059669', color: '#fff', padding: '0.15rem 0.45rem', borderRadius: '4px', marginLeft: '0.5rem' }}>Mais Recente</span>}
@@ -160,7 +160,7 @@ export default function AdminBackups() {
                     <td style={{ padding: '0.75rem', color: 'var(--text-muted)' }}>
                       {new Date(b.createdAt).toLocaleString('pt-BR')}
                     </td>
-                    <td style={{ padding: '0.75rem', color: '#fff', fontWeight: 600 }}>
+                    <td style={{ padding: '0.75rem', color: 'var(--text-main)', fontWeight: 600 }}>
                       {b.sizeKb} KB
                     </td>
                     <td style={{ padding: '0.75rem', color: 'var(--text-muted)' }}>

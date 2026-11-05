@@ -20,7 +20,7 @@ export default function AttendantSidebar({
       style={{
         width: '72px',
         minWidth: '72px',
-        background: 'rgba(17, 24, 39, 0.95)',
+        background: 'var(--bg-surface)',
         backdropFilter: 'blur(12px)',
         borderRight: '1px solid var(--border-color)',
         display: 'flex',
@@ -75,16 +75,8 @@ export default function AttendantSidebar({
                   border: isActive
                     ? '1px solid rgba(255, 255, 255, 0.16)'
                     : '1px solid transparent',
-                  background: isActive
-                    ? 'rgba(255, 255, 255, 0.08)'
-                    : isHovered
-                    ? 'rgba(255, 255, 255, 0.04)'
-                    : 'transparent',
-                  color: isActive
-                    ? '#ffffff'
-                    : isHovered
-                    ? '#ffffff'
-                    : '#94a3b8',
+                  background: isActive ? 'var(--bg-sidebar-active)' : isHovered ? 'var(--bg-btn-secondary)' : 'transparent',
+                  color: isActive ? 'var(--text-main)' : isHovered ? 'var(--text-sidebar-hover)' : 'var(--text-sidebar)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -110,7 +102,7 @@ export default function AttendantSidebar({
                       height: '18px',
                       borderRadius: '9px',
                       background: item.badgeColor || 'var(--primary)',
-                      color: '#ffffff',
+                      color: 'var(--text-main)',
                       fontSize: '0.65rem',
                       fontWeight: 700,
                       display: 'flex',
@@ -134,9 +126,9 @@ export default function AttendantSidebar({
                     left: 'calc(100% + 12px)',
                     top: '50%',
                     transform: 'translateY(-50%)',
-                    background: '#1f2937',
-                    border: '1px solid rgba(255, 255, 255, 0.12)',
-                    color: '#ffffff',
+                    background: 'var(--bg-surface)',
+                    border: '1px solid var(--border-color)',
+                    color: 'var(--text-main)',
                     padding: '0.35rem 0.75rem',
                     borderRadius: '8px',
                     fontSize: '0.78rem',
@@ -174,9 +166,9 @@ export default function AttendantSidebar({
                       transform: 'translateY(-50%) rotate(45deg)',
                       width: '8px',
                       height: '8px',
-                      background: '#1f2937',
-                      borderLeft: '1px solid rgba(255, 255, 255, 0.12)',
-                      borderBottom: '1px solid rgba(255, 255, 255, 0.12)'
+                      background: 'var(--bg-surface)',
+                      borderLeft: '1px solid var(--border-color)',
+                      borderBottom: '1px solid var(--border-color)'
                     }}
                   />
                 </div>
@@ -267,9 +259,9 @@ export default function AttendantSidebar({
               left: 'calc(100% + 12px)',
               top: '50%',
               transform: 'translateY(-50%)',
-              background: '#1f2937',
-              border: '1px solid rgba(255, 255, 255, 0.12)',
-              color: '#ffffff',
+              background: 'var(--bg-surface)',
+              border: '1px solid var(--border-color)',
+              color: 'var(--text-main)',
               padding: '0.35rem 0.75rem',
               borderRadius: '8px',
               fontSize: '0.78rem',
@@ -294,9 +286,9 @@ export default function AttendantSidebar({
                 transform: 'translateY(-50%) rotate(45deg)',
                 width: '8px',
                 height: '8px',
-                background: '#1f2937',
-                borderLeft: '1px solid rgba(255, 255, 255, 0.12)',
-                borderBottom: '1px solid rgba(255, 255, 255, 0.12)'
+                background: 'var(--bg-surface)',
+                borderLeft: '1px solid var(--border-color)',
+                      borderBottom: '1px solid var(--border-color)'
               }}
             />
           </div>

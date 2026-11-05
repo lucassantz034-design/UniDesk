@@ -2,7 +2,7 @@
   "institution": {
     "id": "inst-1",
     "name": "Centro Universitário Metropolitano Teste",
-    "tagline": "Central de Atendimento Segura",
+    "tagline": "Portal do Aluno e Suporte Integrado",
     "primaryColor": "#0f766e",
     "secondaryColor": "#0284c7",
     "accentColor": "#eab308",
@@ -10,45 +10,17 @@
     "aiProvider": "local_heuristic",
     "aiApiKey": "",
     "aiModel": "claude-3-5-sonnet",
-    "aiCustomInstructions": "Você é a Sophia, assistente virtual inteligente da UMI. Seja empática, formal e assertiva, orientando sobre matrículas, notas, prazos acadêmicos e financeiro.",
+    "aiCustomInstructions": "Você é o UniBot T.I., o assistente inteligente de Tecnologia da Informação do UniDesk. Ajude alunos, professores e colaboradores a solucionar problemas técnicos com Wi-Fi, AVA Moodle, Portal do Aluno, contas, senhas e softwares. Sempre recomende as ferramentas de Auto-Reparo do sistema para resolução imediata!",
     "licenseKey": "UNI-HOSTED-2026-BR-ACTIVE",
-    "version": "1.0.0"
+    "version": "2.0.0"
   },
   "categories": [
     {
-      "id": "cat-1",
-      "name": "Secretaria Acadêmica",
-      "slaHours": 24,
-      "defaultPriority": "medium",
-      "icon": "file-text"
-    },
-    {
-      "id": "cat-2",
-      "name": "Financeiro & Bolsas (FIES/Prouni)",
-      "slaHours": 12,
-      "defaultPriority": "high",
-      "icon": "dollar-sign"
-    },
-    {
-      "id": "cat-3",
-      "name": "Suporte AVA & TI (Moodle/Portal)",
+      "id": "cat-ti",
+      "name": "Suporte de T.I. & Auto-Reparos",
       "slaHours": 6,
-      "defaultPriority": "high",
+      "defaultPriority": "medium",
       "icon": "laptop"
-    },
-    {
-      "id": "cat-4",
-      "name": "Coordenação Pedagógica",
-      "slaHours": 48,
-      "defaultPriority": "low",
-      "icon": "book-open"
-    },
-    {
-      "id": "cat-5",
-      "name": "Estágios & Carreiras",
-      "slaHours": 72,
-      "defaultPriority": "low",
-      "icon": "briefcase"
     }
   ],
   "users": [
@@ -57,436 +29,257 @@
       "name": "Prof. Dr. Roberto Guimarães",
       "email": "admin@metropolitana.edu.br",
       "role": "admin",
-      "department": "Diretoria de Tecnologia e Operações",
-      "avatar": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&auto=format&fit=crop&q=80",
-      "senhaHash": "scrypt:c31c9fc47ce7fa4dab0d8c395465cac0:edebd31e57ebce1745e489852021acaa6df91674eb1d1a1d52c7bdc2579d09fcada091c8a4dd5cf69fe6075426e99d21fa422c245202e4a256d1f06bd5f9d787"
+      "department": "Diretoria de Tecnologia e Governança de TI",
+      "avatar": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80",
+      "senhaHash": "scrypt:47d70eae889edbc762fad9b851e75612:ac0891df67bf00d02067c43f222255845cf0acda267e782eb64ad052ce6e81a0d0aebc1ef5573344ce443e5ace48219c312cd68df5f940f237a797f4ba41e17a"
     },
     {
       "id": "usr-att-1",
       "name": "Mariana Alencar",
       "email": "mariana.suporte@metropolitana.edu.br",
       "role": "attendant",
-      "department": "Secretaria Acadêmica",
-      "avatar": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&auto=format&fit=crop&q=80",
-      "senhaHash": "scrypt:c31c9fc47ce7fa4dab0d8c395465cac0:edebd31e57ebce1745e489852021acaa6df91674eb1d1a1d52c7bdc2579d09fcada091c8a4dd5cf69fe6075426e99d21fa422c245202e4a256d1f06bd5f9d787"
+      "department": "Suporte de T.I. & Sistemas",
+      "especialidade": "AVA Moodle & Acessos",
+      "avatar": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80",
+      "senhaHash": "scrypt:47d70eae889edbc762fad9b851e75612:ac0891df67bf00d02067c43f222255845cf0acda267e782eb64ad052ce6e81a0d0aebc1ef5573344ce443e5ace48219c312cd68df5f940f237a797f4ba41e17a"
     },
     {
       "id": "usr-att-2",
       "name": "Felipe Castilho",
       "email": "felipe.ti@metropolitana.edu.br",
       "role": "attendant",
-      "department": "Suporte AVA & TI",
-      "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&auto=format&fit=crop&q=80",
-      "senhaHash": "scrypt:c31c9fc47ce7fa4dab0d8c395465cac0:edebd31e57ebce1745e489852021acaa6df91674eb1d1a1d52c7bdc2579d09fcada091c8a4dd5cf69fe6075426e99d21fa422c245202e4a256d1f06bd5f9d787"
+      "department": "Suporte de T.I. & Redes",
+      "especialidade": "Infraestrutura & Wi-Fi",
+      "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80",
+      "senhaHash": "scrypt:47d70eae889edbc762fad9b851e75612:ac0891df67bf00d02067c43f222255845cf0acda267e782eb64ad052ce6e81a0d0aebc1ef5573344ce443e5ace48219c312cd68df5f940f237a797f4ba41e17a"
     },
     {
       "id": "usr-att-3",
-      "name": "Carla Esteves",
-      "email": "carla.financeiro@metropolitana.edu.br",
+      "name": "Carlos Silveira",
+      "email": "carlos.ti@metropolitana.edu.br",
       "role": "attendant",
-      "department": "Financeiro & Bolsas",
-      "avatar": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=80&auto=format&fit=crop&q=80",
-      "senhaHash": "scrypt:c31c9fc47ce7fa4dab0d8c395465cac0:edebd31e57ebce1745e489852021acaa6df91674eb1d1a1d52c7bdc2579d09fcada091c8a4dd5cf69fe6075426e99d21fa422c245202e4a256d1f06bd5f9d787"
+      "department": "Suporte de T.I. & Laboratórios",
+      "especialidade": "Hardware & Softwares",
+      "avatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80",
+      "senhaHash": "scrypt:47d70eae889edbc762fad9b851e75612:ac0891df67bf00d02067c43f222255845cf0acda267e782eb64ad052ce6e81a0d0aebc1ef5573344ce443e5ace48219c312cd68df5f940f237a797f4ba41e17a"
+    },
+    {
+      "id": "usr-gestor-1",
+      "name": "Coord. André Bastos",
+      "email": "andre.gestor@metropolitana.edu.br",
+      "role": "gestor_setor",
+      "cargo": "Gestor de Setor",
+      "isGestor": true,
+      "department": "Suporte de T.I. & Operações",
+      "especialidade": "Gestão de Atendimento & SLA",
+      "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=80",
+      "senhaHash": "scrypt:47d70eae889edbc762fad9b851e75612:ac0891df67bf00d02067c43f222255845cf0acda267e782eb64ad052ce6e81a0d0aebc1ef5573344ce443e5ace48219c312cd68df5f940f237a797f4ba41e17a"
     },
     {
       "id": "usr-stu-1",
       "name": "Enzo Gabriel Martins",
       "email": "enzo.martins@aluno.metropolitana.edu.br",
       "role": "student",
-      "ra": "20240189",
-      "course": "Engenharia de Software (5º Período)",
-      "avatar": "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=80&auto=format&fit=crop&q=80",
-      "phone": "(11) 98765-4321",
-      "senhaHash": "scrypt:c31c9fc47ce7fa4dab0d8c395465cac0:edebd31e57ebce1745e489852021acaa6df91674eb1d1a1d52c7bdc2579d09fcada091c8a4dd5cf69fe6075426e99d21fa422c245202e4a256d1f06bd5f9d787"
+      "ra": "RA-2024-0012",
+      "course": "Engenharia de Software",
+      "avatar": "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=80",
+      "senhaHash": "scrypt:47d70eae889edbc762fad9b851e75612:ac0891df67bf00d02067c43f222255845cf0acda267e782eb64ad052ce6e81a0d0aebc1ef5573344ce443e5ace48219c312cd68df5f940f237a797f4ba41e17a"
     },
     {
       "id": "usr-stu-2",
       "name": "Larissa Vianna Castro",
       "email": "larissa.vianna@aluno.metropolitana.edu.br",
       "role": "student",
-      "ra": "20230512",
-      "course": "Medicina (7º Período)",
-      "avatar": "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=80&auto=format&fit=crop&q=80",
-      "phone": "(11) 99812-3456",
-      "senhaHash": "scrypt:c31c9fc47ce7fa4dab0d8c395465cac0:edebd31e57ebce1745e489852021acaa6df91674eb1d1a1d52c7bdc2579d09fcada091c8a4dd5cf69fe6075426e99d21fa422c245202e4a256d1f06bd5f9d787"
+      "ra": "RA-2023-0841",
+      "course": "Ciência da Computação",
+      "avatar": "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=80",
+      "senhaHash": "scrypt:47d70eae889edbc762fad9b851e75612:ac0891df67bf00d02067c43f222255845cf0acda267e782eb64ad052ce6e81a0d0aebc1ef5573344ce443e5ace48219c312cd68df5f940f237a797f4ba41e17a"
     },
     {
       "id": "usr-stu-3",
       "name": "Rodrigo Sanches Lima",
       "email": "rodrigo.sanches@aluno.metropolitana.edu.br",
       "role": "student",
-      "ra": "20220891",
-      "course": "Direito (9º Período)",
-      "avatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&auto=format&fit=crop&q=80",
-      "phone": "(11) 97654-9870",
-      "senhaHash": "scrypt:c31c9fc47ce7fa4dab0d8c395465cac0:edebd31e57ebce1745e489852021acaa6df91674eb1d1a1d52c7bdc2579d09fcada091c8a4dd5cf69fe6075426e99d21fa422c245202e4a256d1f06bd5f9d787"
-    },
-    {
-      "id": "usr-stu-1790462614758",
-      "name": "Lucas Andrade Teste",
-      "email": "lucas.teste@aluno.metropolitana.edu.br",
-      "cpf": "123.456.789-00",
-      "course": "Engenharia de Software",
-      "period": "6º Período",
-      "phone": "(11) 98765-4321",
-      "role": "student",
-      "department": "Engenharia de Software",
-      "ra": "20263755",
-      "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=80&auto=format&fit=crop&q=80",
-      "createdAt": "2026-09-26T22:43:34.758Z",
-      "senhaHash": "scrypt:c31c9fc47ce7fa4dab0d8c395465cac0:edebd31e57ebce1745e489852021acaa6df91674eb1d1a1d52c7bdc2579d09fcada091c8a4dd5cf69fe6075426e99d21fa422c245202e4a256d1f06bd5f9d787"
+      "ra": "RA-2022-0493",
+      "course": "Sistemas de Informação",
+      "avatar": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=80",
+      "senhaHash": "scrypt:47d70eae889edbc762fad9b851e75612:ac0891df67bf00d02067c43f222255845cf0acda267e782eb64ad052ce6e81a0d0aebc1ef5573344ce443e5ace48219c312cd68df5f940f237a797f4ba41e17a"
     }
   ],
   "knowledgeBase": [
     {
-      "id": "kb-1",
-      "categoryId": "cat-1",
-      "title": "Como emitir a Declaração de Matrícula e Histórico Escolar",
-      "snippet": "Emita documentos oficiais autenticados digitalmente com QR Code pelo Portal do Aluno em segundos.",
-      "content": "Você pode emitir sua declaração de matrícula atualizada diretamente no Portal do Aluno:\\n\\n1. Acesse o menu lateral **Secretaria Virtual** > **Documentos Oficiais**.\\n2. Selecione 'Declaração de Matrícula com Assinatura Digital'.\\n3. O PDF será baixado imediatamente com chave de validação pública e QR Code.\\n\\n*Observação: Documentos com ementas completas de disciplinas exigem abertura de chamado específico por este helpdesk com prazo de até 5 dias úteis.*",
+      "id": "kb-ti-1",
+      "categoryId": "cat-ti",
+      "title": "Como resolver o Erro 403 e tela em branco no AVA Moodle",
+      "snippet": "Use a rotina de Auto-Reparo do UniDesk para desobstruir sessões duplicadas e liberar o envio de avaliações.",
+      "content": "Se você recebeu Erro 403, sessão travada ou tela em branco no Moodle:\\n\\n1. **Auto-Reparo UniDesk**: Utilize o botão 'Desbloquear Sessão Moodle' na aba superior do seu painel para purgar sessões presas em menos de 5 segundos.\\n2. Alternativamente, limpe o cache do seu navegador (Ctrl + Shift + R).\\n3. Caso o problema ocorra durante uma prova com prazo ativo, o sistema registra automaticamente seu rascunho de respostas para validação pelo professor.",
       "isPublic": true,
-      "views": 342,
-      "helpfulVotes": 89
+      "views": 940,
+      "helpfulVotes": 320
     },
     {
-      "id": "kb-2",
-      "categoryId": "cat-2",
-      "title": "Passo a passo para renegociação de mensalidades e aditamento Prouni/FIES",
-      "snippet": "Informações sobre prazos semestrais, boletos com desconto pontualidade e parcelamentos.",
-      "content": "Para consultar pendências ou negociar débitos:\\n\\n1. No Portal do Aluno, acesse **Financeiro** > **Renegociação Online**.\\n2. O sistema permite parcelar faturas abertas em até 12x no cartão de crédito ou boleto bancário com isenção parcial de juros de mora.\\n3. Para bolsistas Prouni ou FIES: O aditamento é 100% online no SisFIES / Portal Prouni. Após confirmar na CPSA, envie o comprovante abrindo um ticket no departamento Financeiro.",
+      "id": "kb-ti-2",
+      "categoryId": "cat-ti",
+      "title": "Guia de Conexão ao Wi-Fi Eduroam e Rede Sem Fio dos Campi",
+      "snippet": "Instruções oficiais de autenticação 802.1X PEAP/MSCHAPv2 para celulares e notebooks.",
+      "content": "Para conectar ao Wi-Fi institucional:\\n\\n1. Selecione a rede **Eduroam** ou **Campus-Academico**.\\n2. Método EAP: **PEAP** | Autenticação de Fase 2: **MSCHAPv2**.\\n3. Identidade: seu e-mail institucional completo (ex: seu.nome@aluno.metropolitana.edu.br) e senha do portal.\\n4. Caso ocorra erro de handshake, utilize a ferramenta 'Diagnóstico de Wi-Fi' no UniDesk para verificar a rota de DNS e reemitir seu certificado digital.",
       "isPublic": true,
-      "views": 520,
-      "helpfulVotes": 145
+      "views": 1250,
+      "helpfulVotes": 480
     },
     {
-      "id": "kb-3",
-      "categoryId": "cat-3",
-      "title": "Problemas de acesso ao AVA Moodle ou Redefinição de Senha",
-      "snippet": "Resolva bloqueios de usuário, erros no aplicativo móvel e troca de credenciais de rede.",
-      "content": "Se você esqueceu sua senha do Moodle ou do e-mail acadêmico institucional:\\n\\n1. Na tela de login, clique em **Esqueci minha senha institucional**.\\n2. Insira seu RA e seu CPF cadastrado.\\n3. Um token SMS e link de recuperação serão enviados para seu e-mail pessoal cadastrado no ato da matrícula.\\n4. Caso não receba em até 10 minutos, abra um chamado no setor 'Suporte AVA & TI' informando foto do documento com foto para redefinição manual segura.",
+      "id": "kb-ti-3",
+      "categoryId": "cat-ti",
+      "title": "Desbloqueio de Conta e Redefinição de Senha do Portal",
+      "snippet": "Como restaurar o acesso após bloqueio de segurança por tentativas consecutivas de senha incorreta.",
+      "content": "Contas de alunos são temporariamente bloqueadas após 5 tentativas consecutivas inválidas:\\n\\n1. Execute o **Auto-Reparo de Credenciais** no painel UniDesk.\\n2. O sistema zera o contador no Active Directory e disponibiliza um token provisório de desbloqueio.\\n3. A nova senha deve conter no mínimo 8 caracteres com letras maiúsculas, minúsculas e números.",
       "isPublic": true,
-      "views": 890,
-      "helpfulVotes": 312
+      "views": 810,
+      "helpfulVotes": 295
     },
     {
-      "id": "kb-4",
-      "categoryId": "cat-1",
-      "title": "Prazos e Regras para Trancamento de Matrícula ou Transferência",
-      "snippet": "Datas limites de acordo com o calendário acadêmico oficial e condições de cancelamento.",
-      "content": "O trancamento de matrícula pode ser realizado até o 45º dia após o início oficial do semestre letivo vigente. Após esse período, o trancamento somente é aceito mediante parecer da junta médica ou justificativa legal extraordinária. Todos os débitos até o mês de solicitação devem estar regularizados.",
+      "id": "kb-ti-4",
+      "categoryId": "cat-ti",
+      "title": "Ativação de Licenças do Pacote Office 365, MATLAB e AutoCAD",
+      "snippet": "Sincronização de matrícula ativa com os servidores de licenciamento acadêmico.",
+      "content": "Todo aluno tem direito ao uso gratuito de softwares de engenharia e do pacote Microsoft Office 365:\\n\\n1. No UniDesk, clique em 'Revalidar Licenças de Softwares' para sincronizar seu RA com os servidores parceiros.\\n2. Acesse portal.office.com com seu e-mail de estudante para baixar os instaladores oficiais.\\n3. As licenças permanecem válidas enquanto sua matrícula estiver ativa no semestre letivo.",
       "isPublic": true,
-      "views": 215,
-      "helpfulVotes": 48
+      "views": 650,
+      "helpfulVotes": 210
     },
     {
-      "id": "kb-5",
-      "categoryId": "cat-4",
-      "title": "Solicitação de Aproveitamento de Estudos e Dispensa de Disciplinas",
-      "snippet": "Documentos necessários e formulário de equivalência de carga horária para transferidos.",
-      "content": "Para pedir dispensa por equivalência de matérias cursadas em outra faculdade credenciada pelo MEC, anexe:\\n- Histórico escolar oficial assinado digitalmente\\n- Plano de ensino / Ementas autenticadas de cada disciplina\\n\\nO colegiado do curso tem prazo regimental de até 15 dias úteis para emissão do parecer acadêmico.",
+      "id": "kb-ti-5",
+      "categoryId": "cat-ti",
+      "title": "Configuração de VPN e Acesso Remoto aos Laboratórios Virtuais",
+      "snippet": "Acesse servidores internos e computadores de alto desempenho diretamente de casa.",
+      "content": "Para aulas remotas que exigem uso de softwares pesados dos laboratórios físicos:\\n\\n1. Baixe o cliente VPN oficial homologado pelo Núcleo de T.I.\\n2. Conecte com suas credenciais institucionais.\\n3. Abra o cliente de Área de Trabalho Remota (RDP) apontando para o IP do seu laboratório alocado.",
       "isPublic": true,
-      "views": 180,
-      "helpfulVotes": 35
+      "views": 430,
+      "helpfulVotes": 160
     }
   ],
   "tickets": [
     {
-      "id": "tkt-1013",
-      "ticketNumber": 1013,
-      "studentId": "usr-alu-1",
-      "attendantId": "usr-tec-1",
-      "categoryId": "cat-1",
-      "subject": "Chamado Pós Desbloqueio",
-      "description": "Sistema normalizado com sucesso.",
-      "status": "open",
-      "priority": "low",
-      "origin": "portal",
-      "slaDueAt": "2026-10-19T21:33:50.451Z",
-      "firstResponseAt": null,
-      "resolvedAt": null,
-      "csatScore": null,
-      "createdAt": "2026-10-18T21:33:50.451Z",
-      "updatedAt": "2026-10-18T21:33:50.451Z",
-      "messages": [
-        {
-          "id": "msg-1792359230451",
-          "senderId": "usr-alu-1",
-          "senderName": "Aluno",
-          "senderRole": "student",
-          "message": "Sistema normalizado com sucesso.",
-          "isInternalNote": false,
-          "attachments": [],
-          "createdAt": "2026-10-18T21:33:50.451Z"
-        }
-      ]
-    },
-    {
-      "id": "tkt-1012",
-      "ticketNumber": 1012,
-      "studentId": "usr-alu-1",
-      "attendantId": "usr-tec-1",
-      "categoryId": "cat-1",
-      "subject": "Solicitação de Segunda Via de Carteirinha Estudantil",
-      "description": "Perdi minha carteirinha no campus norte e preciso de uma 2ª via urgente para o transporte público.",
-      "status": "resolved",
-      "priority": "high",
-      "origin": "web",
-      "slaDueAt": "2026-10-19T21:33:49.786Z",
-      "firstResponseAt": "2026-10-18T21:33:49.901Z",
-      "resolvedAt": "2026-10-18T21:33:49.918Z",
-      "csatScore": null,
-      "createdAt": "2026-10-18T21:33:49.786Z",
-      "updatedAt": "2026-10-18T21:33:49.918Z",
-      "messages": [
-        {
-          "id": "msg-1792359229787",
-          "senderId": "usr-alu-1",
-          "senderName": "Aluno",
-          "senderRole": "student",
-          "message": "Perdi minha carteirinha no campus norte e preciso de uma 2ª via urgente para o transporte público.",
-          "isInternalNote": false,
-          "attachments": [],
-          "createdAt": "2026-10-18T21:33:49.786Z"
-        },
-        {
-          "id": "msg-1792359229800",
-          "senderId": "usr-alu-1",
-          "senderName": "Enzo Gabriel Martins",
-          "senderRole": "aluno",
-          "message": "Seguem em anexo os comprovantes solicitados.",
-          "isInternalNote": false,
-          "attachments": [],
-          "createdAt": "2026-10-18T21:33:49.800Z"
-        },
-        {
-          "id": "msg-1792359229901",
-          "senderId": "usr-tec-1",
-          "senderName": "Mariana Alencar",
-          "senderRole": "tecnico",
-          "message": "Olá Enzo, recebemos sua solicitação! A 2ª via já foi enviada para impressão.",
-          "isInternalNote": false,
-          "attachments": [],
-          "createdAt": "2026-10-18T21:33:49.901Z"
-        },
-        {
-          "id": "msg-1792359229914",
-          "senderId": "usr-tec-1",
-          "senderName": "Mariana Alencar",
-          "senderRole": "tecnico",
-          "message": "Nota interna: Cobrança de taxa de R$ 15,00 isenta devido a bolsa PROUNI.",
-          "isInternalNote": true,
-          "attachments": [],
-          "createdAt": "2026-10-18T21:33:49.914Z"
-        }
-      ]
-    },
-    {
-      "id": "tkt-1011",
-      "ticketNumber": 1011,
-      "studentId": "usr-alu-1",
-      "attendantId": "usr-tec-1",
-      "categoryId": "cat-1",
-      "subject": "Chamado Pós Desbloqueio",
-      "description": "Sistema normalizado com sucesso.",
-      "status": "open",
-      "priority": "low",
-      "origin": "portal",
-      "slaDueAt": "2026-10-18T16:30:38.676Z",
-      "firstResponseAt": null,
-      "resolvedAt": null,
-      "csatScore": null,
-      "createdAt": "2026-10-17T16:30:38.676Z",
-      "updatedAt": "2026-10-17T16:30:38.676Z",
-      "messages": [
-        {
-          "id": "msg-1792254638676",
-          "senderId": "usr-alu-1",
-          "senderName": "Aluno",
-          "senderRole": "student",
-          "message": "Sistema normalizado com sucesso.",
-          "isInternalNote": false,
-          "attachments": [],
-          "createdAt": "2026-10-17T16:30:38.676Z"
-        }
-      ]
-    },
-    {
-      "id": "tkt-1010",
-      "ticketNumber": 1010,
-      "studentId": "usr-alu-1",
-      "attendantId": "usr-tec-1",
-      "categoryId": "cat-1",
-      "subject": "Solicitação de Segunda Via de Carteirinha Estudantil",
-      "description": "Perdi minha carteirinha no campus norte e preciso de uma 2ª via urgente para o transporte público.",
-      "status": "resolved",
-      "priority": "high",
-      "origin": "web",
-      "slaDueAt": "2026-10-18T16:30:38.364Z",
-      "firstResponseAt": "2026-10-17T16:30:38.421Z",
-      "resolvedAt": "2026-10-17T16:30:38.425Z",
-      "csatScore": null,
-      "createdAt": "2026-10-17T16:30:38.364Z",
-      "updatedAt": "2026-10-17T16:30:38.425Z",
-      "messages": [
-        {
-          "id": "msg-1792254638364",
-          "senderId": "usr-alu-1",
-          "senderName": "Aluno",
-          "senderRole": "student",
-          "message": "Perdi minha carteirinha no campus norte e preciso de uma 2ª via urgente para o transporte público.",
-          "isInternalNote": false,
-          "attachments": [],
-          "createdAt": "2026-10-17T16:30:38.364Z"
-        },
-        {
-          "id": "msg-1792254638372",
-          "senderId": "usr-alu-1",
-          "senderName": "Enzo Gabriel Martins",
-          "senderRole": "aluno",
-          "message": "Seguem em anexo os comprovantes solicitados.",
-          "isInternalNote": false,
-          "attachments": [],
-          "createdAt": "2026-10-17T16:30:38.372Z"
-        },
-        {
-          "id": "msg-1792254638421",
-          "senderId": "usr-tec-1",
-          "senderName": "Mariana Alencar",
-          "senderRole": "tecnico",
-          "message": "Olá Enzo, recebemos sua solicitação! A 2ª via já foi enviada para impressão.",
-          "isInternalNote": false,
-          "attachments": [],
-          "createdAt": "2026-10-17T16:30:38.421Z"
-        },
-        {
-          "id": "msg-1792254638423",
-          "senderId": "usr-tec-1",
-          "senderName": "Mariana Alencar",
-          "senderRole": "tecnico",
-          "message": "Nota interna: Cobrança de taxa de R$ 15,00 isenta devido a bolsa PROUNI.",
-          "isInternalNote": true,
-          "attachments": [],
-          "createdAt": "2026-10-17T16:30:38.423Z"
-        }
-      ]
-    },
-    {
       "id": "tkt-1009",
       "ticketNumber": 1009,
       "studentId": "usr-alu-1",
+      "studentName": "Enzo Gabriel Martins",
       "attendantId": "usr-tec-1",
-      "categoryId": "cat-1",
+      "categoryId": "cat-ti",
       "subject": "Chamado Pós Desbloqueio",
       "description": "Sistema normalizado com sucesso.",
       "status": "open",
       "priority": "low",
       "origin": "portal",
-      "slaDueAt": "2026-10-18T16:29:09.093Z",
+      "slaDueAt": "2026-11-06T03:51:02.635Z",
       "firstResponseAt": null,
       "resolvedAt": null,
-      "csatScore": null,
-      "createdAt": "2026-10-17T16:29:09.093Z",
-      "updatedAt": "2026-10-17T16:29:09.093Z",
+      "csatScore": 4,
+      "createdAt": "2026-11-05T03:51:02.635Z",
+      "updatedAt": "2026-11-05T03:51:02.635Z",
       "messages": [
         {
-          "id": "msg-1792254549093",
+          "id": "msg-1793850662635",
           "senderId": "usr-alu-1",
-          "senderName": "Aluno",
-          "senderRole": "student",
+          "senderName": "Enzo Gabriel Martins",
+          "senderRole": "aluno",
           "message": "Sistema normalizado com sucesso.",
           "isInternalNote": false,
           "attachments": [],
-          "createdAt": "2026-10-17T16:29:09.093Z"
+          "createdAt": "2026-11-05T03:51:02.635Z"
         }
-      ]
+      ],
+      "ratingComment": "Muito bom!",
+      "ratedAt": "2026-11-05T04:24:35.983Z"
     },
     {
       "id": "tkt-1008",
       "ticketNumber": 1008,
       "studentId": "usr-alu-1",
+      "studentName": "Enzo Gabriel Martins",
       "attendantId": "usr-tec-1",
-      "categoryId": "cat-1",
+      "categoryId": "cat-ti",
       "subject": "Solicitação de Segunda Via de Carteirinha Estudantil",
       "description": "Perdi minha carteirinha no campus norte e preciso de uma 2ª via urgente para o transporte público.",
       "status": "resolved",
       "priority": "high",
       "origin": "web",
-      "slaDueAt": "2026-10-18T16:29:08.704Z",
-      "firstResponseAt": "2026-10-17T16:29:08.759Z",
-      "resolvedAt": "2026-10-17T16:29:08.763Z",
-      "csatScore": null,
-      "createdAt": "2026-10-17T16:29:08.704Z",
-      "updatedAt": "2026-10-17T16:29:08.763Z",
+      "slaDueAt": "2026-11-06T03:51:02.217Z",
+      "firstResponseAt": "2026-11-05T03:51:02.274Z",
+      "resolvedAt": "2026-11-05T03:51:02.280Z",
+      "csatScore": 5,
+      "createdAt": "2026-11-05T03:51:02.217Z",
+      "updatedAt": "2026-11-05T03:51:02.280Z",
       "messages": [
         {
-          "id": "msg-1792254548705",
-          "senderId": "usr-alu-1",
-          "senderName": "Aluno",
-          "senderRole": "student",
-          "message": "Perdi minha carteirinha no campus norte e preciso de uma 2ª via urgente para o transporte público.",
-          "isInternalNote": false,
-          "attachments": [],
-          "createdAt": "2026-10-17T16:29:08.704Z"
-        },
-        {
-          "id": "msg-1792254548712",
-          "senderId": "usr-alu-1",
-          "senderName": "Enzo Gabriel Martins",
-          "senderRole": "aluno",
-          "message": "Seguem em anexo os comprovantes solicitados.",
-          "isInternalNote": false,
-          "attachments": [],
-          "createdAt": "2026-10-17T16:29:08.712Z"
-        },
-        {
-          "id": "msg-1792254548759",
-          "senderId": "usr-tec-1",
-          "senderName": "Mariana Alencar",
-          "senderRole": "tecnico",
-          "message": "Olá Enzo, recebemos sua solicitação! A 2ª via já foi enviada para impressão.",
-          "isInternalNote": false,
-          "attachments": [],
-          "createdAt": "2026-10-17T16:29:08.759Z"
-        },
-        {
-          "id": "msg-1792254548761",
-          "senderId": "usr-tec-1",
-          "senderName": "Mariana Alencar",
-          "senderRole": "tecnico",
-          "message": "Nota interna: Cobrança de taxa de R$ 15,00 isenta devido a bolsa PROUNI.",
-          "isInternalNote": true,
-          "attachments": [],
-          "createdAt": "2026-10-17T16:29:08.761Z"
+          "id": "msg-summary-tkt-1008",
+          "senderRole": "system",
+          "senderName": "Registro Simples",
+          "message": "Atendimento finalizado e fechado em 05/11/2026, 00:51:02. Total de mensagens processadas: 4. Histórico arquivado em disco; mantido registro simples em memória para otimização de recursos.",
+          "createdAt": "2026-11-05T03:51:02.280Z",
+          "isSimpleRecord": true
         }
-      ]
+      ],
+      "closed": true,
+      "closedAt": "2026-11-05T03:51:02.280Z",
+      "simpleRecord": {
+        "id": "tkt-1008",
+        "ticketNumber": 1008,
+        "subject": "Solicitação de Segunda Via de Carteirinha Estudantil",
+        "studentId": "usr-alu-1",
+        "studentName": "Enzo Gabriel Martins",
+        "attendantId": "usr-tec-1",
+        "attendantName": "Atendente",
+        "status": "resolved",
+        "closed": true,
+        "closedAt": "2026-11-05T03:51:02.280Z",
+        "resolvedAt": "2026-11-05T03:51:02.280Z",
+        "totalMessages": 4,
+        "firstMessageSnippet": "Perdi minha carteirinha no campus norte e preciso de uma 2ª via urgente para o t",
+        "lastMessageSnippet": "Nota interna: Cobrança de taxa de R$ 15,00 isenta devido a bolsa PROUNI.",
+        "summary": "Atendimento finalizado com 4 mensagem(ns). Histórico arquivado em disco e registro simples mantido em memória."
+      },
+      "isCompact": true,
+      "ratingComment": "Atendimento perfeito!",
+      "ratedAt": "2026-11-05T04:24:30.037Z"
     },
     {
       "id": "tkt-1007",
       "ticketNumber": 1007,
       "studentId": "usr-alu-1",
       "attendantId": "usr-tec-1",
-      "categoryId": "cat-1",
-      "subject": "Chamado Pós Desbloqueio",
-      "description": "Sistema normalizado com sucesso.",
-      "status": "open",
-      "priority": "low",
+      "categoryId": "cat-ti",
+      "subject": "a",
+      "description": "b",
+      "status": "in_progress",
+      "priority": "high",
       "origin": "portal",
-      "slaDueAt": "2026-10-18T16:28:38.226Z",
-      "firstResponseAt": null,
+      "slaDueAt": "2026-11-06T03:34:20.714Z",
+      "firstResponseAt": "2026-11-05T03:37:43.179Z",
       "resolvedAt": null,
       "csatScore": null,
-      "createdAt": "2026-10-17T16:28:38.226Z",
-      "updatedAt": "2026-10-17T16:28:38.226Z",
+      "createdAt": "2026-11-05T03:34:20.714Z",
+      "updatedAt": "2026-11-05T03:37:43.179Z",
       "messages": [
         {
-          "id": "msg-1792254518226",
+          "id": "msg-1793849660714",
           "senderId": "usr-alu-1",
           "senderName": "Aluno",
           "senderRole": "student",
-          "message": "Sistema normalizado com sucesso.",
+          "message": "b",
           "isInternalNote": false,
           "attachments": [],
-          "createdAt": "2026-10-17T16:28:38.226Z"
+          "createdAt": "2026-11-05T03:34:20.714Z"
+        },
+        {
+          "id": "msg-1793849863179",
+          "senderId": "usr-tec-1",
+          "senderName": "Mariana Alencar",
+          "senderRole": "tecnico",
+          "message": "teste",
+          "isInternalNote": false,
+          "attachments": [],
+          "createdAt": "2026-11-05T03:37:43.179Z"
         }
       ]
     },
@@ -495,118 +288,226 @@
       "ticketNumber": 1006,
       "studentId": "usr-alu-1",
       "attendantId": "usr-tec-1",
-      "categoryId": "cat-1",
-      "subject": "Solicitação de Segunda Via de Carteirinha Estudantil",
-      "description": "Perdi minha carteirinha no campus norte e preciso de uma 2ª via urgente para o transporte público.",
+      "categoryId": "cat-ti",
+      "subject": "Remoção de dados de pesquisa",
+      "description": "Preciso remover dados de uma pesquisa pois é de nivel mestrado\n",
       "status": "resolved",
-      "priority": "high",
-      "origin": "web",
-      "slaDueAt": "2026-10-18T16:28:37.915Z",
-      "firstResponseAt": "2026-10-17T16:28:37.971Z",
-      "resolvedAt": "2026-10-17T16:28:37.976Z",
+      "priority": "urgent",
+      "origin": "portal",
+      "slaDueAt": "2026-11-06T03:04:14.349Z",
+      "firstResponseAt": null,
+      "resolvedAt": "2026-11-05T03:04:30.131Z",
       "csatScore": null,
-      "createdAt": "2026-10-17T16:28:37.915Z",
-      "updatedAt": "2026-10-17T16:28:37.976Z",
+      "createdAt": "2026-11-05T03:04:14.349Z",
+      "updatedAt": "2026-11-05T03:04:30.131Z",
       "messages": [
         {
-          "id": "msg-1792254517915",
-          "senderId": "usr-alu-1",
-          "senderName": "Aluno",
-          "senderRole": "student",
-          "message": "Perdi minha carteirinha no campus norte e preciso de uma 2ª via urgente para o transporte público.",
-          "isInternalNote": false,
-          "attachments": [],
-          "createdAt": "2026-10-17T16:28:37.915Z"
-        },
-        {
-          "id": "msg-1792254517923",
-          "senderId": "usr-alu-1",
-          "senderName": "Enzo Gabriel Martins",
-          "senderRole": "aluno",
-          "message": "Seguem em anexo os comprovantes solicitados.",
-          "isInternalNote": false,
-          "attachments": [],
-          "createdAt": "2026-10-17T16:28:37.923Z"
-        },
-        {
-          "id": "msg-1792254517971",
-          "senderId": "usr-tec-1",
-          "senderName": "Mariana Alencar",
-          "senderRole": "tecnico",
-          "message": "Olá Enzo, recebemos sua solicitação! A 2ª via já foi enviada para impressão.",
-          "isInternalNote": false,
-          "attachments": [],
-          "createdAt": "2026-10-17T16:28:37.971Z"
-        },
-        {
-          "id": "msg-1792254517973",
-          "senderId": "usr-tec-1",
-          "senderName": "Mariana Alencar",
-          "senderRole": "tecnico",
-          "message": "Nota interna: Cobrança de taxa de R$ 15,00 isenta devido a bolsa PROUNI.",
-          "isInternalNote": true,
-          "attachments": [],
-          "createdAt": "2026-10-17T16:28:37.973Z"
+          "id": "msg-summary-tkt-1006",
+          "senderRole": "system",
+          "senderName": "Registro Simples",
+          "message": "Atendimento finalizado e fechado. Total de mensagens processadas: 1. Registro simples mantido em memória.",
+          "createdAt": "2026-11-05T03:04:30.131Z",
+          "isSimpleRecord": true
         }
-      ]
+      ],
+      "closed": true,
+      "closedAt": "2026-11-05T03:04:30.131Z",
+      "simpleRecord": {
+        "id": "tkt-1006",
+        "ticketNumber": 1006,
+        "subject": "Remoção de dados de pesquisa",
+        "studentId": "usr-alu-1",
+        "studentName": "Aluno",
+        "attendantId": "usr-tec-1",
+        "attendantName": "Atendente",
+        "status": "resolved",
+        "closed": true,
+        "closedAt": "2026-11-05T03:04:30.131Z",
+        "resolvedAt": "2026-11-05T03:04:30.131Z",
+        "totalMessages": 1,
+        "summary": "Atendimento finalizado com 1 mensagem(ns). Registro simplificado mantido em memória."
+      },
+      "isCompact": true
     },
     {
       "id": "tkt-1005",
       "ticketNumber": 1005,
-      "studentId": "usr-alu-1",
+      "studentId": "usr-alu-2",
       "attendantId": "usr-tec-1",
-      "categoryId": "cat-1",
-      "subject": "Solicitação de Segunda Via de Carteirinha Estudantil",
-      "description": "Perdi minha carteirinha no campus norte e preciso de uma 2ª via urgente para o transporte público.",
-      "status": "resolved",
+      "categoryId": "cat-ti",
+      "subject": "Revogação de licença ao software",
+      "description": "a",
+      "status": "open",
       "priority": "high",
-      "origin": "web",
-      "slaDueAt": "2026-10-18T16:26:52.401Z",
-      "firstResponseAt": "2026-10-17T16:26:52.457Z",
-      "resolvedAt": "2026-10-17T16:26:52.461Z",
+      "origin": "portal",
+      "slaDueAt": "2026-11-06T02:36:42.994Z",
+      "firstResponseAt": null,
+      "resolvedAt": null,
       "csatScore": null,
-      "createdAt": "2026-10-17T16:26:52.401Z",
-      "updatedAt": "2026-10-17T16:26:52.461Z",
+      "createdAt": "2026-11-05T02:36:42.994Z",
+      "updatedAt": "2026-11-05T02:36:46.977Z",
       "messages": [
         {
-          "id": "msg-1792254412401",
-          "senderId": "usr-alu-1",
+          "id": "msg-1793846202994",
+          "senderId": "usr-alu-2",
           "senderName": "Aluno",
           "senderRole": "student",
-          "message": "Perdi minha carteirinha no campus norte e preciso de uma 2ª via urgente para o transporte público.",
+          "message": "a",
           "isInternalNote": false,
           "attachments": [],
-          "createdAt": "2026-10-17T16:26:52.401Z"
+          "createdAt": "2026-11-05T02:36:42.994Z"
         },
         {
-          "id": "msg-1792254412411",
-          "senderId": "usr-alu-1",
-          "senderName": "Enzo Gabriel Martins",
+          "id": "msg-1793846206977",
+          "senderId": "usr-alu-2",
+          "senderName": "Larissa Vianna Castro",
           "senderRole": "aluno",
-          "message": "Seguem em anexo os comprovantes solicitados.",
+          "message": "teste",
           "isInternalNote": false,
           "attachments": [],
-          "createdAt": "2026-10-17T16:26:52.411Z"
-        },
+          "createdAt": "2026-11-05T02:36:46.977Z"
+        }
+      ]
+    },
+    {
+      "id": "tkt-1001",
+      "ticketNumber": 1001,
+      "studentId": "usr-alu-1",
+      "attendantId": "usr-att-1",
+      "categoryId": "cat-ti",
+      "subject": "Erro 403 e bloqueio de tentativa de envio de prova no AVA Moodle",
+      "description": "Estava finalizando a avaliação online de Algoritmos quando o Moodle deu erro 403 acusando sessão duplicada.",
+      "status": "resolved",
+      "priority": "urgent",
+      "origin": "portal",
+      "slaDueAt": "2026-11-05T03:44:56.843Z",
+      "firstResponseAt": "2026-11-05T00:44:56.844Z",
+      "resolvedAt": "2026-11-05T01:14:56.844Z",
+      "csatScore": 5,
+      "createdAt": "2026-11-04T23:44:56.844Z",
+      "updatedAt": "2026-11-05T01:14:56.844Z",
+      "messages": [
         {
-          "id": "msg-1792254412457",
-          "senderId": "usr-tec-1",
-          "senderName": "Mariana Alencar",
-          "senderRole": "tecnico",
-          "message": "Olá Enzo, recebemos sua solicitação! A 2ª via já foi enviada para impressão.",
+          "id": "msg-summary-tkt-1001",
+          "senderRole": "system",
+          "senderName": "Registro Simples",
+          "message": "Atendimento finalizado e fechado. Total de mensagens processadas: 3. Registro simples mantido em memória.",
+          "createdAt": "2026-11-05T01:14:56.844Z",
+          "isSimpleRecord": true
+        }
+      ],
+      "closed": true,
+      "closedAt": "2026-11-05T01:14:56.844Z",
+      "simpleRecord": {
+        "id": "tkt-1001",
+        "ticketNumber": 1001,
+        "subject": "Erro 403 e bloqueio de tentativa de envio de prova no AVA Moodle",
+        "studentId": "usr-alu-1",
+        "studentName": "Aluno",
+        "attendantId": "usr-att-1",
+        "attendantName": "Atendente",
+        "status": "resolved",
+        "closed": true,
+        "closedAt": "2026-11-05T01:14:56.844Z",
+        "resolvedAt": "2026-11-05T01:14:56.844Z",
+        "totalMessages": 3,
+        "summary": "Atendimento finalizado com 3 mensagem(ns). Registro simplificado mantido em memória."
+      },
+      "isCompact": true
+    },
+    {
+      "id": "tkt-1002",
+      "ticketNumber": 1002,
+      "studentId": "usr-alu-2",
+      "attendantId": "usr-att-2",
+      "categoryId": "cat-ti",
+      "subject": "Wi-Fi Eduroam com erro de autenticação no Bloco B",
+      "description": "Meu notebook não conecta à rede sem fio dos laboratórios, indicando falha no handshake 802.1X.",
+      "status": "resolved",
+      "priority": "high",
+      "origin": "widget",
+      "slaDueAt": "2026-11-05T05:44:56.844Z",
+      "firstResponseAt": "2026-11-05T00:14:56.844Z",
+      "resolvedAt": "2026-11-05T01:24:56.844Z",
+      "csatScore": 5,
+      "createdAt": "2026-11-04T22:44:56.844Z",
+      "updatedAt": "2026-11-05T01:24:56.844Z",
+      "messages": [
+        {
+          "id": "msg-summary-tkt-1002",
+          "senderRole": "system",
+          "senderName": "Registro Simples",
+          "message": "Atendimento finalizado e fechado. Total de mensagens processadas: 2. Registro simples mantido em memória.",
+          "createdAt": "2026-11-05T01:24:56.844Z",
+          "isSimpleRecord": true
+        }
+      ],
+      "closed": true,
+      "closedAt": "2026-11-05T01:24:56.844Z",
+      "simpleRecord": {
+        "id": "tkt-1002",
+        "ticketNumber": 1002,
+        "subject": "Wi-Fi Eduroam com erro de autenticação no Bloco B",
+        "studentId": "usr-alu-2",
+        "studentName": "Aluno",
+        "attendantId": "usr-att-2",
+        "attendantName": "Atendente",
+        "status": "resolved",
+        "closed": true,
+        "closedAt": "2026-11-05T01:24:56.844Z",
+        "resolvedAt": "2026-11-05T01:24:56.844Z",
+        "totalMessages": 2,
+        "summary": "Atendimento finalizado com 2 mensagem(ns). Registro simplificado mantido em memória."
+      },
+      "isCompact": true
+    },
+    {
+      "id": "tkt-1003",
+      "ticketNumber": 1003,
+      "studentId": "usr-alu-3",
+      "attendantId": "usr-att-3",
+      "categoryId": "cat-ti",
+      "subject": "Falha na validação de licença do MATLAB e AutoCAD",
+      "description": "Erro 'License Server Unavailable (-15)' ao iniciar a aplicação nos computadores da faculdade.",
+      "status": "in_progress",
+      "priority": "high",
+      "origin": "portal",
+      "slaDueAt": "2026-11-05T04:44:56.844Z",
+      "firstResponseAt": "2026-11-05T01:14:56.844Z",
+      "resolvedAt": null,
+      "csatScore": null,
+      "createdAt": "2026-11-05T00:44:56.844Z",
+      "updatedAt": "2026-11-05T02:15:24.842Z",
+      "messages": [
+        {
+          "id": "msg-106",
+          "senderId": "usr-stu-3",
+          "senderName": "Rodrigo Sanches Lima",
+          "senderRole": "student",
+          "message": "Preciso utilizar o MATLAB para entrega do projeto de Cálculo Numérico e o servidor de licença não responde.",
           "isInternalNote": false,
           "attachments": [],
-          "createdAt": "2026-10-17T16:26:52.457Z"
+          "createdAt": "2026-11-05T00:44:56.844Z"
         },
         {
-          "id": "msg-1792254412459",
-          "senderId": "usr-tec-1",
-          "senderName": "Mariana Alencar",
-          "senderRole": "tecnico",
-          "message": "Nota interna: Cobrança de taxa de R$ 15,00 isenta devido a bolsa PROUNI.",
-          "isInternalNote": true,
+          "id": "msg-107",
+          "senderId": "usr-att-3",
+          "senderName": "Carlos Silveira",
+          "senderRole": "attendant",
+          "message": "Olá Rodrigo! Estamos reiniciando o serviço daemon do FLEXlm no servidor de licenças. Previsão de normalização em 15 minutos.",
+          "isInternalNote": false,
           "attachments": [],
-          "createdAt": "2026-10-17T16:26:52.459Z"
+          "createdAt": "2026-11-05T01:14:56.844Z"
+        },
+        {
+          "id": "msg-1793844924842",
+          "senderId": "usr-tec-2",
+          "senderName": "Felipe Castilho",
+          "senderRole": "tecnico",
+          "message": "OLÁ",
+          "isInternalNote": false,
+          "attachments": [],
+          "createdAt": "2026-11-05T02:15:24.842Z"
         }
       ]
     },
@@ -614,696 +515,176 @@
       "id": "tkt-1004",
       "ticketNumber": 1004,
       "studentId": "usr-alu-1",
-      "attendantId": "usr-tec-1",
-      "categoryId": "cat-2",
-      "subject": "teste",
-      "description": "teste",
-      "status": "resolved",
+      "attendantId": null,
+      "categoryId": "cat-ti",
+      "subject": "Conta do Portal bloqueada por excesso de tentativas de senha",
+      "description": "Digitei a senha antiga várias vezes após atualização e a conta entrou em modo suspenso.",
+      "status": "open",
       "priority": "medium",
       "origin": "portal",
-      "slaDueAt": "2026-10-14T00:22:43.871Z",
+      "slaDueAt": "2026-11-05T06:44:56.844Z",
       "firstResponseAt": null,
-      "resolvedAt": "2026-10-13T00:23:16.114Z",
+      "resolvedAt": null,
       "csatScore": null,
-      "createdAt": "2026-10-13T00:22:43.871Z",
-      "updatedAt": "2026-10-13T00:23:16.114Z",
+      "createdAt": "2026-11-05T01:29:56.844Z",
+      "updatedAt": "2026-11-05T01:29:56.844Z",
       "messages": [
         {
-          "id": "msg-1791850963871",
-          "senderId": "usr-alu-1",
-          "senderName": "Aluno",
-          "senderRole": "student",
-          "message": "teste",
-          "isInternalNote": false,
-          "attachments": [],
-          "createdAt": "2026-10-13T00:22:43.871Z"
-        },
-        {
-          "id": "msg-1791850967479",
-          "senderId": "usr-alu-1",
-          "senderName": "Enzo Gabriel Martins",
-          "senderRole": "aluno",
-          "message": "teste",
-          "isInternalNote": false,
-          "attachments": [],
-          "createdAt": "2026-10-13T00:22:47.479Z"
-        }
-      ]
-    },
-    {
-      "id": "tkt-1001",
-      "ticketNumber": 1001,
-      "studentId": "usr-stu-1",
-      "attendantId": "usr-att-1",
-      "categoryId": "cat-1",
-      "subject": "Atraso na emissão do certificado de conclusão de horas complementares",
-      "description": "Enviei 60 horas de cursos extracurriculares há mais de 20 dias úteis e ainda não constam no meu portal para liberação do TCC.",
-      "status": "resolved",
-      "priority": "high",
-      "origin": "portal",
-      "slaDueAt": "2026-09-27T14:44:11.664Z",
-      "firstResponseAt": "2026-09-26T18:44:11.665Z",
-      "resolvedAt": "2026-09-26T21:32:43.161Z",
-      "csatScore": null,
-      "createdAt": "2026-09-26T15:44:11.665Z",
-      "updatedAt": "2026-09-26T21:32:43.161Z",
-      "messages": [
-        {
-          "id": "msg-1",
+          "id": "msg-108",
           "senderId": "usr-stu-1",
           "senderName": "Enzo Gabriel Martins",
           "senderRole": "student",
-          "message": "Olá! Gostaria de uma previsão, pois a coordenação informou que preciso comprovar essas 60 horas até sexta-feira para homologar minha banca de TCC.",
-          "isInternalNote": false,
-          "attachments": [
-            "comprovante_certificados_60h.pdf"
-          ],
-          "createdAt": "2026-09-26T15:44:11.665Z"
-        },
-        {
-          "id": "msg-2",
-          "senderId": "usr-att-1",
-          "senderName": "Mariana Alencar",
-          "senderRole": "attendant",
-          "message": "Boa tarde, Enzo! Verifiquei que seu lote de certificados está com o coordenador pedagógico para validação de carga horária. Já enviei uma notificação com caráter de urgência para ele liberar até amanhã de manhã.",
+          "message": "Aparece a mensagem 'Usuário bloqueado por 30 minutos'. Preciso acessar o portal para visualizar meu material de aula.",
           "isInternalNote": false,
           "attachments": [],
-          "createdAt": "2026-09-26T18:44:11.665Z"
-        },
-        {
-          "id": "msg-3",
-          "senderId": "usr-att-1",
-          "senderName": "Mariana Alencar",
-          "senderRole": "attendant",
-          "message": "Nota Interna: Aluno está no último semestre com banca agendada. Prioridade máxima para evitar prejuízo de formatura.",
-          "isInternalNote": true,
-          "attachments": [],
-          "createdAt": "2026-09-26T18:44:11.665Z"
-        }
-      ]
-    },
-    {
-      "id": "tkt-1002",
-      "ticketNumber": 1002,
-      "studentId": "usr-stu-2",
-      "attendantId": "usr-att-3",
-      "categoryId": "cat-2",
-      "subject": "Boleto de mensalidade com perda indevida de bolsa mérito",
-      "description": "Meu boleto com vencimento para 05/10 veio sem o desconto de 30% da bolsa de iniciação científica concedida pelo edital 02/2026.",
-      "status": "resolved",
-      "priority": "urgent",
-      "origin": "chat_escalation",
-      "slaDueAt": "2026-09-27T04:44:11.665Z",
-      "firstResponseAt": null,
-      "resolvedAt": "2026-09-26T21:32:38.584Z",
-      "csatScore": null,
-      "createdAt": "2026-09-26T19:44:11.665Z",
-      "updatedAt": "2026-09-26T21:32:38.584Z",
-      "messages": [
-        {
-          "id": "msg-4",
-          "senderId": "usr-stu-2",
-          "senderName": "Larissa Vianna Castro",
-          "senderRole": "student",
-          "message": "Prezados, sou aluna de Medicina e o valor veio integral (R$ 9.850,00) em vez do valor com desconto concedido (R$ 6.895,00). Por favor, emitam a 2ª via corrigida antes do vencimento bancário.",
-          "isInternalNote": false,
-          "attachments": [
-            "termo_bolsa_merito_assinado.pdf"
-          ],
-          "createdAt": "2026-09-26T19:44:11.665Z"
-        }
-      ]
-    },
-    {
-      "id": "tkt-1003",
-      "ticketNumber": 1003,
-      "studentId": "usr-stu-3",
-      "attendantId": "usr-att-2",
-      "categoryId": "cat-3",
-      "subject": "Erro 403 ao tentar submeter avaliação final no Moodle",
-      "description": "Durante a prova síncrona de Direito Tributário, a página deu erro de permissão e fechou a tentativa.",
-      "status": "resolved",
-      "priority": "high",
-      "origin": "widget",
-      "slaDueAt": "2026-09-26T10:44:11.665Z",
-      "firstResponseAt": "2026-09-26T00:44:11.665Z",
-      "resolvedAt": "2026-09-26T21:32:40.146Z",
-      "csatScore": 5,
-      "createdAt": "2026-09-25T20:44:11.665Z",
-      "updatedAt": "2026-09-26T21:32:40.146Z",
-      "messages": [
-        {
-          "id": "msg-5",
-          "senderId": "usr-stu-3",
-          "senderName": "Rodrigo Sanches Lima",
-          "senderRole": "student",
-          "message": "Estava na questão 8 quando o sistema travou com tela branca e 'Erro 403'. Perdi 15 minutos de prova.",
-          "isInternalNote": false,
-          "attachments": [],
-          "createdAt": "2026-09-25T20:44:11.665Z"
-        },
-        {
-          "id": "msg-6",
-          "senderId": "usr-att-2",
-          "senderName": "Felipe Castilho",
-          "senderRole": "attendant",
-          "message": "Olá Rodrigo! Identificamos uma oscilação momentânea no servidor da aplicação do Moodle. Já restauramos seu rascunho de respostas e adicionamos 30 minutos extras à sua janela de submissão.",
-          "isInternalNote": false,
-          "attachments": [],
-          "createdAt": "2026-09-26T00:44:11.665Z"
-        },
-        {
-          "id": "msg-7",
-          "senderId": "usr-stu-3",
-          "senderName": "Rodrigo Sanches Lima",
-          "senderRole": "student",
-          "message": "Consegui finalizar e enviar com sucesso! Muito obrigado pelo atendimento ágil.",
-          "isInternalNote": false,
-          "attachments": [],
-          "createdAt": "2026-09-26T12:44:11.665Z"
+          "createdAt": "2026-11-05T01:29:56.844Z"
         }
       ]
     }
   ],
   "chatSessions": [
     {
-      "id": "chat-sess-1792359229759",
+      "id": "chat-sess-1793850662204",
       "studentId": "usr-alu-1",
-      "studentName": "Aluno",
-      "department": "Financeiro & Bolsas",
-      "status": "waiting_agent",
-      "createdAt": "2026-10-18T21:33:49.759Z",
-      "messages": [
-        {
-          "id": "cmsg-1792359229759",
-          "sender": "bot",
-          "senderName": "Sophia (IA UMI)",
-          "text": "Olá! Como posso ajudar você hoje?",
-          "timestamp": "2026-10-18T21:33:49.759Z"
-        },
-        {
-          "id": "cmsg-1792359229766",
-          "sender": "student",
-          "senderName": "Enzo Gabriel Martins",
-          "text": "Como faço para trancar uma matéria?",
-          "timestamp": "2026-10-18T21:33:49.766Z"
-        },
-        {
-          "id": "cmsg-1792359229768",
-          "sender": "bot",
-          "senderName": "Centro Bot",
-          "text": "Entendi sua dúvida sobre *\"\"Como faço para trancar uma matéria?\"*. Como a regra para esse procedimento pode variar dependendo do seu curso e semestre, você prefere que eu abra um chamado formal para a Secretaria Acadêmica ou transfira para um atendente humano agora?",
-          "timestamp": "2026-10-18T21:33:49.768Z"
-        },
-        {
-          "id": "cmsg-1792359229775",
-          "sender": "student",
-          "senderName": "Enzo Gabriel Martins",
-          "text": "Não ajudou nada, preciso falar com atendente humano urgente sobre meu boleto!",
-          "timestamp": "2026-10-18T21:33:49.775Z"
-        },
-        {
-          "id": "cmsg-1792359229778",
-          "sender": "bot",
-          "senderName": "Centro Bot",
-          "text": "Compreendo a necessidade de um suporte especializado. Já estou transferindo sua solicitação para a equipe do setor **Financeiro & Bolsas**. Um atendente humano responderá nesta mesma tela!",
-          "timestamp": "2026-10-18T21:33:49.779Z"
-        }
-      ]
-    },
-    {
-      "id": "chat-sess-1792254638353",
-      "studentId": "usr-alu-1",
-      "studentName": "Aluno",
-      "department": "Financeiro & Bolsas",
-      "status": "waiting_agent",
-      "createdAt": "2026-10-17T16:30:38.353Z",
-      "messages": [
-        {
-          "id": "cmsg-1792254638353",
-          "sender": "bot",
-          "senderName": "Sophia (IA UMI)",
-          "text": "Olá! Como posso ajudar você hoje?",
-          "timestamp": "2026-10-17T16:30:38.353Z"
-        },
-        {
-          "id": "cmsg-1792254638356",
-          "sender": "student",
-          "senderName": "Enzo Gabriel Martins",
-          "text": "Como faço para trancar uma matéria?",
-          "timestamp": "2026-10-17T16:30:38.356Z"
-        },
-        {
-          "id": "cmsg-1792254638357",
-          "sender": "bot",
-          "senderName": "Centro Bot",
-          "text": "Entendi sua dúvida sobre *\"\"Como faço para trancar uma matéria?\"*. Como a regra para esse procedimento pode variar dependendo do seu curso e semestre, você prefere que eu abra um chamado formal para a Secretaria Acadêmica ou transfira para um atendente humano agora?",
-          "timestamp": "2026-10-17T16:30:38.357Z"
-        },
-        {
-          "id": "cmsg-1792254638359",
-          "sender": "student",
-          "senderName": "Enzo Gabriel Martins",
-          "text": "Não ajudou nada, preciso falar com atendente humano urgente sobre meu boleto!",
-          "timestamp": "2026-10-17T16:30:38.359Z"
-        },
-        {
-          "id": "cmsg-1792254638360",
-          "sender": "bot",
-          "senderName": "Centro Bot",
-          "text": "Compreendo a necessidade de um suporte especializado. Já estou transferindo sua solicitação para a equipe do setor **Financeiro & Bolsas**. Um atendente humano responderá nesta mesma tela!",
-          "timestamp": "2026-10-17T16:30:38.360Z"
-        }
-      ]
-    },
-    {
-      "id": "chat-sess-1792254548692",
-      "studentId": "usr-alu-1",
-      "studentName": "Aluno",
-      "department": "Financeiro & Bolsas",
-      "status": "waiting_agent",
-      "createdAt": "2026-10-17T16:29:08.692Z",
-      "messages": [
-        {
-          "id": "cmsg-1792254548693",
-          "sender": "bot",
-          "senderName": "Sophia (IA UMI)",
-          "text": "Olá! Como posso ajudar você hoje?",
-          "timestamp": "2026-10-17T16:29:08.693Z"
-        },
-        {
-          "id": "cmsg-1792254548696",
-          "sender": "student",
-          "senderName": "Enzo Gabriel Martins",
-          "text": "Como faço para trancar uma matéria?",
-          "timestamp": "2026-10-17T16:29:08.696Z"
-        },
-        {
-          "id": "cmsg-1792254548696",
-          "sender": "bot",
-          "senderName": "Centro Bot",
-          "text": "Entendi sua dúvida sobre *\"\"Como faço para trancar uma matéria?\"*. Como a regra para esse procedimento pode variar dependendo do seu curso e semestre, você prefere que eu abra um chamado formal para a Secretaria Acadêmica ou transfira para um atendente humano agora?",
-          "timestamp": "2026-10-17T16:29:08.696Z"
-        },
-        {
-          "id": "cmsg-1792254548699",
-          "sender": "student",
-          "senderName": "Enzo Gabriel Martins",
-          "text": "Não ajudou nada, preciso falar com atendente humano urgente sobre meu boleto!",
-          "timestamp": "2026-10-17T16:29:08.699Z"
-        },
-        {
-          "id": "cmsg-1792254548700",
-          "sender": "bot",
-          "senderName": "Centro Bot",
-          "text": "Compreendo a necessidade de um suporte especializado. Já estou transferindo sua solicitação para a equipe do setor **Financeiro & Bolsas**. Um atendente humano responderá nesta mesma tela!",
-          "timestamp": "2026-10-17T16:29:08.700Z"
-        }
-      ]
-    },
-    {
-      "id": "chat-sess-1792254517904",
-      "studentId": "usr-alu-1",
-      "studentName": "Aluno",
-      "department": "Financeiro & Bolsas",
-      "status": "waiting_agent",
-      "createdAt": "2026-10-17T16:28:37.904Z",
-      "messages": [
-        {
-          "id": "cmsg-1792254517904",
-          "sender": "bot",
-          "senderName": "Sophia (IA UMI)",
-          "text": "Olá! Como posso ajudar você hoje?",
-          "timestamp": "2026-10-17T16:28:37.904Z"
-        },
-        {
-          "id": "cmsg-1792254517906",
-          "sender": "student",
-          "senderName": "Enzo Gabriel Martins",
-          "text": "Como faço para trancar uma matéria?",
-          "timestamp": "2026-10-17T16:28:37.906Z"
-        },
-        {
-          "id": "cmsg-1792254517907",
-          "sender": "bot",
-          "senderName": "Centro Bot",
-          "text": "Entendi sua dúvida sobre *\"\"Como faço para trancar uma matéria?\"*. Como a regra para esse procedimento pode variar dependendo do seu curso e semestre, você prefere que eu abra um chamado formal para a Secretaria Acadêmica ou transfira para um atendente humano agora?",
-          "timestamp": "2026-10-17T16:28:37.907Z"
-        },
-        {
-          "id": "cmsg-1792254517910",
-          "sender": "student",
-          "senderName": "Enzo Gabriel Martins",
-          "text": "Não ajudou nada, preciso falar com atendente humano urgente sobre meu boleto!",
-          "timestamp": "2026-10-17T16:28:37.910Z"
-        },
-        {
-          "id": "cmsg-1792254517911",
-          "sender": "bot",
-          "senderName": "Centro Bot",
-          "text": "Compreendo a necessidade de um suporte especializado. Já estou transferindo sua solicitação para a equipe do setor **Financeiro & Bolsas**. Um atendente humano responderá nesta mesma tela!",
-          "timestamp": "2026-10-17T16:28:37.911Z"
-        }
-      ]
-    },
-    {
-      "id": "chat-sess-1792254412389",
-      "studentId": "usr-alu-1",
-      "studentName": "Aluno",
-      "department": "Financeiro & Bolsas",
-      "status": "waiting_agent",
-      "createdAt": "2026-10-17T16:26:52.389Z",
-      "messages": [
-        {
-          "id": "cmsg-1792254412389",
-          "sender": "bot",
-          "senderName": "Sophia (IA UMI)",
-          "text": "Olá! Como posso ajudar você hoje?",
-          "timestamp": "2026-10-17T16:26:52.389Z"
-        },
-        {
-          "id": "cmsg-1792254412392",
-          "sender": "student",
-          "senderName": "Enzo Gabriel Martins",
-          "text": "Como faço para trancar uma matéria?",
-          "timestamp": "2026-10-17T16:26:52.392Z"
-        },
-        {
-          "id": "cmsg-1792254412393",
-          "sender": "bot",
-          "senderName": "Universidade Bot",
-          "text": "Entendi sua dúvida sobre *\"\"Como faço para trancar uma matéria?\"*. Como a regra para esse procedimento pode variar dependendo do seu curso e semestre, você prefere que eu abra um chamado formal para a Secretaria Acadêmica ou transfira para um atendente humano agora?",
-          "timestamp": "2026-10-17T16:26:52.393Z"
-        },
-        {
-          "id": "cmsg-1792254412395",
-          "sender": "student",
-          "senderName": "Enzo Gabriel Martins",
-          "text": "Não ajudou nada, preciso falar com atendente humano urgente sobre meu boleto!",
-          "timestamp": "2026-10-17T16:26:52.395Z"
-        },
-        {
-          "id": "cmsg-1792254412396",
-          "sender": "bot",
-          "senderName": "Universidade Bot",
-          "text": "Compreendo a necessidade de um suporte especializado. Já estou transferindo sua solicitação para a equipe do setor **Financeiro & Bolsas**. Um atendente humano responderá nesta mesma tela!",
-          "timestamp": "2026-10-17T16:26:52.396Z"
-        }
-      ]
-    },
-    {
-      "id": "chat-sess-1792021461127",
-      "studentId": "usr-alu-2",
-      "studentName": "Aluno",
-      "department": "Geral",
-      "status": "bot",
-      "createdAt": "2026-10-14T23:44:21.127Z",
-      "messages": [
-        {
-          "id": "cmsg-1792021461127",
-          "sender": "bot",
-          "senderName": "Sophia (IA UMI)",
-          "text": "Olá! Como posso ajudar você hoje?",
-          "timestamp": "2026-10-14T23:44:21.127Z"
-        }
-      ]
-    },
-    {
-      "id": "chat-sess-1791851049466",
-      "studentId": "usr-alu-1",
-      "studentName": "Aluno",
-      "department": "Geral",
-      "status": "bot",
-      "createdAt": "2026-10-13T00:24:09.466Z",
-      "messages": [
-        {
-          "id": "cmsg-1791851049466",
-          "sender": "bot",
-          "senderName": "Sophia (IA UMI)",
-          "text": "Olá! Como posso ajudar você hoje?",
-          "timestamp": "2026-10-13T00:24:09.466Z"
-        }
-      ]
-    },
-    {
-      "id": "chat-sess-1791850923099",
-      "studentId": "usr-alu-1",
-      "studentName": "Aluno",
-      "department": "Secretaria Acadêmica",
-      "status": "waiting_agent",
-      "createdAt": "2026-10-13T00:22:03.099Z",
-      "messages": [
-        {
-          "id": "cmsg-1791850923099",
-          "sender": "bot",
-          "senderName": "Sophia (IA UMI)",
-          "text": "Olá! Como posso ajudar você hoje?",
-          "timestamp": "2026-10-13T00:22:03.099Z"
-        },
-        {
-          "id": "cmsg-1791850925668",
-          "sender": "student",
-          "senderName": "Enzo Gabriel Martins",
-          "text": "ola",
-          "timestamp": "2026-10-13T00:22:05.668Z"
-        },
-        {
-          "id": "cmsg-1791850925669",
-          "sender": "bot",
-          "senderName": "Universidade Bot",
-          "text": "Com base nas normas da **Universidade Metropolitana - UMI**, encontrei a seguinte orientação:\\n\\n### Como emitir a Declaração de Matrícula e Histórico Escolar\\n\\nVocê pode emitir sua declaração de matrícula atualizada diretamente no Portal do Aluno:\n\n1. Acesse o menu lateral **Secretaria Virtual** > **Documentos Oficiais**.\n2. Selecione 'Declaração de Matrícula com Assinatura Digital'.\n3. O PDF será baixado imediatamente com chave de validação pública e QR Code.\n\n*Observação: Documentos com ementas completas de disciplinas exigem abertura de chamado específico por este helpdesk com prazo de até 5 dias úteis.*\\n\\n*Essa resposta tirou sua dúvida ou você gostaria de falar com um atendente humano?*",
-          "timestamp": "2026-10-13T00:22:05.669Z"
-        }
-      ]
-    },
-    {
-      "id": "chat-sess-1790458315963",
-      "studentId": "usr-stu-1",
-      "studentName": "Aluno",
-      "department": "Geral",
-      "status": "bot",
-      "createdAt": "2026-09-26T21:31:55.963Z",
-      "messages": [
-        {
-          "id": "cmsg-1790458315963",
-          "sender": "bot",
-          "senderName": "Sophia (IA UMI)",
-          "text": "Olá! Como posso ajudar você hoje?",
-          "timestamp": "2026-09-26T21:31:55.963Z"
-        }
-      ]
-    },
-    {
-      "id": "chat-sess-1790458234608",
-      "studentId": "usr-stu-1",
-      "studentName": "Aluno",
-      "department": "Geral",
-      "status": "bot",
-      "createdAt": "2026-09-26T21:30:34.608Z",
-      "messages": [
-        {
-          "id": "cmsg-1790458234608",
-          "sender": "bot",
-          "senderName": "Sophia (IA UMI)",
-          "text": "Olá! Como posso ajudar você hoje?",
-          "timestamp": "2026-09-26T21:30:34.608Z"
-        }
-      ]
-    },
-    {
-      "id": "chat-sess-1790458231733",
-      "studentId": "usr-stu-1",
-      "studentName": "Aluno",
-      "department": "Geral",
-      "status": "bot",
-      "createdAt": "2026-09-26T21:30:31.733Z",
-      "messages": [
-        {
-          "id": "cmsg-1790458231733",
-          "sender": "bot",
-          "senderName": "Sophia (IA UMI)",
-          "text": "Olá! Como posso ajudar você hoje?",
-          "timestamp": "2026-09-26T21:30:31.733Z"
-        }
-      ]
-    },
-    {
-      "id": "chat-sess-1790458070834",
-      "studentId": "usr-stu-1",
-      "studentName": "Aluno",
-      "department": "Geral",
-      "status": "bot",
-      "createdAt": "2026-09-26T21:27:50.834Z",
-      "messages": [
-        {
-          "id": "cmsg-1790458070834",
-          "sender": "bot",
-          "senderName": "Sophia (IA UMI)",
-          "text": "Olá! Como posso ajudar você hoje?",
-          "timestamp": "2026-09-26T21:27:50.834Z"
-        }
-      ]
-    },
-    {
-      "id": "chat-sess-1790455791026",
-      "studentId": "usr-stu-1",
       "studentName": "Enzo Gabriel Martins",
-      "studentRa": "20240189",
-      "attendantId": null,
-      "status": "bot",
-      "department": "Geral",
-      "createdAt": "2026-09-26T20:49:51.026Z",
+      "department": "Suporte de T.I.",
+      "status": "waiting_agent",
+      "createdAt": "2026-11-05T03:51:02.204Z",
       "messages": [
         {
-          "id": "cmsg-1790455791026",
-          "sender": "bot",
-          "senderName": "Universidade Bot",
-          "text": "Olá Enzo Gabriel Martins! Sou o assistente virtual inteligente da Universidade Metropolitana - UMI. Como posso ajudar seus estudos hoje?",
-          "timestamp": "2026-09-26T20:49:51.026Z"
-        }
-      ]
-    },
-    {
-      "id": "chat-sess-1790455704653",
-      "studentId": "usr-stu-3",
-      "studentName": "Rodrigo Sanches Lima",
-      "studentRa": "20220891",
-      "attendantId": null,
-      "status": "bot",
-      "department": "Geral",
-      "createdAt": "2026-09-26T20:48:24.653Z",
-      "messages": [
-        {
-          "id": "cmsg-1790455704653",
-          "sender": "bot",
-          "senderName": "Universidade Bot",
-          "text": "Olá Rodrigo Sanches Lima! Sou o assistente virtual inteligente da Universidade Metropolitana - UMI. Como posso ajudar seus estudos hoje?",
-          "timestamp": "2026-09-26T20:48:24.653Z"
-        }
-      ]
-    },
-    {
-      "id": "chat-sess-1790455702142",
-      "studentId": "usr-stu-2",
-      "studentName": "Larissa Vianna Castro",
-      "studentRa": "20230512",
-      "attendantId": null,
-      "status": "bot",
-      "department": "Geral",
-      "createdAt": "2026-09-26T20:48:22.142Z",
-      "messages": [
-        {
-          "id": "cmsg-1790455702142",
-          "sender": "bot",
-          "senderName": "Universidade Bot",
-          "text": "Olá Larissa Vianna Castro! Sou o assistente virtual inteligente da Universidade Metropolitana - UMI. Como posso ajudar seus estudos hoje?",
-          "timestamp": "2026-09-26T20:48:22.142Z"
-        }
-      ]
-    },
-    {
-      "id": "chat-sess-1790455690292",
-      "studentId": "usr-stu-1",
-      "studentName": "Enzo Gabriel Martins",
-      "studentRa": "20240189",
-      "attendantId": null,
-      "status": "bot",
-      "department": "Geral",
-      "createdAt": "2026-09-26T20:48:10.292Z",
-      "messages": [
-        {
-          "id": "cmsg-1790455690292",
-          "sender": "bot",
-          "senderName": "Universidade Bot",
-          "text": "Olá Enzo Gabriel Martins! Sou o assistente virtual inteligente da Universidade Metropolitana - UMI. Como posso ajudar seus estudos hoje?",
-          "timestamp": "2026-09-26T20:48:10.292Z"
-        }
-      ]
-    },
-    {
-      "id": "chat-sess-1",
-      "studentId": "usr-stu-1",
-      "studentName": "Enzo Gabriel Martins",
-      "studentRa": "20240189",
-      "attendantId": "usr-att-1",
-      "status": "live",
-      "department": "Secretaria Acadêmica",
-      "createdAt": "2026-09-26T20:29:11.665Z",
-      "messages": [
-        {
-          "id": "cmsg-1",
+          "id": "cmsg-1793850662204",
           "sender": "bot",
           "senderName": "Sophia (IA UMI)",
-          "text": "Olá Enzo! Como posso te ajudar hoje?",
-          "timestamp": "2026-09-26T20:29:11.665Z"
+          "text": "Olá, Enzo! Como posso ajudar você hoje?",
+          "timestamp": "2026-11-05T03:51:02.204Z"
         },
         {
-          "id": "cmsg-2",
+          "id": "cmsg-1793850662207",
           "sender": "student",
-          "senderName": "Enzo Gabriel",
-          "text": "Preciso falar urgente com a Mariana sobre o ticket #1001 das minhas horas de TCC.",
-          "timestamp": "2026-09-26T20:30:11.665Z"
+          "senderName": "Enzo Gabriel Martins",
+          "text": "Como faço para trancar uma matéria?",
+          "timestamp": "2026-11-05T03:51:02.207Z"
         },
         {
-          "id": "cmsg-3",
+          "id": "cmsg-1793850662208",
           "sender": "bot",
-          "senderName": "Sophia (IA UMI)",
-          "text": "Entendi! O chamado #1001 está em andamento. Transferindo agora para a atendente Mariana Alencar com prioridade alta.",
-          "timestamp": "2026-09-26T20:31:11.665Z"
+          "senderName": "uniube Bot",
+          "text": "Entendi sua solicitação sobre **\"Como faço para trancar uma matéria?\"**. Como assistente técnico do UniDesk, posso orientar você com rotinas de **Auto-Reparo de T.I.** ou abrir um chamado formal para nossa equipe de suporte. Gostaria de abrir um chamado técnico agora?",
+          "timestamp": "2026-11-05T03:51:02.208Z"
         },
         {
-          "id": "cmsg-4",
-          "sender": "attendant",
-          "senderName": "Mariana Alencar",
-          "text": "Oi Enzo, estou acompanhando seu chamado aqui na tela! Já falei com o Prof. Arnaldo e ele está assinando a ata agora mesmo.",
-          "timestamp": "2026-09-26T20:39:11.665Z"
+          "id": "cmsg-1793850662211",
+          "sender": "student",
+          "senderName": "Enzo Gabriel Martins",
+          "text": "Não ajudou nada, preciso falar com atendente humano urgente sobre meu boleto!",
+          "timestamp": "2026-11-05T03:51:02.211Z"
+        },
+        {
+          "id": "cmsg-1793850662212",
+          "sender": "bot",
+          "senderName": "uniube Bot",
+          "text": "Compreendo a necessidade de um suporte especializado. Já estou transferindo sua solicitação para a equipe de **Suporte de T.I.**. Um analista técnico responderá nesta mesma tela!",
+          "timestamp": "2026-11-05T03:51:02.212Z"
         }
       ]
     }
   ],
   "aiStudentContexts": {
-    "usr-stu-1": {
-      "summary": "Aluno de Engenharia de Software no último ano (5º período). Histórico de bom desempenho acadêmico. Abriu 2 chamados no último mês relacionados à homologação de TCC e certificação de horas complementares. Bastante ansioso pelo prazo de formatura.",
-      "pointsOfAttention": [
-        "Aguardando liberação de 60 horas complementares para homologação de banca de TCC.",
-        "Prazo final estipulado pelo colegiado encerra nesta sexta-feira.",
-        "Já entrou em contato via chat e ticket sobre o mesmo tema."
-      ],
-      "sentiment": "Ansioso / Preocupado",
-      "sentimentScore": "warning",
-      "recommendedAction": "Agilizar comunicação direta com o Coordenador Prof. Arnaldo e confirmar validação formal antes de sexta-feira para evitar atrito acadêmico."
-    },
-    "usr-stu-2": {
-      "summary": "Aluna de Medicina (7º período), bolsista de Iniciação Científica (edital 02/2026). É o primeiro chamado aberto no ano. Reclamação estritamente financeira referente à omissão do desconto de 30% em seu boleto mensal.",
-      "pointsOfAttention": [
-        "Boleto de alto valor (R$ 9.850,00) com vencimento próximo (dia 05).",
-        "Risco de cobrança de juros e constrangimento financeiro indevido.",
-        "Possui o termo de concessão devidamente assinado."
-      ],
-      "sentiment": "Insatisfeita / Exigente",
-      "sentimentScore": "critical",
-      "recommendedAction": "Solicitar ao setor de Faturamento a retificação imediata do lote no banco com prorrogação da data de vencimento sem encargos."
-    },
-    "usr-stu-3": {
-      "summary": "Aluno de Direito (9º período). Usuário frequente dos canais de suporte técnico. Todos os chamados anteriores foram resolvidos dentro do prazo de SLA.",
-      "pointsOfAttention": [
-        "Nenhuma pendência financeira ou acadêmica em aberto.",
-        "Histórico de avaliações CSAT muito positivas (média 4.9)."
-      ],
-      "sentiment": "Tranquilo / Satisfeito",
-      "sentimentScore": "positive",
-      "recommendedAction": "Manter padrão de atendimento ágil pelo canal habitual."
-    },
     "usr-alu-1": {
-      "summary": "Aluno de Engenharia de Software (5º Período) (RA: 20240189). Registrou um total de 4 chamados no sistema. Atualmente com 1 chamados ativos.",
+      "summary": "Aluno de Engenharia de Software (5º Período) (RA: 20240189). Registrou um total de 2 chamados de T.I. no sistema. Atualmente com 1 chamados ativos.",
       "pointsOfAttention": [
-        "Possui 1 chamados simultâneos aguardando tratativa.",
-        "Histórico recente de dúvidas financeiras ou validação de bolsa.",
-        "Assunto crítico para conclusão ou regularidade de semestre acadêmico."
+        "Histórico recente de travamento de sessão no AVA Moodle."
       ],
-      "sentiment": "Ansioso / Preocupado com Prazos",
-      "sentimentScore": "warning",
-      "recommendedAction": "Priorizar resolução coordenada para evitar reincidência de contatos."
+      "sentiment": "Tranquilo / Normal",
+      "sentimentScore": "positive",
+      "recommendedAction": "Sugerir execução de Auto-Reparo ou escalar para técnico de infraestrutura."
+    },
+    "usr-alu-3": {
+      "summary": "Aluno de Direito (9º Período) (RA: 20220891). Registrou um total de 1 chamados de T.I. no sistema. Atualmente com 1 chamados ativos.",
+      "pointsOfAttention": [
+        "Aluno sem ocorrências críticas recentes de T.I."
+      ],
+      "sentiment": "Tranquilo / Normal",
+      "sentimentScore": "positive",
+      "recommendedAction": "Sugerir execução de Auto-Reparo ou escalar para técnico de infraestrutura."
+    },
+    "usr-alu-2": {
+      "summary": "Aluno de Medicina (7º Período) (RA: 20230512). Registrou um total de 1 chamados de T.I. no sistema. Atualmente com 0 chamados ativos.",
+      "pointsOfAttention": [
+        "Problemas recorrentes de autenticação 802.1X na rede sem fio."
+      ],
+      "sentiment": "Tranquilo / Normal",
+      "sentimentScore": "positive",
+      "recommendedAction": "Fornecer orientações técnicas claras e confirmar status de conectividade."
     }
-  }
+  },
+  "studentRatings": [
+    {
+      "id": "ava-1793850119384",
+      "chamadoId": "tkt-1007",
+      "tecnicoId": "usr-att-1",
+      "alunoId": "usr-alu-1",
+      "nota": 5,
+      "comentario": "Teste OK",
+      "criadoEm": "2026-11-05T03:41:59.384Z"
+    },
+    {
+      "id": "ava-1793850662313",
+      "chamadoId": "tkt-1008",
+      "tecnicoId": "usr-tec-1",
+      "alunoId": "usr-alu-1",
+      "nota": 5,
+      "comentario": "Aluno colaborativo!",
+      "criadoEm": "2026-11-05T03:51:02.313Z",
+      "atualizadoEm": "2026-11-05T04:24:44.048Z"
+    }
+  ],
+  "ratings": [
+    {
+      "id": "avt-1793850145174",
+      "chamadoId": "tkt-1007",
+      "alunoId": "usr-alu-1",
+      "tecnicoId": "usr-att-1",
+      "nota": 4,
+      "comentario": "Teste Tec OK",
+      "criadoEm": "2026-11-05T03:42:25.174Z"
+    },
+    {
+      "id": "avt-1793850662321",
+      "chamadoId": "tkt-1008",
+      "alunoId": "usr-alu-1",
+      "tecnicoId": "usr-tec-1",
+      "nota": 5,
+      "comentario": "Atendimento perfeito!",
+      "criadoEm": "2026-11-05T03:51:02.321Z",
+      "atualizadoEm": "2026-11-05T04:24:30.037Z"
+    },
+    {
+      "id": "avt-1793852283761",
+      "chamadoId": "tkt-1001",
+      "alunoId": "usr-alu-1",
+      "tecnicoId": "usr-tec-1",
+      "nota": 5,
+      "comentario": "Teste",
+      "criadoEm": "2026-11-05T04:18:03.761Z"
+    },
+    {
+      "id": "avt-1793852459774",
+      "chamadoId": "tkt-1008",
+      "alunoId": "usr-alu-1",
+      "tecnicoId": "usr-tec-1",
+      "nota": 5,
+      "comentario": "Reavaliação OK",
+      "criadoEm": "2026-11-05T04:20:59.774Z"
+    },
+    {
+      "id": "avt-1793852675983",
+      "chamadoId": "tkt-1009",
+      "alunoId": "usr-alu-1",
+      "tecnicoId": "usr-tec-1",
+      "nota": 4,
+      "comentario": "Muito bom!",
+      "criadoEm": "2026-11-05T04:24:35.983Z"
+    }
+  ]
 }

@@ -150,7 +150,7 @@ async function selectQueueTicket(ticketId) {
     const msgListEl = document.getElementById('att-dtl-messages');
     msgListEl.innerHTML = ticket.messages.map(m => {
       const isInternal = m.isInternalNote;
-      const isStudent = m.senderRole === 'student';
+      const isStudent = m.senderRole === 'student' || m.senderRole === 'aluno' || m.senderId === ticket.studentId;
       const timeStr = new Date(m.createdAt).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
 
       if (isInternal) {
@@ -168,9 +168,11 @@ async function selectQueueTicket(ticketId) {
         `;
       }
 
+      const displayName = (m.senderName && m.senderName !== 'Aluno' && m.senderName !== 'Usuário') ? m.senderName : (isStudent ? (ticket.studentName || 'Aluno') : 'Atendente');
+
       return `
         <div class="message-bubble ${isStudent ? 'msg-student' : 'msg-attendant'}">
-          <div style="font-weight:700; font-size:0.75rem; margin-bottom:0.25rem;">${m.senderName}</div>
+          <div style="font-weight:700; font-size:0.75rem; margin-bottom:0.25rem;">${displayName}</div>
           <div>${m.message}</div>
           ${m.attachments && m.attachments.length > 0 ? `
             <div style="margin-top:0.4rem; font-size:0.75rem; background:rgba(0,0,0,0.2); padding:0.25rem 0.5rem; border-radius:4px;">
@@ -350,9 +352,9 @@ async function loadLiveChatMessages() {
 function renderLiveChat(messages) {
   const container = document.getElementById('live-chat-messages-box');
   container.innerHTML = messages.map(m => {
-    const isMe = m.sender === 'attendant';
+    const isMe = m.sender === 'attendant' || m.sender === 'tecnico';
     const isBot = m.sender === 'bot';
-    const isStudent = m.sender === 'student';
+    const isStudent = m.sender === 'student' || m.sender === 'aluno';
 
     let bubbleClass = 'msg-student';
     if (isMe) bubbleClass = 'msg-attendant';

@@ -494,8 +494,29 @@ func (db *Database) UpdateTicketStatus(ticketID, status string, csatScore *int) 
 			db.jsonData.Tickets[i].Status = status
 			db.jsonData.Tickets[i].UpdatedAt = nowStr
 
-			if status == "resolved" || status == "finalizado" {
+			if status == "resolved" || status == "finalizado" || status == "closed" {
 				db.jsonData.Tickets[i].ResolvedAt = &nowStr
+				db.jsonData.Tickets[i].Closed = true
+				db.jsonData.Tickets[i].ClosedAt = &nowStr
+				count := len(db.jsonData.Tickets[i].Messages)
+				db.jsonData.Tickets[i].SimpleRecord = map[string]any{
+					"id":            t.ID,
+					"ticketNumber":  t.TicketNumber,
+					"subject":       t.Subject,
+					"status":        status,
+					"closed":        true,
+					"totalMessages": count,
+					"summary":       fmt.Sprintf("Atendimento finalizado com %d mensagens. Registro simples mantido em memória.", count),
+				}
+				db.jsonData.Tickets[i].Messages = []models.TicketMessage{
+					{
+						ID:         fmt.Sprintf("msg-summary-%s", t.ID),
+						SenderRole: "system",
+						SenderName: "Registro Simples",
+						Message:    fmt.Sprintf("Atendimento finalizado e fechado. Total de mensagens processadas: %d. Registro simples mantido em memória.", count),
+						CreatedAt:  nowStr,
+					},
+				}
 			}
 			if csatScore != nil {
 				db.jsonData.Tickets[i].CSATScore = csatScore
@@ -602,6 +623,44 @@ func (db *Database) EscalateChatSession(sessionID, department string) *models.Ch
 			db.jsonData.ChatSessions[i].Status = "waiting_agent"
 			if department != "" {
 				db.jsonData.ChatSessions[i].Department = department
+			}
+			db.saveJSON()
+			res := db.jsonData.ChatSessions[i]
+			return &res
+		}
+	}
+	return nil
+}
+
+func (db *Database) CloseChatSession(sessionID string) *models.ChatSession {
+	db.mu.Lock()
+	defer db.mu.Unlock()
+
+	for i, s := range db.jsonData.ChatSessions {
+		if s.ID == sessionID {
+			nowStr := time.Now().UTC().Format(time.RFC3339)
+			count := len(db.jsonData.ChatSessions[i].Messages)
+			db.jsonData.ChatSessions[i].Status = "finalizado"
+			db.jsonData.ChatSessions[i].Closed = true
+			db.jsonData.ChatSessions[i].ClosedAt = &nowStr
+			db.jsonData.ChatSessions[i].SimpleRecord = map[string]any{
+				"id":            s.ID,
+				"studentId":     s.StudentID,
+				"studentName":   s.StudentName,
+				"status":        "finalizado",
+				"closed":        true,
+				"closedAt":      nowStr,
+				"totalMessages": count,
+				"summary":       fmt.Sprintf("Chat finalizado com %d mensagens. Registro simples mantido em memória.", count),
+			}
+			db.jsonData.ChatSessions[i].Messages = []models.ChatMessage{
+				{
+					ID:         fmt.Sprintf("cmsg-summary-%s", s.ID),
+					Sender:     "system",
+					SenderName: "Registro Simples",
+					Text:       fmt.Sprintf("Chat finalizado e fechado em %s. Registro simples mantido em memória.", nowStr),
+					Timestamp:  nowStr,
+				},
 			}
 			db.saveJSON()
 			res := db.jsonData.ChatSessions[i]

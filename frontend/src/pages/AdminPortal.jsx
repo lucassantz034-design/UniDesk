@@ -19,14 +19,44 @@ import {
 } from 'lucide-react';
 import AdminSupport from './AdminSupport';
 import AdminBackups from './AdminBackups';
+import ThemedAlertCard from '../components/ThemedAlertCard';
+import { usePopup } from '../context/PopupContext';
 
 
 export default function AdminPortal({ config, onConfigUpdate }) {
+  const { showConfirm, showError } = usePopup();
   const [activeSection, setActiveSection] = useState('metrics'); // 'metrics' | 'branding' | 'users' | 'logs'
   const [metrics, setMetrics] = useState(null);
   const [usersList, setUsersList] = useState([]);
   const [logsList, setLogsList] = useState([]);
   const [heartbeatResult, setHeartbeatResult] = useState(null);
+  // Custom Themed Alert Card State
+  const [alertCardState, setAlertCardState] = useState({
+    isOpen: false,
+    title: '',
+    message: '',
+    type: 'success',
+    colors: null,
+    institutionName: '',
+    showColorBadges: true
+  });
+
+  const showAlertCard = ({ title, message, type = 'success', colors = null, institutionName = '', showColorBadges = true }) => {
+    setAlertCardState({
+      isOpen: true,
+      title,
+      message,
+      type,
+      colors: colors || {
+        primary: formConfig.primaryColor,
+        secondary: formConfig.secondaryColor,
+        accent: formConfig.accentColor
+      },
+      institutionName: institutionName || formConfig.name,
+      showColorBadges
+    });
+  };
+
 
   // Branding Form State
   const [formConfig, setFormConfig] = useState({
@@ -81,16 +111,32 @@ export default function AdminPortal({ config, onConfigUpdate }) {
     }
   };
 
-  const handleSaveBranding = async (e) => {
+    const handleSaveBranding = async (e) => {
     e.preventDefault();
     try {
       const res = await api.updateConfig(formConfig);
       if (res.success && res.config) {
         onConfigUpdate(res.config);
-        alert('Configurações de identidade visual e IA atualizadas com sucesso!');
+        showAlertCard({
+          title: 'Configurações de Identidade Visual e IA Atualizadas!',
+          message: `O tema personalizado da empresa ${formConfig.name || ''} foi gravado e aplicado com sucesso! Todos os cards, botões e telas agora refletem esta paleta exclusiva.`,
+          type: 'success',
+          colors: {
+            primary: formConfig.primaryColor,
+            secondary: formConfig.secondaryColor,
+            accent: formConfig.accentColor
+          },
+          institutionName: formConfig.name,
+          showColorBadges: true
+        });
       }
     } catch (err) {
-      alert('Erro ao salvar configurações: ' + err.message);
+      showAlertCard({
+        title: 'Erro ao Salvar Configurações',
+        message: err.message || 'Falha ao salvar configurações.',
+        type: 'error',
+        showColorBadges: false
+      });
     }
   };
 
@@ -118,32 +164,40 @@ export default function AdminPortal({ config, onConfigUpdate }) {
       setNewUserEmail('');
       setNewUserCPF('');
       setNewUserExtra('');
-      alert('Novo usuário cadastrado com sucesso!');
+      showAlertCard({ title: 'Usuário Cadastrado com Sucesso!', message: `O usuário ${newUserName} foi registrado no sistema.`, type: 'success', showColorBadges: false });
       loadData();
     } catch (err) {
-      alert('Erro ao criar usuário: ' + err.message);
+      showAlertCard({ title: 'Erro ao Criar Usuário', message: err.message, type: 'error', showColorBadges: false });
     }
   };
 
   const handleResetPassword = async (userId) => {
-    if (!confirm('Deseja realmente redefinir a senha deste usuário e invalidar os tokens das sessões ativas?')) return;
+    const confirmed = await showConfirm(
+      'Deseja realmente redefinir a senha deste usuário e invalidar os tokens das sessões ativas?',
+      'Redefinição de Senha'
+    );
+    if (!confirmed) return;
     try {
       await api.resetSQLPassword(userId, { adminId: 'usr-admin' });
-      alert('Senha redefinida com sucesso. Sessões anteriores invalidadas.');
+      showAlertCard({ title: 'Senha Redefinida!', message: 'A senha do usuário foi resetada com sucesso para o padrão provisório.', type: 'success', showColorBadges: false });
       loadData();
     } catch (err) {
-      alert('Erro: ' + err.message);
+      showAlertCard({ title: 'Falha na Operação', message: err.message, type: 'error', showColorBadges: false });
     }
   };
 
   const handleInactivateUser = async (userId) => {
-    if (!confirm('Deseja inativar o acesso deste usuário?')) return;
+    const confirmed = await showConfirm(
+      'Deseja inativar o acesso deste usuário?',
+      'Inativar Usuário'
+    );
+    if (!confirmed) return;
     try {
       await api.inactivateSQLUser(userId, { adminId: 'usr-admin' });
-      alert('Usuário inativado com sucesso.');
+      showAlertCard({ title: 'Usuário Inativado', message: 'O acesso do usuário foi suspenso com sucesso.', type: 'info', showColorBadges: false });
       loadData();
     } catch (err) {
-      alert('Erro: ' + err.message);
+      showError('Erro: ' + err.message);
     }
   };
 
@@ -152,7 +206,7 @@ export default function AdminPortal({ config, onConfigUpdate }) {
       const res = await api.sendHeartbeat();
       setHeartbeatResult(res);
     } catch (err) {
-      alert('Erro ao emitir heartbeat de licença: ' + err.message);
+      showAlertCard({ title: 'Erro no Heartbeat', message: err.message, type: 'error', showColorBadges: false });
     }
   };
 
@@ -209,7 +263,7 @@ export default function AdminPortal({ config, onConfigUpdate }) {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', marginBottom: '1.5rem' }}>
             <div style={{ background: 'var(--bg-surface)', border: '1px solid var(--border-color)', borderRadius: '14px', padding: '1.2rem' }}>
               <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginBottom: '0.3rem' }}>Total de Chamados</div>
-              <div style={{ fontSize: '1.8rem', fontWeight: 800, color: '#fff' }}>{metrics?.totalTickets || 0}</div>
+              <div style={{ fontSize: '1.8rem', fontWeight: 800, color: 'var(--text-main)' }}>{metrics?.totalTickets || 0}</div>
             </div>
             <div style={{ background: 'var(--bg-surface)', border: '1px solid var(--border-color)', borderRadius: '14px', padding: '1.2rem' }}>
               <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginBottom: '0.3rem' }}>Em Atendimento</div>
@@ -234,7 +288,7 @@ export default function AdminPortal({ config, onConfigUpdate }) {
           {/* Category Breakdown & Licensing Heartbeat */}
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
             <div style={{ background: 'var(--bg-surface)', border: '1px solid var(--border-color)', borderRadius: '14px', padding: '1.5rem' }}>
-              <h3 style={{ fontSize: '1.05rem', fontWeight: 700, marginBottom: '1rem', color: '#fff' }}>Distribuição por Categoria</h3>
+              <h3 style={{ fontSize: '1.05rem', fontWeight: 700, marginBottom: '1rem', color: 'var(--text-main)' }}>Distribuição por Categoria</h3>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                 {metrics?.byCategory &&
                   Object.entries(metrics.byCategory).map(([cat, count]) => (
@@ -247,7 +301,7 @@ export default function AdminPortal({ config, onConfigUpdate }) {
             </div>
 
             <div style={{ background: 'var(--bg-surface)', border: '1px solid var(--border-color)', borderRadius: '14px', padding: '1.5rem' }}>
-              <h3 style={{ fontSize: '1.05rem', fontWeight: 700, marginBottom: '0.5rem', color: '#fff' }}>Licenciamento & Telemetria Anônima</h3>
+              <h3 style={{ fontSize: '1.05rem', fontWeight: 700, marginBottom: '0.5rem', color: 'var(--text-main)' }}>Licenciamento & Telemetria Anônima</h3>
               <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '1rem', lineHeight: '1.4' }}>
                 O servidor valida periodicamente a conformidade da licença via heartbeat criptografado contendo apenas métricas operacionais agregadas (sem dados sensíveis ou PII de alunos).
               </p>
@@ -289,7 +343,7 @@ export default function AdminPortal({ config, onConfigUpdate }) {
         <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '2rem' }}>
           {/* Settings Form */}
           <div style={{ background: 'var(--bg-surface)', border: '1px solid var(--border-color)', borderRadius: '14px', padding: '1.5rem' }}>
-            <h3 style={{ fontSize: '1.15rem', fontWeight: 700, marginBottom: '1.2rem', color: '#fff' }}>Identidade Visual & Customização White-Label</h3>
+            <h3 style={{ fontSize: '1.15rem', fontWeight: 700, marginBottom: '1.2rem', color: 'var(--text-main)' }}>Identidade Visual & Customização White-Label</h3>
 
             <form onSubmit={handleSaveBranding} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
               <div>
@@ -298,7 +352,7 @@ export default function AdminPortal({ config, onConfigUpdate }) {
                   type="text"
                   value={formConfig.name}
                   onChange={(e) => setFormConfig({ ...formConfig, name: e.target.value })}
-                  style={{ width: '100%', background: 'rgba(255,255,255,0.06)', border: '1px solid var(--border-color)', borderRadius: '8px', padding: '0.6rem', color: '#fff', fontSize: '0.85rem' }}
+                  style={{ width: '100%', background: 'var(--bg-input)', border: '1px solid var(--border-color)', borderRadius: '8px', padding: '0.6rem', color: 'var(--text-main)', fontSize: '0.85rem' }}
                 />
               </div>
 
@@ -308,7 +362,7 @@ export default function AdminPortal({ config, onConfigUpdate }) {
                   type="text"
                   value={formConfig.tagline}
                   onChange={(e) => setFormConfig({ ...formConfig, tagline: e.target.value })}
-                  style={{ width: '100%', background: 'rgba(255,255,255,0.06)', border: '1px solid var(--border-color)', borderRadius: '8px', padding: '0.6rem', color: '#fff', fontSize: '0.85rem' }}
+                  style={{ width: '100%', background: 'var(--bg-input)', border: '1px solid var(--border-color)', borderRadius: '8px', padding: '0.6rem', color: 'var(--text-main)', fontSize: '0.85rem' }}
                 />
               </div>
 
@@ -318,7 +372,7 @@ export default function AdminPortal({ config, onConfigUpdate }) {
                   type="text"
                   value={formConfig.logoUrl}
                   onChange={(e) => setFormConfig({ ...formConfig, logoUrl: e.target.value })}
-                  style={{ width: '100%', background: 'rgba(255,255,255,0.06)', border: '1px solid var(--border-color)', borderRadius: '8px', padding: '0.6rem', color: '#fff', fontSize: '0.85rem' }}
+                  style={{ width: '100%', background: 'var(--bg-input)', border: '1px solid var(--border-color)', borderRadius: '8px', padding: '0.6rem', color: 'var(--text-main)', fontSize: '0.85rem' }}
                 />
               </div>
 
@@ -370,7 +424,7 @@ export default function AdminPortal({ config, onConfigUpdate }) {
                   rows="3"
                   value={formConfig.aiCustomInstructions}
                   onChange={(e) => setFormConfig({ ...formConfig, aiCustomInstructions: e.target.value })}
-                  style={{ width: '100%', background: 'rgba(255,255,255,0.06)', border: '1px solid var(--border-color)', borderRadius: '8px', padding: '0.6rem', color: '#fff', fontSize: '0.85rem' }}
+                  style={{ width: '100%', background: 'var(--bg-input)', border: '1px solid var(--border-color)', borderRadius: '8px', padding: '0.6rem', color: 'var(--text-main)', fontSize: '0.85rem' }}
                 />
               </div>
 
@@ -399,7 +453,7 @@ export default function AdminPortal({ config, onConfigUpdate }) {
 
           {/* Live Preview Card */}
           <div>
-            <h3 style={{ fontSize: '1.15rem', fontWeight: 700, marginBottom: '1.2rem', color: '#fff' }}>Live Preview em Tempo Real</h3>
+            <h3 style={{ fontSize: '1.15rem', fontWeight: 700, marginBottom: '1.2rem', color: 'var(--text-main)' }}>Live Preview em Tempo Real</h3>
             <div
               style={{
                 background: 'var(--bg-surface)',
@@ -434,12 +488,86 @@ export default function AdminPortal({ config, onConfigUpdate }) {
                 </button>
               </div>
 
-              <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border-color)', borderRadius: '10px', padding: '1rem' }}>
+              
+              <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border-color)', borderRadius: '10px', padding: '1rem', borderTop: `3px solid ${formConfig.primaryColor}` }}>
                 <div style={{ fontSize: '0.82rem', fontWeight: 600, color: formConfig.primaryColor, marginBottom: '0.3rem' }}>
-                  Exemplo de Card Institucional
+                  Prévia de Pop-ups com a Identidade Visual
                 </div>
-                <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
-                  As cores e o nome selecionados refletirão instantaneamente no Portal do Aluno, Painel do Atendente e nos widgets embutidos.
+                <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: '0.75rem' }}>
+                  Todos os avisos, confirmações e finalizações de chamados adotam automaticamente as cores definidas aqui.
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                  <button
+                    type="button"
+                    onClick={() => showAlertCard({
+                      title: 'Chamado Concluído com Sucesso!',
+                      message: `Este é o novo modelo de pop-up personalizado do UniDesk integrado à identidade da instituição (${formConfig.name || 'Sua Instituição'}).`,
+                      type: 'success',
+                      colors: {
+                        primary: formConfig.primaryColor,
+                        secondary: formConfig.secondaryColor,
+                        accent: formConfig.accentColor
+                      },
+                      institutionName: formConfig.name,
+                      showColorBadges: true
+                    })}
+                    style={{
+                      width: '100%',
+                      background: `linear-gradient(135deg, ${formConfig.primaryColor}25, ${formConfig.secondaryColor}25)`,
+                      border: `1px solid ${formConfig.primaryColor}66`,
+                      color: '#fff',
+                      padding: '0.55rem 1rem',
+                      borderRadius: '8px',
+                      fontSize: '0.78rem',
+                      fontWeight: 600,
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: '0.45rem',
+                      transition: 'all 0.2s ease'
+                    }}
+                  >
+                    <Palette size={14} color={formConfig.accentColor} /> Testar Pop-up de Sucesso (Cores Atuais)
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setAlertCardState({
+                      isOpen: true,
+                      title: 'Confirmar Operação Crítica?',
+                      message: 'Deseja aplicar as novas diretrizes visuais para todos os departamentos e usuários ativos?',
+                      type: 'confirm',
+                      isConfirm: true,
+                      confirmText: 'Sim, Aplicar',
+                      cancelText: 'Cancelar',
+                      colors: {
+                        primary: formConfig.primaryColor,
+                        secondary: formConfig.secondaryColor,
+                        accent: formConfig.accentColor
+                      },
+                      institutionName: formConfig.name,
+                      showColorBadges: true
+                    })}
+                    style={{
+                      width: '100%',
+                      background: 'rgba(255, 255, 255, 0.05)',
+                      border: '1px solid rgba(255, 255, 255, 0.12)',
+                      color: '#e2e8f0',
+                      padding: '0.55rem 1rem',
+                      borderRadius: '8px',
+                      fontSize: '0.78rem',
+                      fontWeight: 600,
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: '0.45rem',
+                      transition: 'all 0.2s ease'
+                    }}
+                  >
+                    <CheckCircle2 size={14} color={formConfig.secondaryColor} /> Testar Pop-up de Confirmação Interativa
+                  </button>
                 </div>
               </div>
             </div>
@@ -451,7 +579,7 @@ export default function AdminPortal({ config, onConfigUpdate }) {
       {activeSection === 'users' && (
         <div style={{ background: 'var(--bg-surface)', border: '1px solid var(--border-color)', borderRadius: '14px', padding: '1.5rem' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.2rem' }}>
-            <h3 style={{ fontSize: '1.15rem', fontWeight: 700, color: '#fff' }}>Gestão de Usuários da Faculdade</h3>
+            <h3 style={{ fontSize: '1.15rem', fontWeight: 700, color: 'var(--text-main)' }}>Gestão de Usuários da Faculdade</h3>
             <button
               onClick={() => setIsNewUserModalOpen(true)}
               style={{
@@ -489,7 +617,7 @@ export default function AdminPortal({ config, onConfigUpdate }) {
                 {usersList.map((u) => (
                   <tr key={u.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
                     <td style={{ padding: '0.75rem' }}>
-                      <div style={{ fontWeight: 600, color: '#fff' }}>{u.name}</div>
+                      <div style={{ fontWeight: 600, color: 'var(--text-main)' }}>{u.name}</div>
                       <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{u.email}</div>
                     </td>
                     <td style={{ padding: '0.75rem', color: 'var(--text-muted)', fontFamily: 'monospace' }}>{u.cpf || '—'}</td>
@@ -529,7 +657,7 @@ export default function AdminPortal({ config, onConfigUpdate }) {
                           onClick={() => handleResetPassword(u.id)}
                           title="Redefinir senha (incrementa token_version)"
                           style={{
-                            background: 'rgba(255,255,255,0.06)',
+                            background: 'var(--bg-input)',
                             border: '1px solid var(--border-color)',
                             color: '#fff',
                             borderRadius: '6px',
@@ -566,7 +694,7 @@ export default function AdminPortal({ config, onConfigUpdate }) {
       {/* SECTION 4: AUDIT LOGS */}
       {activeSection === 'logs' && (
         <div style={{ background: 'var(--bg-surface)', border: '1px solid var(--border-color)', borderRadius: '14px', padding: '1.5rem' }}>
-          <h3 style={{ fontSize: '1.15rem', fontWeight: 700, marginBottom: '1.2rem', color: '#fff' }}>Registro de Auditoria Administrativa (logs_admin)</h3>
+          <h3 style={{ fontSize: '1.15rem', fontWeight: 700, marginBottom: '1.2rem', color: 'var(--text-main)' }}>Registro de Auditoria Administrativa (logs_admin)</h3>
 
           <div style={{ overflowX: 'auto' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.85rem' }}>
@@ -591,13 +719,13 @@ export default function AdminPortal({ config, onConfigUpdate }) {
                       <td style={{ padding: '0.75rem', color: 'var(--text-muted)', fontSize: '0.78rem' }}>
                         {log.criado_em ? new Date(log.criado_em).toLocaleString() : 'Recentemente'}
                       </td>
-                      <td style={{ padding: '0.75rem', fontWeight: 600, color: '#fff' }}>{log.admin_nome || log.admin_id}</td>
+                      <td style={{ padding: '0.75rem', fontWeight: 600, color: 'var(--text-main)' }}>{log.admin_nome || log.admin_id}</td>
                       <td style={{ padding: '0.75rem' }}>
                         <span style={{ background: 'rgba(59, 130, 246, 0.15)', color: '#3b82f6', padding: '0.2rem 0.5rem', borderRadius: '6px', fontSize: '0.75rem', fontWeight: 600 }}>
                           {log.acao}
                         </span>
                       </td>
-                      <td style={{ padding: '0.75rem', color: '#fff' }}>{log.usuario_alvo_nome || log.usuario_alvo_id}</td>
+                      <td style={{ padding: '0.75rem', color: 'var(--text-main)' }}>{log.usuario_alvo_nome || log.usuario_alvo_id}</td>
                     </tr>
                   ))
                 )}
@@ -622,7 +750,7 @@ export default function AdminPortal({ config, onConfigUpdate }) {
       {isNewUserModalOpen && (
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(6px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1200, padding: '1rem' }}>
           <div style={{ background: 'var(--bg-surface)', border: '1px solid var(--border-color)', borderRadius: '16px', width: '100%', maxWidth: '500px', padding: '1.8rem' }}>
-            <h3 style={{ fontSize: '1.15rem', fontWeight: 700, color: '#fff', marginBottom: '1.2rem' }}>Cadastrar Novo Usuário</h3>
+            <h3 style={{ fontSize: '1.15rem', fontWeight: 700, color: 'var(--text-main)', marginBottom: '1.2rem' }}>Cadastrar Novo Usuário</h3>
 
             <form onSubmit={handleCreateUser} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
               <div>
@@ -632,7 +760,7 @@ export default function AdminPortal({ config, onConfigUpdate }) {
                   required
                   value={newUserName}
                   onChange={(e) => setNewUserName(e.target.value)}
-                  style={{ width: '100%', background: 'rgba(255,255,255,0.06)', border: '1px solid var(--border-color)', borderRadius: '8px', padding: '0.6rem', color: '#fff', fontSize: '0.85rem' }}
+                  style={{ width: '100%', background: 'var(--bg-input)', border: '1px solid var(--border-color)', borderRadius: '8px', padding: '0.6rem', color: 'var(--text-main)', fontSize: '0.85rem' }}
                 />
               </div>
 
@@ -643,7 +771,7 @@ export default function AdminPortal({ config, onConfigUpdate }) {
                   required
                   value={newUserEmail}
                   onChange={(e) => setNewUserEmail(e.target.value)}
-                  style={{ width: '100%', background: 'rgba(255,255,255,0.06)', border: '1px solid var(--border-color)', borderRadius: '8px', padding: '0.6rem', color: '#fff', fontSize: '0.85rem' }}
+                  style={{ width: '100%', background: 'var(--bg-input)', border: '1px solid var(--border-color)', borderRadius: '8px', padding: '0.6rem', color: 'var(--text-main)', fontSize: '0.85rem' }}
                 />
               </div>
 
@@ -655,7 +783,7 @@ export default function AdminPortal({ config, onConfigUpdate }) {
                   placeholder="000.000.000-00"
                   value={newUserCPF}
                   onChange={(e) => setNewUserCPF(e.target.value)}
-                  style={{ width: '100%', background: 'rgba(255,255,255,0.06)', border: '1px solid var(--border-color)', borderRadius: '8px', padding: '0.6rem', color: '#fff', fontSize: '0.85rem' }}
+                  style={{ width: '100%', background: 'var(--bg-input)', border: '1px solid var(--border-color)', borderRadius: '8px', padding: '0.6rem', color: 'var(--text-main)', fontSize: '0.85rem' }}
                 />
               </div>
 
@@ -664,11 +792,11 @@ export default function AdminPortal({ config, onConfigUpdate }) {
                 <select
                   value={newUserRole}
                   onChange={(e) => setNewUserRole(e.target.value)}
-                  style={{ width: '100%', background: 'rgba(255,255,255,0.06)', border: '1px solid var(--border-color)', borderRadius: '8px', padding: '0.6rem', color: '#fff', fontSize: '0.85rem' }}
+                  style={{ width: '100%', background: 'var(--bg-input)', border: '1px solid var(--border-color)', borderRadius: '8px', padding: '0.6rem', color: 'var(--text-main)', fontSize: '0.85rem' }}
                 >
-                  <option value="aluno" style={{ background: '#111827' }}>Aluno</option>
-                  <option value="tecnico" style={{ background: '#111827' }}>Técnico / Atendente</option>
-                  <option value="admin_faculdade" style={{ background: '#111827' }}>Administrador da Faculdade</option>
+                  <option value="aluno" style={{ background: 'var(--bg-surface)', color: 'var(--text-main)' }}>Aluno</option>
+                  <option value="tecnico" style={{ background: 'var(--bg-surface)', color: 'var(--text-main)' }}>Técnico / Atendente</option>
+                  <option value="admin_faculdade" style={{ background: 'var(--bg-surface)', color: 'var(--text-main)' }}>Administrador da Faculdade</option>
                 </select>
               </div>
 
@@ -681,7 +809,7 @@ export default function AdminPortal({ config, onConfigUpdate }) {
                   placeholder={newUserRole === 'aluno' ? 'Ex: Engenharia de Software' : 'Ex: Suporte AVA & TI'}
                   value={newUserExtra}
                   onChange={(e) => setNewUserExtra(e.target.value)}
-                  style={{ width: '100%', background: 'rgba(255,255,255,0.06)', border: '1px solid var(--border-color)', borderRadius: '8px', padding: '0.6rem', color: '#fff', fontSize: '0.85rem' }}
+                  style={{ width: '100%', background: 'var(--bg-input)', border: '1px solid var(--border-color)', borderRadius: '8px', padding: '0.6rem', color: 'var(--text-main)', fontSize: '0.85rem' }}
                 />
               </div>
 
@@ -689,7 +817,7 @@ export default function AdminPortal({ config, onConfigUpdate }) {
                 <button
                   type="button"
                   onClick={() => setIsNewUserModalOpen(false)}
-                  style={{ background: 'transparent', border: '1px solid var(--border-color)', color: '#fff', padding: '0.5rem 1rem', borderRadius: '8px', cursor: 'pointer' }}
+                  style={{ background: 'transparent', border: '1px solid var(--border-color)', color: 'var(--text-main)', padding: '0.5rem 1rem', borderRadius: '8px', cursor: 'pointer' }}
                 >
                   Cancelar
                 </button>
@@ -704,6 +832,22 @@ export default function AdminPortal({ config, onConfigUpdate }) {
           </div>
         </div>
       )}
+    
+      {/* Custom Themed Notification Card Modal */}
+      <ThemedAlertCard
+        isOpen={alertCardState.isOpen}
+        onClose={() => setAlertCardState((prev) => ({ ...prev, isOpen: false }))}
+        title={alertCardState.title}
+        message={alertCardState.message}
+        type={alertCardState.type}
+        colors={alertCardState.colors || {
+          primary: formConfig.primaryColor,
+          secondary: formConfig.secondaryColor,
+          accent: formConfig.accentColor
+        }}
+        institutionName={alertCardState.institutionName || formConfig.name}
+        showColorBadges={alertCardState.showColorBadges}
+      />
     </div>
   );
 }

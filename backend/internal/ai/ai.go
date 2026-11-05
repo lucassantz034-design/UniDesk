@@ -105,12 +105,7 @@ func (s *AIService) HandleChatbotTurn(sessionID, userMessage string) (bool, stri
 	}
 
 	if needsEscalation {
-		dept := "Secretaria Acadêmica"
-		if strings.Contains(text, "boleto") || strings.Contains(text, "dinheiro") || strings.Contains(text, "financeiro") || strings.Contains(text, "prouni") {
-			dept = "Financeiro & Bolsas"
-		} else if strings.Contains(text, "moodle") || strings.Contains(text, "senha") || strings.Contains(text, "ava") || strings.Contains(text, "login") {
-			dept = "Suporte AVA & TI"
-		}
+		dept := "Suporte de T.I."
 
 		s.database.EscalateChatSession(sessionID, dept)
 		reply := fmt.Sprintf("Compreendo a necessidade de um suporte especializado. Já estou transferindo sua solicitação para a equipe do setor **%s**. Um atendente humano responderá nesta mesma tela!", dept)
@@ -127,6 +122,6 @@ func (s *AIService) HandleChatbotTurn(sessionID, userMessage string) (bool, stri
 	}
 
 	// Generic assistant reply
-	reply := fmt.Sprintf("Entendi sua dúvida sobre \"%s\". Como o procedimento pode variar dependendo do seu curso e semestre, você prefere que eu abra um chamado formal para a Secretaria Acadêmica ou transfira para um atendente humano agora?", userMessage)
+	reply := fmt.Sprintf("Entendi sua dúvida sobre \"%s\". Como o procedimento pode variar dependendo do seu curso e semestre, você prefere que eu abra um chamado formal para a Suporte de T.I. ou transfira para um atendente humano agora?", userMessage)
 	return false, "", reply
 }

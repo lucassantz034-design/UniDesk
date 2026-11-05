@@ -58,6 +58,9 @@ export const api = {
   addTicketMessage: (ticketId, data) => fetchJSON(`/tickets/${ticketId}/messages`, { method: 'POST', body: JSON.stringify(data) }),
   updateTicketStatus: (ticketId, status, csatScore) => fetchJSON(`/tickets/${ticketId}/status`, { method: 'PATCH', body: JSON.stringify({ status, csatScore }) }),
 
+  // Auto-Repair
+  runAutoRepair: (action, studentId) => fetchJSON('/auto-repair/run', { method: 'POST', body: JSON.stringify({ action, studentId }) }),
+
   // AI Student Context
   getStudentAIContext: (studentId) => fetchJSON(`/students/${studentId}/ai-context`),
 
@@ -72,10 +75,11 @@ export const api = {
 
   // Live Chat Sessions & Sophia Bot
   getChatSessions: () => fetchJSON('/chat/sessions'),
-  getChatSession: (id) => fetchJSON(`/chat/sessions/${id}`),
-  startChatSession: (studentId, department) => fetchJSON('/chat/start', { method: 'POST', body: JSON.stringify({ studentId, department }) }),
+  getChatSession: (id, full = false) => fetchJSON(`/chat/sessions/${id}${full ? '?full=true' : ''}`),
+  startChatSession: (studentId, department, studentName) => fetchJSON('/chat/start', { method: 'POST', body: JSON.stringify({ studentId, department, studentName }) }),
   sendChatMessage: (sessionId, data) => fetchJSON(`/chat/${sessionId}/messages`, { method: 'POST', body: JSON.stringify(data) }),
   escalateChatSession: (sessionId, department) => fetchJSON(`/chat/${sessionId}/escalate`, { method: 'POST', body: JSON.stringify({ department }) }),
+  closeChatSession: (sessionId) => fetchJSON(`/chat/${sessionId}/close`, { method: 'POST' }),
 
   // Admin Metrics & Health
   getAdminMetrics: () => fetchJSON('/admin/metrics'),

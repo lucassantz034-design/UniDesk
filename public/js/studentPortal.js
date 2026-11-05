@@ -5,13 +5,13 @@
 
 // Perfil do Aluno Conectado
 const currentStudent = {
-  id: 'usr-stu-2',
+  id: 'usr-alu-2',
   name: 'Larissa Vianna Castro',
   ra: '20230512',
   course: 'Medicina (7º Período)',
   email: 'larissa.vianna@aluno.metropolitana.edu.br',
   phone: '(11) 99812-3456',
-  avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&auto=format&fit=crop&q=80'
+  avatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=80'
 };
 
 let currentView = 'dashboards';
@@ -137,7 +137,7 @@ async function loadStudentTickets() {
       const tickets = await res.json();
       
       // Filtrar ou priorizar chamados vinculados ao aluno ou geral
-      const studentTickets = tickets.filter(t => t.studentId === currentStudent.id);
+      const studentTickets = tickets.filter(t => t.studentId === currentStudent.id || t.studentId === 'usr-stu-2');
       allStudentTickets = studentTickets.length > 0 ? studentTickets : tickets;
 
       updateKPIs(allStudentTickets);
@@ -297,7 +297,7 @@ function renderTicketDetails(ticket) {
       return `
         <div style="display:flex; flex-direction:column; align-items:${isStudent ? 'flex-end' : 'flex-start'};">
           <div style="font-size:0.72rem; color:var(--text-subtle); margin-bottom:0.25rem;">
-            ${m.senderName || (isStudent ? currentStudent.name : 'Atendente')} • ${msgDate}
+            ${(m.senderName && m.senderName !== 'Aluno' && m.senderName !== 'Você') ? m.senderName : (isStudent ? currentStudent.name : 'Atendente')} • ${msgDate}
           </div>
           <div style="max-width:82%; padding:0.85rem 1.15rem; border-radius:${isStudent ? '14px 14px 2px 14px' : '14px 14px 14px 2px'}; background:${isStudent ? 'var(--primary)' : 'var(--bg-surface)'}; border:1px solid ${isStudent ? 'transparent' : 'var(--border-color)'}; color:#fff; font-size:0.85rem; line-height:1.5;">
             ${m.message}
@@ -392,6 +392,7 @@ async function handleCreateTicketPageSubmit(e) {
 
   await submitNewTicket({
     studentId: currentStudent.id,
+    studentName: currentStudent.name,
     categoryId,
     priority,
     subject,
@@ -419,6 +420,7 @@ async function handleCreateTicketModalSubmit(e) {
 
   await submitNewTicket({
     studentId: currentStudent.id,
+    studentName: currentStudent.name,
     categoryId,
     priority: 'medium',
     subject,

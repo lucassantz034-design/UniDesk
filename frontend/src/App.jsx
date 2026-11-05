@@ -9,6 +9,44 @@ import ChatWidget from './components/ChatWidget';
 import LoginView from './components/LoginView';
 import GracePeriodBanner from './components/GracePeriodBanner';
 import LicenseLockModal from './components/LicenseLockModal';
+import { PopupProvider } from './context/PopupContext';
+
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
+  static getDerivedStateFromError(error) {
+    return { hasError: true, error };
+  }
+  componentDidCatch(error, errorInfo) {
+    console.error("UniDesk ErrorBoundary caught error:", error, errorInfo);
+  }
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0b0f19', color: '#fff', padding: '2rem' }}>
+          <div style={{ maxWidth: '500px', background: '#111827', border: '1px solid #dc2626', borderRadius: '16px', padding: '2rem', textAlign: 'center' }}>
+            <h3 style={{ color: '#ef4444', marginBottom: '0.75rem', fontSize: '1.25rem' }}>Recuperação de Interface</h3>
+            <p style={{ color: '#94a3b8', fontSize: '0.85rem', marginBottom: '1.25rem' }}>
+              {this.state.error?.message || 'Ocorreu uma instabilidade na renderização.'}
+            </p>
+            <button
+              onClick={() => {
+                localStorage.clear();
+                window.location.href = '/';
+              }}
+              style={{ background: '#0284c7', color: '#fff', border: 'none', borderRadius: '8px', padding: '0.65rem 1.4rem', fontWeight: 600, cursor: 'pointer' }}
+            >
+              Limpar Cache e Recarregar
+            </button>
+          </div>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
 
 export default function App() {
   const [config, setConfig] = useState(null);
@@ -142,86 +180,90 @@ export default function App() {
   };
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: 'var(--bg-main)' }}>
-      {/* Top Navbar */}
-      <Header
-        config={config}
-        isWsConnected={isWsConnected}
-        currentUser={currentUser}
-        isLoggedIn={!!currentUser}
-        onLogout={handleLogout}
-        activeTab={activeView}
-        onTabChange={handleViewChange}
-      />
-
-      {/* Banner de Tolerância de 15 Dias - Exclusivo para Área Administrativa */}
-      {isAdmin && activeView === 'admin' && (
-        <GracePeriodBanner
-          licenseState={licenseState}
-          onOpenPaymentModal={() => setIsPaymentModalOpen(true)}
-        />
-      )}
-
-      {/* Main View Module */}
-      <main style={{ flex: 1, paddingBottom: activeView === 'atendente' ? 0 : '3rem', display: 'flex', flexDirection: 'column' }}>
-        {!currentUser ? (
-          /* TELA ÚNICA DE LOGIN INSTITUCIONAL */
-          <LoginView
+    <ErrorBoundary>
+      <PopupProvider config={config}>
+        <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: 'var(--bg-main)' }}>
+          {/* Top Navbar */}
+          <Header
             config={config}
-            onLoginSuccess={handleLoginSuccess}
-          />
-        ) : isStudent ? (
-          /* PORTAL DO ALUNO */
-          <StudentPortal
-            config={config}
-            studentUser={currentUser}
-            onOpenChatWidget={() => setIsChatWidgetOpen(true)}
+            isWsConnected={isWsConnected}
+            currentUser={currentUser}
+            isLoggedIn={!!currentUser}
             onLogout={handleLogout}
+            activeTab={activeView}
+            onTabChange={handleViewChange}
           />
-        ) : isAdmin ? (
-          /* ADMINISTRADOR: Tem visão Admin e pode alternar para Atendimento */
-          activeView === 'atendente' ? (
-            <AttendantPortal
-              config={config}
-              attendantUser={currentUser}
-              onLogout={handleLogout}
+
+          {/* Banner de Tolerância de 15 Dias - Exclusivo para Área Administrativa */}
+          {isAdmin && activeView === 'admin' && (
+            <GracePeriodBanner
+              licenseState={licenseState}
+              onOpenPaymentModal={() => setIsPaymentModalOpen(true)}
             />
-          ) : (
-            <AdminPortal
+          )}
+
+          {/* Main View Module */}
+          <main style={{ flex: 1, paddingBottom: activeView === 'atendente' ? 0 : '3rem', display: 'flex', flexDirection: 'column' }}>
+            {!currentUser ? (
+              /* TELA ÚNICA DE LOGIN INSTITUCIONAL */
+              <LoginView
+                config={config}
+                onLoginSuccess={handleLoginSuccess}
+              />
+            ) : isStudent ? (
+              /* PORTAL DO ALUNO */
+              <StudentPortal
+                config={config}
+                studentUser={currentUser}
+                onOpenChatWidget={() => setIsChatWidgetOpen(true)}
+                onLogout={handleLogout}
+              />
+            ) : isAdmin ? (
+              /* ADMINISTRADOR: Tem visão Admin e pode alternar para Atendimento */
+              activeView === 'atendente' ? (
+                <AttendantPortal
+                  config={config}
+                  attendantUser={currentUser}
+                  onLogout={handleLogout}
+                />
+              ) : (
+                <AdminPortal
+                  config={config}
+                  onConfigUpdate={(newCfg) => setConfig(newCfg)}
+                />
+              )
+            ) : (
+              /* ATENDENTE / SUPORTE */
+              <AttendantPortal
+                config={config}
+                attendantUser={currentUser}
+                onLogout={handleLogout}
+              />
+            )}
+          </main>
+
+          {/* Floating Chat Widget with Sophia IA (visível para alunos) */}
+          {(!currentUser || isStudent) && (
+            <ChatWidget
               config={config}
-              onConfigUpdate={(newCfg) => setConfig(newCfg)}
+              isOpen={isChatWidgetOpen}
+              setIsOpen={setIsChatWidgetOpen}
+              studentUser={currentUser || { name: 'Aluno Visitante', ra: 'N/A' }}
             />
-          )
-        ) : (
-          /* ATENDENTE / SUPORTE */
-          <AttendantPortal
-            config={config}
-            attendantUser={currentUser}
-            onLogout={handleLogout}
+          )}
+
+          {/* Modal de Bloqueio Total (Dia 16+) ou exibição sob demanda */}
+          <LicenseLockModal
+            isOpen={licenseState?.status === 'LOCKED' || isPaymentModalOpen}
+            licenseState={licenseState}
+            onRefreshStatus={loadLicenseStatus}
+            onOpenSupport={() => {
+              setIsPaymentModalOpen(false);
+              if (isAdmin) setActiveView('admin');
+            }}
           />
-        )}
-      </main>
-
-      {/* Floating Chat Widget with Sophia IA (visível para alunos) */}
-      {(!currentUser || isStudent) && (
-        <ChatWidget
-          config={config}
-          isOpen={isChatWidgetOpen}
-          setIsOpen={setIsChatWidgetOpen}
-          studentUser={currentUser || { name: 'Aluno Visitante', ra: 'N/A' }}
-        />
-      )}
-
-      {/* Modal de Bloqueio Total (Dia 16+) ou exibição sob demanda */}
-      <LicenseLockModal
-        isOpen={licenseState?.status === 'LOCKED' || isPaymentModalOpen}
-        licenseState={licenseState}
-        onRefreshStatus={loadLicenseStatus}
-        onOpenSupport={() => {
-          setIsPaymentModalOpen(false);
-          if (isAdmin) setActiveView('admin');
-        }}
-      />
-    </div>
+        </div>
+      </PopupProvider>
+    </ErrorBoundary>
   );
 }

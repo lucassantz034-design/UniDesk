@@ -1,15 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { api } from '../services/api';
-import { MessageSquare, X, Send, Bot, User, CornerDownLeft, Sparkles } from 'lucide-react';
+import { usePopup } from '../context/PopupContext';
+import { MessageSquare, X, Send, Bot, User, CornerDownLeft, Sparkles, CheckCheck, RefreshCw, Archive } from 'lucide-react';
 
 export default function ChatWidget({ config, isOpen, setIsOpen, studentUser }) {
+  const { showError, showSuccess } = usePopup();
   const [session, setSession] = useState(null);
   const [messages, setMessages] = useState([]);
   const [inputText, setInputText] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef(null);
 
-  const studentId = studentUser?.id || 'usr-stu-2';
+  const studentId = studentUser?.id || 'usr-alu-2';
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -27,7 +29,7 @@ export default function ChatWidget({ config, isOpen, setIsOpen, studentUser }) {
 
   const initSession = async () => {
     try {
-      const sess = await api.startChatSession(studentId, 'Geral');
+      const sess = await api.startChatSession(studentId, 'Geral', studentUser?.name);
       setSession(sess);
       setMessages(sess.messages || []);
     } catch (err) {
@@ -42,11 +44,13 @@ export default function ChatWidget({ config, isOpen, setIsOpen, studentUser }) {
     const userText = inputText;
     setInputText('');
 
+    const resolvedSenderName = studentUser?.name || 'Aluno';
+
     // Optimistic user message
     const tempUserMsg = {
       id: 'temp-' + Date.now(),
       sender: 'student',
-      senderName: studentUser?.name || 'Você',
+      senderName: resolvedSenderName,
       text: userText,
       timestamp: new Date().toISOString()
     };
@@ -56,7 +60,7 @@ export default function ChatWidget({ config, isOpen, setIsOpen, studentUser }) {
     try {
       const res = await api.sendChatMessage(session.id, {
         sender: 'student',
-        senderName: studentUser?.name || 'Você',
+        senderName: resolvedSenderName,
         text: userText
       });
 
@@ -74,7 +78,7 @@ export default function ChatWidget({ config, isOpen, setIsOpen, studentUser }) {
   const handleEscalate = async () => {
     if (!session) return;
     try {
-      const res = await api.escalateChatSession(session.id, 'Secretaria Acadêmica');
+      const res = await api.escalateChatSession(session.id, 'Suporte de T.I.');
       setSession(res);
       setMessages((prev) => [
         ...prev,
@@ -87,7 +91,23 @@ export default function ChatWidget({ config, isOpen, setIsOpen, studentUser }) {
         }
       ]);
     } catch (err) {
-      alert('Erro ao transferir: ' + err.message);
+      showError('Erro ao transferir: ' + err.message);
+    }
+  };
+
+  const isClosed = session?.closed || session?.status === 'finalizado';
+
+  const handleCloseChat = async () => {
+    if (!session || isClosed) return;
+    try {
+      const res = await api.closeChatSession(session.id);
+      if (res.session) {
+        setSession(res.session);
+        setMessages(res.session.messages || []);
+      }
+      showSuccess('Chat finalizado e fechado mantendo registro simples na memória.');
+    } catch (err) {
+      showError('Erro ao finalizar chat: ' + err.message);
     }
   };
 
@@ -128,7 +148,7 @@ export default function ChatWidget({ config, isOpen, setIsOpen, studentUser }) {
               height: '14px',
               background: '#10b981',
               borderRadius: '50%',
-              border: '2px solid #111827'
+              border: '2px solid var(--bg-surface)'
             }}
           />
         </button>
@@ -143,7 +163,7 @@ export default function ChatWidget({ config, isOpen, setIsOpen, studentUser }) {
             right: '24px',
             width: '380px',
             height: '540px',
-            background: '#111827',
+            background: 'var(--bg-surface)',
             border: '1px solid var(--border-color)',
             borderRadius: '16px',
             boxShadow: '0 20px 50px rgba(0,0,0,0.6)',
@@ -179,23 +199,77 @@ export default function ChatWidget({ config, isOpen, setIsOpen, studentUser }) {
                 <Bot size={20} color="#fff" />
               </div>
               <div>
-                <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#fff', display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                <div style={{ fontSize: '0.9rem', fontWeight: 700, color: 'var(--text-main)', display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
                   Sophia IA <Sparkles size={14} color="#f59e0b" />
                 </div>
-                <div style={{ fontSize: '0.7rem', color: '#10b981', display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
-                  <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#10b981' }} />
-                  {session?.status === 'waiting_agent' ? 'Aguardando Atendente Humano' : 'Assistente Virtual Ativa'}
+                <div style={{ fontSize: '0.7rem', color: isClosed ? '#10b981' : '#38bdf8', display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
+                  <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: isClosed ? '#10b981' : '#38bdf8' }} />
+                  {isClosed
+                    ? 'Atendimento Finalizado (Fechado)'
+                    : session?.status === 'waiting_agent'
+                    ? 'Aguardando Atendente Humano'
+                    : 'Assistente Virtual Ativa'}
                 </div>
               </div>
             </div>
 
-            <button
-              onClick={() => setIsOpen(false)}
-              style={{ background: 'transparent', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', padding: '0.2rem' }}
-            >
-              <X size={18} />
-            </button>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+              {!isClosed && (
+                <button
+                  type="button"
+                  onClick={handleCloseChat}
+                  title="Finalizar e fechar chat mantendo registro simples"
+                  style={{
+                    background: 'rgba(239, 68, 68, 0.15)',
+                    border: '1px solid rgba(239, 68, 68, 0.3)',
+                    color: '#f87171',
+                    borderRadius: '6px',
+                    padding: '0.22rem 0.5rem',
+                    fontSize: '0.7rem',
+                    fontWeight: 600,
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.25rem',
+                    transition: 'background 0.2s'
+                  }}
+                >
+                  <CheckCheck size={12} /> Encerrar
+                </button>
+              )}
+              <button
+                onClick={() => setIsOpen(false)}
+                style={{ background: 'transparent', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', padding: '0.2rem' }}
+              >
+                <X size={18} />
+              </button>
+            </div>
           </div>
+
+          {/* Simple Record Info Banner if Finalized */}
+          {isClosed && session?.simpleRecord && (
+            <div
+              style={{
+                margin: '0.75rem 0.75rem 0 0.75rem',
+                padding: '0.65rem 0.85rem',
+                background: 'rgba(16, 185, 129, 0.08)',
+                border: '1px solid rgba(16, 185, 129, 0.25)',
+                borderRadius: '8px',
+                fontSize: '0.74rem',
+                color: '#34d399',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '0.25rem'
+              }}
+            >
+              <div style={{ fontWeight: 700, display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
+                <CheckCheck size={13} /> Registro Simples de Memória Ativo
+              </div>
+              <div style={{ fontSize: '0.69rem', opacity: 0.9, color: '#e2e8f0' }}>
+                Atendimento fechado em {new Date(session.simpleRecord.closedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}. Total de {session.simpleRecord.totalMessages} mensagens compactadas para poupar memória do software.
+              </div>
+            </div>
+          )}
 
           {/* Messages Area */}
           <div style={{ flex: 1, overflowY: 'auto', padding: '1rem', display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
@@ -207,16 +281,16 @@ export default function ChatWidget({ config, isOpen, setIsOpen, studentUser }) {
                   style={{
                     alignSelf: isUser ? 'flex-end' : 'flex-start',
                     maxWidth: '82%',
-                    background: isUser ? 'var(--primary)' : 'rgba(255, 255, 255, 0.08)',
+                    background: isUser ? 'var(--primary)' : 'var(--bg-input)',
                     borderRadius: '12px',
                     padding: '0.75rem 0.95rem',
-                    color: '#fff',
+                    color: isUser ? '#fff' : 'var(--text-main)',
                     fontSize: '0.82rem',
                     lineHeight: '1.4'
                   }}
                 >
                   <div style={{ fontSize: '0.68rem', opacity: 0.75, marginBottom: '0.2rem' }}>
-                    {m.senderName || (isUser ? 'Você' : 'Sophia')}
+                    {isUser ? (studentUser?.name || (m.senderName && m.senderName !== 'Aluno' && m.senderName !== 'Você' ? m.senderName : 'Aluno')) : (m.senderName || 'Sophia')}
                   </div>
                   <div style={{ whiteSpace: 'pre-wrap' }}>{m.text}</div>
                 </div>
@@ -224,7 +298,7 @@ export default function ChatWidget({ config, isOpen, setIsOpen, studentUser }) {
             })}
 
             {isTyping && (
-              <div style={{ alignSelf: 'flex-start', background: 'rgba(255,255,255,0.06)', borderRadius: '12px', padding: '0.6rem 0.9rem', color: 'var(--text-muted)', fontSize: '0.78rem' }}>
+              <div style={{ alignSelf: 'flex-start', background: 'var(--bg-input)', borderRadius: '12px', padding: '0.6rem 0.9rem', color: 'var(--text-muted)', fontSize: '0.78rem' }}>
                 Sophia está digitando...
               </div>
             )}
@@ -244,43 +318,71 @@ export default function ChatWidget({ config, isOpen, setIsOpen, studentUser }) {
             </div>
           )}
 
-          {/* Input Footer */}
-          <form
-            onSubmit={handleSendMessage}
-            style={{ padding: '0.75rem', borderTop: '1px solid var(--border-color)', display: 'flex', gap: '0.5rem', background: 'rgba(0,0,0,0.15)' }}
-          >
-            <input
-              type="text"
-              placeholder="Digite sua dúvida..."
-              value={inputText}
-              onChange={(e) => setInputText(e.target.value)}
-              style={{
-                flex: 1,
-                background: 'rgba(255,255,255,0.06)',
-                border: '1px solid var(--border-color)',
-                borderRadius: '8px',
-                padding: '0.55rem 0.8rem',
-                color: '#fff',
-                fontSize: '0.82rem'
-              }}
-            />
-            <button
-              type="submit"
-              style={{
-                background: 'var(--primary)',
-                border: 'none',
-                color: '#fff',
-                borderRadius: '8px',
-                padding: '0.55rem 0.85rem',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}
+          {/* Input Footer or Closed Summary */}
+          {isClosed ? (
+            <div style={{ padding: '0.85rem 1rem', borderTop: '1px solid var(--border-color)', background: 'var(--bg-card-subtle)', textAlign: 'center' }}>
+              <div style={{ fontSize: '0.76rem', color: '#10b981', marginBottom: '0.6rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.35rem' }}>
+                <CheckCheck size={15} /> Atendimento finalizado e fechado com sucesso!
+              </div>
+              <button
+                type="button"
+                onClick={initSession}
+                style={{
+                  background: 'var(--primary)',
+                  border: 'none',
+                  color: '#fff',
+                  borderRadius: '8px',
+                  padding: '0.5rem 1.1rem',
+                  fontSize: '0.8rem',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.45rem',
+                  boxShadow: '0 4px 12px rgba(29, 78, 216, 0.3)'
+                }}
+              >
+                <RefreshCw size={14} /> Iniciar Novo Atendimento
+              </button>
+            </div>
+          ) : (
+            <form
+              onSubmit={handleSendMessage}
+              style={{ padding: '0.75rem', borderTop: '1px solid var(--border-color)', display: 'flex', gap: '0.5rem', background: 'var(--bg-surface)' }}
             >
-              <Send size={15} />
-            </button>
-          </form>
+              <input
+                type="text"
+                placeholder="Digite sua dúvida..."
+                value={inputText}
+                onChange={(e) => setInputText(e.target.value)}
+                style={{
+                  flex: 1,
+                  background: 'var(--bg-input)',
+                  border: '1px solid var(--border-color)',
+                  borderRadius: '8px',
+                  padding: '0.55rem 0.8rem',
+                  color: isUser ? '#fff' : 'var(--text-main)',
+                    fontSize: '0.82rem'
+                }}
+              />
+              <button
+                type="submit"
+                style={{
+                  background: 'var(--primary)',
+                  border: 'none',
+                  color: '#fff',
+                  borderRadius: '8px',
+                  padding: '0.55rem 0.85rem',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}
+              >
+                <Send size={15} />
+              </button>
+            </form>
+          )}
         </div>
       )}
     </>

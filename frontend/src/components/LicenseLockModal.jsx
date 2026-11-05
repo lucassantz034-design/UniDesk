@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { Lock, QrCode, Copy, Check, ExternalLink, RefreshCw, AlertOctagon, HelpCircle } from 'lucide-react';
 import { api } from '../services/api';
+import { usePopup } from '../context/PopupContext';
 
 export default function LicenseLockModal({ isOpen, licenseState, onRefreshStatus, onOpenSupport }) {
+  const { showError } = usePopup();
   const [copiedPix, setCopiedPix] = useState(false);
   const [isVerifying, setIsVerifying] = useState(false);
 
@@ -32,7 +34,7 @@ export default function LicenseLockModal({ isOpen, licenseState, onRefreshStatus
         await api.triggerLicenseHeartbeat();
       }
     } catch (err) {
-      alert('Erro ao sincronizar com a Central: ' + err.message);
+      showError('Erro ao sincronizar com a Central: ' + err.message);
     } finally {
       setIsVerifying(false);
     }
